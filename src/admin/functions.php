@@ -1,6 +1,6 @@
 <?php
-namespace Portal;
+namespace Admin;
 
 function hello() {
-    return 'Hey, man~';
+    return 'Hey, Admin man~';
 }
