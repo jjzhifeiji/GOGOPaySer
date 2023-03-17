@@ -3,7 +3,7 @@
         'name' => 'phalapi/phalapi',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '86d32735588717cab8be8bf9d1f1826e6bc45411',
+        'reference' => '533509c96d05b425b10eed410338d480f4fead7f',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -49,7 +49,7 @@
         'phalapi/phalapi' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '86d32735588717cab8be8bf9d1f1826e6bc45411',
+            'reference' => '533509c96d05b425b10eed410338d480f4fead7f',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

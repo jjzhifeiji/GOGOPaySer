@@ -29,7 +29,6 @@ class ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80
         'P' => 
         array (
             'Proxy\\' => 6,
-            'Portal\\' => 7,
             'PhpOption\\' => 10,
             'PhalApi\\Task\\' => 13,
             'PhalApi\\Redis\\' => 14,
@@ -80,10 +79,6 @@ class ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80
         'Proxy\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/proxy',
-        ),
-        'Portal\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/portal',
         ),
         'PhpOption\\' => 
         array (
