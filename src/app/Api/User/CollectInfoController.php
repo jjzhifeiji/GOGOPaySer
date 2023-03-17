@@ -6,7 +6,7 @@ namespace App\Api\User;
 use App\Common\BaseController;
 
 /**
- * 用户数据2000
+ * 收款信息 4000
  */
 class CollectInfoController extends BaseController
 {
@@ -19,15 +19,15 @@ class CollectInfoController extends BaseController
                 'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量')
             ),
             'addCollectInfo' => array(
-                'type' => array('name' => 'type', 'require' => true, 'desc' => ''),
-                'amount' => array('name' => 'amount', 'require' => true, 'default' => 0, 'desc' => ''),
-                'pay_info' => array('name' => 'pay_info', 'require' => true, 'desc' => ''),
+                'type' => array('name' => 'type', 'require' => true, 'desc' => '类型，1、银行卡 2、微信 3、支付宝 '),
+                'amount' => array('name' => 'amount', 'require' => true, 'default' => 0, 'desc' => '金额'),
+                'pay_info' => array('name' => 'pay_info', 'require' => true, 'desc' => '收款信息'),
             ),
             'delCollectInfo' => array(
-                'id' => array('name' => 'id', 'require' => true, 'desc' => ''),
+                'id' => array('name' => 'id', 'require' => true, 'desc' => '收款信息ID'),
             ),
             'getCollectInfo' => array(
-                'id' => array('name' => 'id', 'require' => true, 'desc' => ''),
+                'id' => array('name' => 'id', 'require' => true, 'desc' => '收款信息ID'),
             ),
             'upPictures' => array(
                 'file' => array(
@@ -44,6 +44,8 @@ class CollectInfoController extends BaseController
     }
 
     /**
+     * 获取收款信息列表
+     * @desc 获取收款信息列表
      */
     public function getCollectInfoList()
     {
@@ -53,6 +55,8 @@ class CollectInfoController extends BaseController
     }
 
     /**
+     *  添加收款信息
+     * @desc 添加收款信息
      */
     public function addCollectInfo()
     {
@@ -65,10 +69,15 @@ class CollectInfoController extends BaseController
         if ($res == true) {
             return $this->api_success();
         } else {
-            return $this->api_error(2003, $res);
+            return $this->api_error(4001, $res);
         }
     }
 
+
+    /**
+     *  上传图片
+     * @desc 上传图片
+     */
     public function upPictures()
     {
         $user = $this->member_arr;
@@ -93,13 +102,15 @@ class CollectInfoController extends BaseController
         } else {
             \PhalApi\DI()->logger->info('tmpName', $tmpName);
             \PhalApi\DI()->logger->info('path', $path);
-            return $this->api_error("1010", "上传失败");
+            return $this->api_error("4002", "上传失败");
         }
 
 
     }
 
     /**
+     * 删除收款信息
+     * @desc 删除收款信息
      */
     public function delCollectInfo()
     {
@@ -110,11 +121,13 @@ class CollectInfoController extends BaseController
         if ($res == true) {
             return $this->api_success();
         } else {
-            return $this->api_error(2004, $res);
+            return $this->api_error(4003, $res);
         }
     }
 
     /**
+     * 获取收款信息
+     * @desc 获取收款信息详情
      */
     public function getCollectInfo()
     {

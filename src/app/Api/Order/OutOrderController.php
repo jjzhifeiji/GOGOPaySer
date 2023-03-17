@@ -5,7 +5,7 @@ namespace App\Api\Order;
 use App\Common\BaseController;
 
 /**
- * 8000
+ * 代付订单 3000
  */
 class OutOrderController extends BaseController
 {
@@ -13,25 +13,25 @@ class OutOrderController extends BaseController
     {
         return array(
             'getsOutingOrder' => array(
-                'type' => array('name' => 'type', 'require' => true, 'type' => 'int', 'desc' => '')
+                'type' => array('name' => 'type', 'require' => true, 'type' => 'int', 'desc' => '订单类型')
             ),
             'getsOutOrder' => array(
-                'type' => array('name' => 'type', 'desc' => ''),
-                'status' => array('name' => 'status', 'desc' => ''),
+                'type' => array('name' => 'type', 'desc' => '订单类型'),
+                'status' => array('name' => 'status', 'desc' => '订单状态'),
                 'page' => array('name' => 'page', 'default' => '1', 'desc' => '页数'),
                 'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量')
             ),
             'getOutOrder' => array(
-                'id' => array('name' => 'id', 'require' => true, 'type' => 'int', 'desc' => '')
+                'id' => array('name' => 'id', 'require' => true, 'type' => 'int', 'desc' => '订单ID')
             ),
             'takeOutOrder' => array(
-                'id' => array('name' => 'id', 'require' => true, 'type' => 'int', 'desc' => '')
+                'id' => array('name' => 'id', 'require' => true, 'type' => 'int', 'desc' => '订单ID')
             ),
             'readyOutOrder' => array(
-                'id' => array('name' => 'id', 'require' => true, 'type' => 'int', 'desc' => '')
+                'id' => array('name' => 'id', 'require' => true, 'type' => 'int', 'desc' => '订单ID')
             ),
             'withdrawal' => array(
-                'amount' => array('name' => 'amount', 'require' => true, 'type' => 'int', 'desc' => '')
+                'amount' => array('name' => 'amount', 'require' => true, 'type' => 'int', 'desc' => '提现金额')
             ),
             'getWithdrawal' => array(
                 'page' => array('name' => 'page', 'default' => '1', 'desc' => '页数'),
@@ -52,7 +52,8 @@ class OutOrderController extends BaseController
     }
 
     /**
-     *
+     * 获取代付订单
+     * @desc 获取代付订单列表
      */
     public function getsOutOrder()
     {
@@ -68,6 +69,8 @@ class OutOrderController extends BaseController
     }
 
     /**
+     * 获取代付订单
+     * @desc 获取代付订单详情
      */
     public function getOutOrder()
     {
@@ -81,6 +84,7 @@ class OutOrderController extends BaseController
 
     /**
      * 接单
+     * @desc 接单 代付订单
      */
     public function takeOutOrder()
     {
@@ -91,13 +95,14 @@ class OutOrderController extends BaseController
         if (empty($res)) {
             return $this->api_success();
         } else {
-            return $this->api_error(8001, $res);
+            return $this->api_error(3001, $res);
         }
     }
 
 
     /**
-     * 确认出款
+     * 确认代付订单
+     * @desc 代付订单 付款后确认
      */
     public function readyOutOrder()
     {
@@ -108,13 +113,14 @@ class OutOrderController extends BaseController
         if (empty($res)) {
             return $this->api_success();
         } else {
-            return $this->api_error(8001, $res);
+            return $this->api_error(3002, $res);
         }
     }
 
 
     /**
-     * 确认出款
+     * 提现
+     * @desc 用户提现
      */
     public function withdrawal()
     {
@@ -125,10 +131,14 @@ class OutOrderController extends BaseController
         if (empty($res)) {
             return $this->api_success();
         } else {
-            return $this->api_error(8001, $res);
+            return $this->api_error(3003, $res);
         }
     }
 
+    /**
+     * 提现列表
+     * @desc 获取提现列表
+     */
     public function getWithdrawal()
     {
         $user = $this->member_arr;

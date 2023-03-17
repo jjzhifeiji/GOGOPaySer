@@ -6,7 +6,7 @@ namespace App\Api\Common;
 use App\Common\BaseController;
 
 /**
- * 公共数据控制器4000
+ * 公共数据控制器 1000
  */
 class CommonController extends BaseController
 {
@@ -14,7 +14,7 @@ class CommonController extends BaseController
     {
         return array(
             'sendEmailCode' => array(
-                'email' => array('name' => 'email', 'require' => true, 'desc' => ''),
+                'email' => array('name' => 'email', 'require' => true, 'desc' => '邮件地址'),
             ),
         );
     }
@@ -22,13 +22,14 @@ class CommonController extends BaseController
 
     /**
      * 发送验证吗
+     * @desc 发送邮件验证吗
      */
     public function sendEmailCode()
     {
         $email = $this->email;
 
         if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/", $email)) {
-            return $this->api_error('非法邮箱格式');
+            return $this->api_error(1000, '非法邮箱格式');
         }
 
 

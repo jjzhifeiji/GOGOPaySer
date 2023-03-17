@@ -6,7 +6,7 @@ use App\Common\BaseController;
 use App\Common\ComRedis;
 
 /**
- * 订单7000
+ * 代收订单 2000
  */
 class CollectOrderController extends BaseController
 {
@@ -14,31 +14,32 @@ class CollectOrderController extends BaseController
     {
         return array(
             'getCollectOrderList' => array(
-                'status' => array('name' => 'status', 'desc' => ''),
+                'status' => array('name' => 'status', 'desc' => '订单状态'),
                 'page' => array('name' => 'page', 'default' => '1', 'desc' => '页数'),
                 'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量')
             ),
             'getCollectOrder' => array(
-                'id' => array('name' => 'id', 'type' => 'int', 'require' => true),
+                'id' => array('name' => 'id', 'type' => 'int', 'require' => true, 'desc' => '订单ID'),
             ),
             'takeCollectOrder' => array(
-                'id' => array('name' => 'id', 'type' => 'int', 'require' => true),
+                'id' => array('name' => 'id', 'type' => 'int', 'require' => true, 'desc' => '订单ID'),
             ),
             'configCollectOrder' => array(
-                'id' => array('name' => 'id', 'type' => 'int', 'require' => true),
+                'id' => array('name' => 'id', 'type' => 'int', 'require' => true, 'desc' => '订单ID'),
+                'url' => array('name' => 'url', 'type' => 'int', 'require' => true, 'desc' => '收款凭证'),
             ),
-            'configCollectPictureOrder' => array(
-                'file' => array(
-                    'name' => 'file',        // 客户端上传的文件字段
-                    'type' => 'file',
-                    'require' => true,
-                    'max' => 100 * 1024 * 1024,        // 最大允许上传100M = 200 * 1024 * 1024,
-                    'ext' => 'jpg, png, jpeg', // 允许的文件扩展名
-                    'desc' => '待上传的图片文件',
-                ),
-                'id' => array('name' => 'id', 'type' => 'int', 'require' => true),
-                'remark' => array('name' => 'remark', 'desc' => '')
-            ),
+//            'configCollectPictureOrder' => array(
+//                'file' => array(
+//                    'name' => 'file',        // 客户端上传的文件字段
+//                    'type' => 'file',
+//                    'require' => true,
+//                    'max' => 100 * 1024 * 1024,        // 最大允许上传100M = 200 * 1024 * 1024,
+//                    'ext' => 'jpg, png, jpeg', // 允许的文件扩展名
+//                    'desc' => '待上传的图片文件',
+//                ),
+//                'id' => array('name' => 'id', 'type' => 'int', 'require' => true, 'desc' => '订单ID'),
+//                'remark' => array('name' => 'remark', 'desc' => '')
+//            ),
         );
     }
 
@@ -73,7 +74,7 @@ class CollectOrderController extends BaseController
         $isLock = $this->getCache('take' . $id);
         if ($isLock == true) {
             \PhalApi\DI()->logger->error('take' . $id . '<-确认->' . $isLock);
-            return $this->api_error(1001, "too late");
+            return $this->api_error(2001, "too late");
         }
         $this->setCache('take' . $id, true, 60);
         $res = $this->_getCollectOrderDomain()->takeCollectOrder($id, $user);
@@ -82,7 +83,7 @@ class CollectOrderController extends BaseController
         if (empty($res)) {
             return $this->api_success();
         } else {
-            return $this->api_error(1000, $res);
+            return $this->api_error(2002, $res);
         }
     }
 
@@ -102,78 +103,81 @@ class CollectOrderController extends BaseController
 
     /**
      *  确认订单
+     * @desc 确认代收订单
      */
     public function configCollectOrder()
     {
         $user = $this->member_arr;
         $id = $this->id;
+        $url = $this->url;
 
         $isLock = $this->getCache('config' . $id);
         if ($isLock == true) {
             \PhalApi\DI()->logger->error('config' . $id . '<-确认->' . $isLock);
-            return $this->api_error(1001, "too late");
+            return $this->api_error(2003, "too late");
         }
         $this->setCache('config' . $id, true, 60);
 
-        $res = $this->_getCollectOrderDomain()->configCollectOrderList($user, $id);
+        $res = $this->_getCollectOrderDomain()->configCollectOrderList($user, $id, $url);
         $this->delCache('config' . $id);
 
         if (empty($res)) {
             return $this->api_success();
         } else {
-            return $this->api_error(1000, $res);
+            return $this->api_error(2004, $res);
         }
     }
 
-    /**
-     * 确认订单
-     */
-    public function configCollectPictureOrder()
-    {
-        $user = $this->member_arr;
-
-        $id = $this->id;
-        $remark = $this->remark;
-        $tmpName = $this->file['tmp_name'];
-        $file_name = $this->file['name'];
-
-        \PhalApi\DI()->logger->info('确认订单-' . $id . '-' . $user['id']);
-
-        if (!is_dir(RESOURCE_DIR . IMAGE_SOURCE_CONFIG)) {
-            mkdir(RESOURCE_DIR . IMAGE_SOURCE_CONFIG, 0777);
-        }
-
-        $isLock = $this->getCache('config' . $id);
-        if ($isLock == true) {
-            \PhalApi\DI()->logger->error('config' . $id . '<-确认->' . $isLock);
-            return $this->api_error(1001, "too late");
-        }
-        $this->setCache('config' . $id, true, 60);
-
-        $path = RESOURCE_DIR . IMAGE_SOURCE_CONFIG . $file_name;
-        if (move_uploaded_file($tmpName, $path)) {
-
-            $url = HTTP_RESOURCE . IMAGE_SOURCE_CONFIG . $file_name;
-            \PhalApi\DI()->logger->info('upLoadAudioFile 上传成功', $path);
-            \PhalApi\DI()->logger->info('upLoadAudioFile 上传成功', $url);
-
-            $res = $this->_getCollectOrderDomain()->configCollectOrderList($user, $id, $url);
-            $this->delCache('config' . $id);
-
-            if (empty($res)) {
-                return $this->api_success();
-            } else {
-                return $this->api_error(1001, $res);
-            }
-
-        } else {
-            \PhalApi\DI()->logger->info('upLoadAudioFile 上传失败', $path);
-            $this->delCache('config' . $id);
-
-            return $this->api_error(1002, "上传失败");
-        }
-
-    }
+//    /**
+//     * 确认订单
+//     * @desc 确认代收订单
+//     */
+//    public function configCollectPictureOrder()
+//    {
+//        $user = $this->member_arr;
+//
+//        $id = $this->id;
+//        $remark = $this->remark;
+//        $tmpName = $this->file['tmp_name'];
+//        $file_name = $this->file['name'];
+//
+//        \PhalApi\DI()->logger->info('确认订单-' . $id . '-' . $user['id']);
+//
+//        if (!is_dir(RESOURCE_DIR . IMAGE_SOURCE_CONFIG)) {
+//            mkdir(RESOURCE_DIR . IMAGE_SOURCE_CONFIG, 0777);
+//        }
+//
+//        $isLock = $this->getCache('config' . $id);
+//        if ($isLock == true) {
+//            \PhalApi\DI()->logger->error('config' . $id . '<-确认->' . $isLock);
+//            return $this->api_error(2005, "too late");
+//        }
+//        $this->setCache('config' . $id, true, 60);
+//
+//        $path = RESOURCE_DIR . IMAGE_SOURCE_CONFIG . $file_name;
+//        if (move_uploaded_file($tmpName, $path)) {
+//
+//            $url = HTTP_RESOURCE . IMAGE_SOURCE_CONFIG . $file_name;
+//            \PhalApi\DI()->logger->info('upLoadAudioFile 上传成功', $path);
+//            \PhalApi\DI()->logger->info('upLoadAudioFile 上传成功', $url);
+//
+//            $res = $this->_getCollectOrderDomain()->configCollectOrderList($user, $id, $url);
+//            $this->delCache('config' . $id);
+//
+//            if (empty($res)) {
+//                return $this->api_success();
+//            } else {
+//                return $this->api_error(2006, $res);
+//            }
+//
+//        } else {
+//            \PhalApi\DI()->logger->info('upLoadAudioFile 上传失败', $path);
+//            $this->delCache('config' . $id);
+//
+//            return $this->api_error(2007, "上传失败");
+//        }
+//
+//    }
 
 
 }

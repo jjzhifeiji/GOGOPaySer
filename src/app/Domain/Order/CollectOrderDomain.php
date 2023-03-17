@@ -160,7 +160,7 @@ class CollectOrderDomain extends BaseDomain
 
         //更新订单
         $file = array('id' => $order['id'], 'status' => 2, 'user_id' => $user['id']);
-        $data = array('status' => 3);
+        $data = array('status' => 3, 'conf_img' => $url);
         $this->_getCollectOrderModel()->configCollectOrderList($file, $data);
 
 
