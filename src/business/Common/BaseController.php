@@ -5,7 +5,6 @@ namespace Business\Common;
 use Business\Domain\Business\BusinessDomain;
 use Business\Domain\Order\CollectOrderDomain;
 use Business\Domain\Order\OutOrderDomain;
-use Business\Domain\User\UserDomain;
 use PhalApi\Api;
 
 class BaseController extends Api
