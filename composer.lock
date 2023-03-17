@@ -1,9 +1,14 @@
 {
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "1aaa28ed73c61147ed94d44c2071d8d0",
     "packages": [
         {
             "name": "graham-campbell/result-type",
             "version": "1.1.x-dev",
-            "version_normalized": "1.1.9999999.9999999-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Result-Type.git",
@@ -22,10 +27,8 @@
             "require-dev": {
                 "phpunit/phpunit": "^8.5.32 || ^9.6.3 || ^10.0.12"
             },
-            "time": "2023-02-25T23:46:23+00:00",
             "default-branch": true,
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "GrahamCampbell\\ResultType\\": "src/"
@@ -64,12 +67,11 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../graham-campbell/result-type"
+            "time": "2023-02-25T23:46:23+00:00"
         },
         {
             "name": "phalapi/cli",
             "version": "v3.4.0",
-            "version_normalized": "3.4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalapi/cli.git",
@@ -79,21 +81,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phalapi/cli/zipball/acc87dade93c8dfb2e92f52dd8bc095dc3ab50b2",
                 "reference": "acc87dade93c8dfb2e92f52dd8bc095dc3ab50b2",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
                 "ulrichsg/getopt-php": "3.4.0"
             },
-            "time": "2022-12-08T11:01:04+00:00",
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "PhalApi\\CLI\\": "src"
@@ -122,12 +116,11 @@
                 "issues": "https://github.com/phalapi/cli/issues",
                 "source": "https://github.com/phalapi/cli/tree/v3.4.0"
             },
-            "install-path": "../phalapi/cli"
+            "time": "2022-12-08T11:01:04+00:00"
         },
         {
             "name": "phalapi/kernal",
             "version": "2.21.3",
-            "version_normalized": "2.21.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalapi/kernal.git",
@@ -143,9 +136,7 @@
                 "phalapi/notorm": "2.*.*",
                 "php": ">=5.3.3"
             },
-            "time": "2023-03-10T13:48:31+00:00",
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "files": [
                     "src/bootstrap.php",
@@ -183,12 +174,11 @@
                 "issues": "https://github.com/phalapi/kernal/issues",
                 "source": "https://github.com/phalapi/kernal/tree/2.21.3"
             },
-            "install-path": "../phalapi/kernal"
+            "time": "2023-03-10T13:48:31+00:00"
         },
         {
             "name": "phalapi/notorm",
             "version": "2.12.1",
-            "version_normalized": "2.12.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalapi/notorm.git",
@@ -198,20 +188,12 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phalapi/notorm/zipball/2ce376d106bf46496d68b7ebff56ead63f38d4a6",
                 "reference": "2ce376d106bf46496d68b7ebff56ead63f38d4a6",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2022-12-13T10:02:46+00:00",
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "PhalApi\\NotORM\\": "src"
@@ -240,12 +222,11 @@
                 "issues": "https://github.com/phalapi/notorm/issues",
                 "source": "https://github.com/phalapi/notorm/tree/2.12.1"
             },
-            "install-path": "../phalapi/notorm"
+            "time": "2022-12-13T10:02:46+00:00"
         },
         {
             "name": "phalapi/qrcode",
             "version": "dev-master",
-            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalapi/qrcode.git",
@@ -255,17 +236,10 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phalapi/qrcode/zipball/cbb3c5f3f95a7902b0a72786a77495ada0c006b7",
                 "reference": "cbb3c5f3f95a7902b0a72786a77495ada0c006b7",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
-            "time": "2017-12-29T12:03:03+00:00",
+            "default-branch": true,
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "PhalApi\\QrCode\\": "src"
@@ -291,12 +265,15 @@
                 "qrcode",
                 "二维码"
             ],
-            "install-path": "../phalapi/qrcode"
+            "support": {
+                "issues": "https://github.com/phalapi/qrcode/issues",
+                "source": "https://github.com/phalapi/qrcode/tree/master"
+            },
+            "time": "2017-12-29T12:03:03+00:00"
         },
         {
             "name": "phalapi/task",
             "version": "dev-master",
-            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalapi/task.git",
@@ -306,21 +283,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phalapi/task/zipball/b68075bdcffe41b6585934e15f73954a5ba42c5c",
                 "reference": "b68075bdcffe41b6585934e15f73954a5ba42c5c",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2022-08-26T03:49:29+00:00",
             "default-branch": true,
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "PhalApi\\Task\\": "src"
@@ -349,12 +318,11 @@
                 "issues": "https://github.com/phalapi/task/issues",
                 "source": "https://github.com/phalapi/task/tree/master"
             },
-            "install-path": "../phalapi/task"
+            "time": "2022-08-26T03:49:29+00:00"
         },
         {
             "name": "phpoption/phpoption",
             "version": "dev-master",
-            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/php-option.git",
@@ -373,7 +341,6 @@
                 "bamarni/composer-bin-plugin": "^1.8.2",
                 "phpunit/phpunit": "^8.5.32 || ^9.6.3 || ^10.0.12"
             },
-            "time": "2023-02-25T19:38:58+00:00",
             "default-branch": true,
             "type": "library",
             "extra": {
@@ -385,7 +352,6 @@
                     "dev-master": "1.9-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "PhpOption\\": "src/PhpOption/"
@@ -428,12 +394,11 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../phpoption/phpoption"
+            "time": "2023-02-25T19:38:58+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
             "version": "dev-main",
-            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -454,7 +419,6 @@
             "suggest": {
                 "ext-ctype": "For best performance"
             },
-            "time": "2023-01-26T09:26:14+00:00",
             "default-branch": true,
             "type": "library",
             "extra": {
@@ -466,7 +430,6 @@
                     "url": "https://github.com/symfony/polyfill"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -514,12 +477,11 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../symfony/polyfill-ctype"
+            "time": "2023-01-26T09:26:14+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
             "version": "dev-main",
-            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -540,7 +502,6 @@
             "suggest": {
                 "ext-mbstring": "For best performance"
             },
-            "time": "2023-01-30T17:25:47+00:00",
             "default-branch": true,
             "type": "library",
             "extra": {
@@ -552,7 +513,6 @@
                     "url": "https://github.com/symfony/polyfill"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -601,12 +561,11 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../symfony/polyfill-mbstring"
+            "time": "2023-01-30T17:25:47+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
             "version": "dev-main",
-            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
@@ -621,7 +580,6 @@
             "require": {
                 "php": ">=7.1"
             },
-            "time": "2023-01-26T09:26:14+00:00",
             "default-branch": true,
             "type": "library",
             "extra": {
@@ -633,7 +591,6 @@
                     "url": "https://github.com/symfony/polyfill"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -688,12 +645,11 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../symfony/polyfill-php80"
+            "time": "2023-01-26T09:26:14+00:00"
         },
         {
             "name": "ulrichsg/getopt-php",
             "version": "v3.4.0",
-            "version_normalized": "3.4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getopt-php/getopt-php.git",
@@ -703,13 +659,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/getopt-php/getopt-php/zipball/9121d7c2c51a6a59ee407c49a13b4d8cfae71075",
                 "reference": "9121d7c2c51a6a59ee407c49a13b4d8cfae71075",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
@@ -719,9 +669,7 @@
                 "phpunit/phpunit": "^4.8",
                 "squizlabs/php_codesniffer": "^2.7"
             },
-            "time": "2020-07-14T06:09:04+00:00",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "GetOpt\\": "src"
@@ -747,12 +695,11 @@
                 "issues": "https://github.com/getopt-php/getopt-php/issues",
                 "source": "https://github.com/getopt-php/getopt-php/tree/v3.4.0"
             },
-            "install-path": "../ulrichsg/getopt-php"
+            "time": "2020-07-14T06:09:04+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
             "version": "5.4.x-dev",
-            "version_normalized": "5.4.9999999.9999999-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
@@ -762,13 +709,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/dd46c263f277573244c517bac125a78f67b83a98",
                 "reference": "dd46c263f277573244c517bac125a78f67b83a98",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "ext-pcre": "*",
@@ -787,14 +728,12 @@
             "suggest": {
                 "ext-filter": "Required to use the boolean validator."
             },
-            "time": "2021-12-17T00:42:26+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "5.4-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Dotenv\\": "src/"
@@ -836,9 +775,22 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../vlucas/phpdotenv"
+            "time": "2021-12-17T00:42:26+00:00"
         }
     ],
-    "dev": true,
-    "dev-package-names": []
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "phalapi/qrcode": 20,
+        "phalapi/task": 20,
+        "vlucas/phpdotenv": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.3.3"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }
