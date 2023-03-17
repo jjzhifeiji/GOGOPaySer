@@ -1,7 +1,7 @@
 <?php
 /**
  * DI依赖注入配置文件
- * 
+ *
  * @license     http://www.phalapi.net/license GPL 协议
  * @link        http://www.phalapi.net/
  * @author      dogstar <chanzonghuang@gmail.com> 2017-07-13
@@ -20,7 +20,7 @@ $di = \PhalApi\DI();
 // 加载 .env 环境配置
 $di->dotenv = Dotenv\Dotenv::createImmutable(API_ROOT);
 // .env 非必须的加载
-$di->dotenv->safeLoad(); 
+$di->dotenv->safeLoad();
 // .env 必须的加载方式
 // $di->dotenv->load();
 
@@ -58,9 +58,15 @@ $di->admin = new Portal\Common\Admin();
 // $di->filter = new \PhalApi\Filter\SimpleMD5Filter();
 
 // 缓存 - Memcache/Memcached
-// $di->cache = function () {
-//     return new \PhalApi\Cache\MemcacheCache(\PhalApi\DI()->config->get('sys.mc'));
-// };
+$di->cache = function () {
+    return new \PhalApi\Cache\MemcacheCache(\PhalApi\DI()->config->get('sys.mc'));
+};
+
+$di->redis = new \PhalApi\Cache\RedisCache(\PhalApi\DI()->config->get('sys.redis'));
+
+$di->mailer = function () {
+    return new \PhalApi\PHPMailer\Lite(true);
+};
 
 // 支持JsonP的返回
 // if (!empty($_GET['callback'])) {

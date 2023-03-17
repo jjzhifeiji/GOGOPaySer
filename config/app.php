@@ -12,8 +12,7 @@ return array(
     /**
      * 应用接口层的统一参数
      */
-    'apiCommonRules' => array(
-        //'sign' => array('name' => 'sign', 'require' => true),
+    'apiCommonRules' => array(//'sign' => array('name' => 'sign', 'require' => true),
     ),
 
     /**
@@ -26,7 +25,21 @@ return array(
      * - Site.Index  指定某个接口服务，即Api_Default::Index()
      */
     'service_whitelist' => array(
-        'Site.Index',
+        '*.register',
+        '*.login',
+        'Common_CommonController.*',
     ),
-    
+    'PHPMailer' => array(
+        'email' => array(
+            'host' => 'smtp.gmail.com',
+            'port' => 465,
+            'Secure' => 'ssl',
+            'username' => 'asiagogopay@gmail.com',
+            'password' => 'gwnxcwrobmymgqmk',
+            'from' => 'asiagogopay@gmail.com',
+            'fromName' => 'GOGOPAY团队',
+            'sign' => '<br/><br/>请不要回复此邮件，谢谢！<br/><br/>-- GOGOPAY团队敬上 ',
+        ),
+    ),
+
 );
