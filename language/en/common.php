@@ -3,7 +3,7 @@
 return array(
 	'Hello {name}, Welcome to use PhalApi!' => 'Hello {name}, Welcome to use PhalApi!',
     'user not exists' => 'user not exists',
-    'App' => 'My Application',
+    'App' => 'APP',
     'Admin' => 'Management System',
     'Portal' => 'Portal Platform',
     'Task' => 'Task System',

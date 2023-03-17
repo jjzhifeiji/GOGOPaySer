@@ -11,7 +11,7 @@
 return array(
 	'Hi {name}, welcome to use PhalApi!' => '{name}您好，欢迎使用PhalApi！',
     'user not exists' => '用户不存在',
-    'App' => '我的应用',
+    'App' => '前端',
     'Admin' => '管理后台',
     'Portal' => '运营平台',
     'Task' => '任务',
