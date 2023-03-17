@@ -1,6 +1,6 @@
 <?php
 
-namespace Portal\Api;
+namespace Proxy\Api;
 
 use PhalApi\Api;
 
