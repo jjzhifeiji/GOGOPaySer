@@ -41,7 +41,8 @@ class OutOrderController extends BaseController
     }
 
     /**
-     *
+     * 获取代付订单
+     * @desc 获取 待接的代付订单列表
      */
     public function getsOutingOrder()
     {
