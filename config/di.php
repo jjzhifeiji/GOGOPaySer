@@ -43,7 +43,7 @@ $di->notorm = new NotORMDatabase($di->config->get('dbs'), $di->config->get('sys.
 $di->error = new ApiError();
 
 // portal后台管理员，如果不需要portal后台可注释
-$di->admin = new Portal\Common\Admin();
+//$di->admin = new Portal\Common\Admin();
 
 /** ---------------- 第三应用 服务注册 ---------------- **/
 
