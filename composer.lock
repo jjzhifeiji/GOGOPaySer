@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1aaa28ed73c61147ed94d44c2071d8d0",
+    "content-hash": "9af114f58f6d3ec46e37b325daca2ea3",
     "packages": [
         {
             "name": "graham-campbell/result-type",
@@ -225,6 +225,55 @@
             "time": "2022-12-13T10:02:46+00:00"
         },
         {
+            "name": "phalapi/phpmailer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phalapi/PHPMailer.git",
+                "reference": "0e1fb77d15f5a756d9d4171a411481472f612bb3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phalapi/PHPMailer/zipball/0e1fb77d15f5a756d9d4171a411481472f612bb3",
+                "reference": "0e1fb77d15f5a756d9d4171a411481472f612bb3",
+                "shasum": ""
+            },
+            "require": {
+                "phpmailer/phpmailer": "~6.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhalApi\\PHPMailer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "dogstar huang",
+                    "email": "chanzonghuang@gmail.com",
+                    "homepage": "http://my.oschina.net/dogstar",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PhalApi 2.x扩展类库，基于PHPMailer的邮件发送。",
+            "homepage": "https://www.phalapi.net/",
+            "keywords": [
+                "phalapi",
+                "phalapi-phpmailer",
+                "phpmailer"
+            ],
+            "support": {
+                "issues": "https://github.com/phalapi/PHPMailer/issues",
+                "source": "https://github.com/phalapi/PHPMailer/tree/master"
+            },
+            "time": "2019-10-14T01:28:18+00:00"
+        },
+        {
             "name": "phalapi/qrcode",
             "version": "dev-master",
             "source": {
@@ -270,6 +319,54 @@
                 "source": "https://github.com/phalapi/qrcode/tree/master"
             },
             "time": "2017-12-29T12:03:03+00:00"
+        },
+        {
+            "name": "phalapi/redis",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wenzhenxi/phalapi2-redis.git",
+                "reference": "143a25ae863ca580a761e38eb6b5466693a2a49e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wenzhenxi/phalapi2-redis/zipball/143a25ae863ca580a761e38eb6b5466693a2a49e",
+                "reference": "143a25ae863ca580a761e38eb6b5466693a2a49e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhalApi\\Redis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "喵了个咪",
+                    "email": "wenzhenxi@vip.qq.com",
+                    "homepage": "http://w-blog.cn",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PhalApi 2.x 扩展类库 - Redis 丰富基础redisCache类功能,更贴切复杂场景下的redis使用。",
+            "homepage": "https://www.phalapi.net/",
+            "keywords": [
+                "phalapi",
+                "phalapi-redis",
+                "redis"
+            ],
+            "support": {
+                "issues": "https://github.com/wenzhenxi/phalapi2-redis/issues",
+                "source": "https://github.com/wenzhenxi/phalapi2-redis/tree/master"
+            },
+            "time": "2018-01-25T06:56:53+00:00"
         },
         {
             "name": "phalapi/task",
@@ -319,6 +416,86 @@
                 "source": "https://github.com/phalapi/task/tree/master"
             },
             "time": "2022-08-26T03:49:29+00:00"
+        },
+        {
+            "name": "phpmailer/phpmailer",
+            "version": "v6.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPMailer/PHPMailer.git",
+                "reference": "df16b615e371d81fb79e506277faea67a1be18f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/df16b615e371d81fb79e506277faea67a1be18f1",
+                "reference": "df16b615e371d81fb79e506277faea67a1be18f1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-filter": "*",
+                "ext-hash": "*",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+                "doctrine/annotations": "^1.2.6 || ^1.13.3",
+                "php-parallel-lint/php-console-highlighter": "^1.0.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3.2",
+                "phpcompatibility/php-compatibility": "^9.3.5",
+                "roave/security-advisories": "dev-latest",
+                "squizlabs/php_codesniffer": "^3.7.1",
+                "yoast/phpunit-polyfills": "^1.0.4"
+            },
+            "suggest": {
+                "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
+                "ext-openssl": "Needed for secure SMTP sending and DKIM signing",
+                "greew/oauth2-azure-provider": "Needed for Microsoft Azure XOAUTH2 authentication",
+                "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
+                "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
+                "psr/log": "For optional PSR-3 debug logging",
+                "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)",
+                "thenetworg/oauth2-azure": "Needed for Microsoft XOAUTH2 authentication"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHPMailer\\PHPMailer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-only"
+            ],
+            "authors": [
+                {
+                    "name": "Marcus Bointon",
+                    "email": "phpmailer@synchromedia.co.uk"
+                },
+                {
+                    "name": "Jim Jagielski",
+                    "email": "jimjag@gmail.com"
+                },
+                {
+                    "name": "Andy Prevost",
+                    "email": "codeworxtech@users.sourceforge.net"
+                },
+                {
+                    "name": "Brent R. Matzelle"
+                }
+            ],
+            "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "support": {
+                "issues": "https://github.com/PHPMailer/PHPMailer/issues",
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.8.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Synchro",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-03-06T14:43:22+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -698,6 +875,56 @@
             "time": "2020-07-14T06:09:04+00:00"
         },
         {
+            "name": "vipsoft/unzip",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vipsoft/Unzip.git",
+                "reference": "090712dc65d0d77842f077d0a768fc7c852d4624"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vipsoft/Unzip/zipball/090712dc65d0d77842f077d0a768fc7c852d4624",
+                "reference": "090712dc65d0d77842f077d0a768fc7c852d4624",
+                "shasum": ""
+            },
+            "require": {
+                "ext-zip": "*",
+                "php": ">=5.3.6"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "VIPSoft\\Unzip": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthon Pang",
+                    "email": "apang@softwaredevelopment.ca",
+                    "role": "developer"
+                }
+            ],
+            "description": "Unzip library - a ZipArchive wrapper",
+            "homepage": "http://github.com/vipsoft/",
+            "keywords": [
+                "pclzip",
+                "unzip",
+                "zip",
+                "ziparchive"
+            ],
+            "support": {
+                "issues": "https://github.com/vipsoft/Unzip/issues",
+                "source": "https://github.com/vipsoft/Unzip/tree/1.3"
+            },
+            "time": "2021-01-21T18:23:24+00:00"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "5.4.x-dev",
             "source": {
@@ -784,12 +1011,17 @@
     "stability-flags": {
         "phalapi/qrcode": 20,
         "phalapi/task": 20,
-        "vlucas/phpdotenv": 20
+        "vlucas/phpdotenv": 20,
+        "phalapi/phpmailer": 20,
+        "vipsoft/unzip": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3.3"
+        "php": ">=7.2",
+        "ext-json": "*",
+        "ext-gd": "*",
+        "ext-pcntl": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

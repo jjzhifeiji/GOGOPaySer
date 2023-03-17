@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/vendor/phalapi/notorm" />
+      <path value="$PROJECT_DIR$/vendor/ulrichsg/getopt-php" />
+      <path value="$PROJECT_DIR$/vendor/phalapi/kernal" />
+      <path value="$PROJECT_DIR$/vendor/phalapi/task" />
+      <path value="$PROJECT_DIR$/vendor/phalapi/qrcode" />
+      <path value="$PROJECT_DIR$/vendor/phalapi/cli" />
+      <path value="$PROJECT_DIR$/vendor/phalapi/phpmailer" />
+      <path value="$PROJECT_DIR$/vendor/vipsoft/unzip" />
+      <path value="$PROJECT_DIR$/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/vendor/phalapi/redis" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.2">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
+  </component>
+</project>

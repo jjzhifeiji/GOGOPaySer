@@ -3,7 +3,7 @@
         'name' => 'phalapi/phalapi',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '49bcb2ca4c2a4530ba17c6cd9bbe4acbb7749249',
+        'reference' => '86d32735588717cab8be8bf9d1f1826e6bc45411',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -49,10 +49,21 @@
         'phalapi/phalapi' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '49bcb2ca4c2a4530ba17c6cd9bbe4acbb7749249',
+            'reference' => '86d32735588717cab8be8bf9d1f1826e6bc45411',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'phalapi/phpmailer' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '0e1fb77d15f5a756d9d4171a411481472f612bb3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phalapi/phpmailer',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
             'dev_requirement' => false,
         ),
         'phalapi/qrcode' => array(
@@ -66,6 +77,15 @@
             ),
             'dev_requirement' => false,
         ),
+        'phalapi/redis' => array(
+            'pretty_version' => '2.0.0',
+            'version' => '2.0.0.0',
+            'reference' => '143a25ae863ca580a761e38eb6b5466693a2a49e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phalapi/redis',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'phalapi/task' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
@@ -75,6 +95,15 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
+            'dev_requirement' => false,
+        ),
+        'phpmailer/phpmailer' => array(
+            'pretty_version' => 'v6.8.0',
+            'version' => '6.8.0.0',
+            'reference' => 'df16b615e371d81fb79e506277faea67a1be18f1',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpmailer/phpmailer',
+            'aliases' => array(),
             'dev_requirement' => false,
         ),
         'phpoption/phpoption' => array(
@@ -128,6 +157,17 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../ulrichsg/getopt-php',
             'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'vipsoft/unzip' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '090712dc65d0d77842f077d0a768fc7c852d4624',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../vipsoft/unzip',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
             'dev_requirement' => false,
         ),
         'vlucas/phpdotenv' => array(

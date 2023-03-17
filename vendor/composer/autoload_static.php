@@ -16,6 +16,10 @@ class ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80
     );
 
     public static $prefixLengthsPsr4 = array (
+        'T' => 
+        array (
+            'Task\\' => 5,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
@@ -24,13 +28,17 @@ class ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80
         ),
         'P' => 
         array (
+            'Proxy\\' => 6,
             'Portal\\' => 7,
             'PhpOption\\' => 10,
             'PhalApi\\Task\\' => 13,
+            'PhalApi\\Redis\\' => 14,
             'PhalApi\\QrCode\\' => 15,
+            'PhalApi\\PHPMailer\\' => 18,
             'PhalApi\\NotORM\\' => 15,
             'PhalApi\\CLI\\' => 12,
             'PhalApi\\' => 8,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'G' => 
         array (
@@ -41,13 +49,22 @@ class ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80
         array (
             'Dotenv\\' => 7,
         ),
+        'B' => 
+        array (
+            'Business\\' => 9,
+        ),
         'A' => 
         array (
             'App\\' => 4,
+            'Admin\\' => 6,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Task\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/task',
+        ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
@@ -59,6 +76,10 @@ class ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'Proxy\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/proxy',
         ),
         'Portal\\' => 
         array (
@@ -72,9 +93,17 @@ class ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80
         array (
             0 => __DIR__ . '/..' . '/phalapi/task/src',
         ),
+        'PhalApi\\Redis\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phalapi/redis/src',
+        ),
         'PhalApi\\QrCode\\' => 
         array (
             0 => __DIR__ . '/..' . '/phalapi/qrcode/src',
+        ),
+        'PhalApi\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phalapi/phpmailer/src',
         ),
         'PhalApi\\NotORM\\' => 
         array (
@@ -88,6 +117,10 @@ class ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80
         array (
             0 => __DIR__ . '/..' . '/phalapi/kernal/src',
         ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
         'GrahamCampbell\\ResultType\\' => 
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
@@ -100,9 +133,27 @@ class ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
+        'Business\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/business',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/app',
+        ),
+        'Admin\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/admin',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'V' => 
+        array (
+            'VIPSoft\\Unzip' => 
+            array (
+                0 => __DIR__ . '/..' . '/vipsoft/unzip/src',
+            ),
         ),
     );
 
@@ -120,6 +171,7 @@ class ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit6835957bc29912b8a4cd2dd758af2e80::$classMap;
 
         }, null, ClassLoader::class);
