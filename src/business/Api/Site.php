@@ -1,6 +1,6 @@
 <?php
 
-namespace Portal\Api;
+namespace Business\Api;
 
 use PhalApi\Api;
 
