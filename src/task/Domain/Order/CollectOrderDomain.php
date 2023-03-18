@@ -49,9 +49,9 @@ class CollectOrderDomain extends BaseDomain
     public function getOrder($orderNo)
     {
         //order_no,status,pay_type,user_id,order_sum,code_id
-        $res = $this->_getCollectOrderModel()->getOrder($orderNo);
+        $order = $this->_getCollectOrderModel()->getOrder($orderNo);
 
-        $res['end_time'] = date('Y/m/d H:i:s', strtotime($res['create_time']) + 60 * 5);
+        $res['end_time'] = date('Y/m/d H:i:s', strtotime($order['create_time']) + 60 * 5);
 
         $res['pay_no'] = '';
         $res['pay_name'] = '';
@@ -59,7 +59,7 @@ class CollectOrderDomain extends BaseDomain
         $res['pay_local'] = '';
 
         if ($res['status'] == 2) {
-            $code = $this->_getUserCollectInfoModel()->getCode($res['user_id'], $res['code_id']);
+            $code = $this->_getUserCollectInfoModel()->getCode($order['user_id'], $order['code_id']);
             if (empty($code)) {
                 return null;
             }
