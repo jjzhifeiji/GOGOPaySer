@@ -17,6 +17,10 @@ class AdminController extends BaseController
                 'admin_name' => array('name' => 'admin_name', 'require' => true, 'min' => 1, 'max' => 50, 'desc' => '账号'),
                 'pwd' => array('name' => 'pwd', 'require' => true, 'min' => 6, 'max' => 20, 'desc' => '密码'),
             ),
+            'getAdminList' => array(
+                'page' => array('name' => 'page', 'type' => 'int', 'default' => '1', 'desc' => '页数'),
+                'limit' => array('name' => 'limit', 'type' => 'int', 'default' => '20', 'desc' => '数量'),
+            ),
             'addAdmin' => array(
                 'name' => array('name' => 'name', 'require' => true, 'desc' => '名称'),
                 'account' => array('name' => 'account', 'require' => true, 'desc' => '账号'),
@@ -66,6 +70,18 @@ class AdminController extends BaseController
     {
         $admin = $this->member_arr;
         $res = $this->_getAdminDomain()->getAdminAccount($admin['account']);
+        return $this->api_success($res);
+    }
+
+    /**
+     * 获取管理信息
+     */
+    public function getAdminList()
+    {
+        $admin = $this->member_arr;
+        $page = $this->page;
+        $limit = $this->limit;
+        $res = $this->_getAdminDomain()->getAdminList($page, $limit);
         return $this->api_success($res);
     }
 
