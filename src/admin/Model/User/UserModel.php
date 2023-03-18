@@ -69,7 +69,7 @@ class UserModel extends BaseModel
 
     public function getsAllUser()
     {
-        return $this->getORM()->select('id,user_name,account,group_id,group_name')->fetchAll();
+        return $this->getORM()->select('id,user_name,account,group_id,group_name,is_top')->fetchAll();
     }
 
 
