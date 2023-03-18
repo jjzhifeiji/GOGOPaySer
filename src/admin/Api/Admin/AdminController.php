@@ -97,8 +97,8 @@ class AdminController extends BaseController
         $name = $this->name;
         $account = $this->account;
         $pwd = $this->pwd;
-        $res = $this->_getAdminDomain()->addAdmin($name, $account, $pwd);
-        return $this->api_success($res);
+        $this->_getAdminDomain()->addAdmin($name, $account, $pwd);
+        return $this->api_success();
     }
 
     /**
@@ -113,7 +113,7 @@ class AdminController extends BaseController
         $id = $this->id;
 
         $res = $this->_getAdminDomain()->delAdmin($id);
-        return $this->api_success($res);
+        return $this->api_success();
     }
 
 }
