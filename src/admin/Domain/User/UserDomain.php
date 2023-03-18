@@ -120,7 +120,6 @@ class UserDomain extends BaseDomain
         $res = array();
         foreach ($all as $user) {
             if ($user['is_top'] == 1) {
-                $user['child'] = array();
                 array_push($res, $user);
             }
         }
