@@ -26,7 +26,7 @@ class Site extends Api {
      */
     public function index() {
         return array(
-            'title' => 'Hello ',
+            'title' => 'Hello App',
             'version' => 1,
             'time' => $_SERVER['REQUEST_TIME'],
         );
