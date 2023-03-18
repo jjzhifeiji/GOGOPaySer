@@ -18,7 +18,7 @@ class UserDomain extends BaseDomain
     /**
      * 注册新用户
      */
-    public function register($user_name, $user_account,  $collect_free, $out_free)
+    public function register($user_name, $user_account, $collect_free, $out_free)
     {
 
         $is_top = 1;
@@ -111,6 +111,31 @@ class UserDomain extends BaseDomain
     public function getsUserGroup()
     {
         return $this->_getUserModel()->getsUserGroup();
+    }
+
+    public function getGroupUser()
+    {
+        $all = $this->_getUserModel()->getsAllUser();
+
+        $res = array();
+        foreach ($all as $user) {
+            if ($user['is_top'] == 1) {
+                $user['child'] = array();
+                array_push($res, $user);
+            }
+        }
+
+        foreach ($res as $top) {
+            $u = array();
+            foreach ($all as $user) {
+                if ($top['id'] == $user['group_id']) {
+                    array_push($u, $user);
+                }
+            }
+            array_push($top['child'], $u);
+        }
+
+        return $res;
     }
 
 

@@ -66,6 +66,15 @@ class UserController extends BaseController
     }
 
     /**
+     * 获取组用户信息
+     */
+    public function getGroupUser()
+    {
+        $res = $this->_getUserDomain()->getGroupUser();
+        return $this->api_success($res);
+    }
+
+    /**
      * 用户信息
      */
     public function getUserList()

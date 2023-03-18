@@ -67,6 +67,12 @@ class UserModel extends BaseModel
     }
 
 
+    public function getsAllUser()
+    {
+        return $this->getORM()->select('id,user_name,account,group_id,group_name')->fetchAll();
+    }
+
+
     public function getUserList(array $file, $like_file, $page, $limit)
     {
 
