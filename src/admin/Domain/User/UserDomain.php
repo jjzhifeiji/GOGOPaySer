@@ -129,13 +129,18 @@ class UserDomain extends BaseDomain
             $u = array();
             foreach ($all as $user) {
                 \PhalApi\DI()->logger->debug('getGroupUser', $top['id'] == $user['group_id']);
-                \PhalApi\DI()->logger->debug('getGroupUser'.$top['id'].'  '.$user['group_id']);
+                \PhalApi\DI()->logger->debug('getGroupUser' . $top['id'] . '  ' . $user['group_id']);
 
                 if ($top['id'] == $user['group_id']) {
                     array_push($u, $user);
                 }
             }
-            array_push($top['child'], $u);
+            \PhalApi\DI()->logger->debug('getGroupUser' . $u);
+
+            array_push($res[$k]['child'], $u);
+
+            \PhalApi\DI()->logger->debug('getGroupUser' . $res);
+
         }
 
         return $res;
