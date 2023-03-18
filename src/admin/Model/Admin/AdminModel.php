@@ -14,7 +14,7 @@ class AdminModel extends BaseModel
 
     public function getAdminAccount($account)
     {
-        return $this->getORM()->select('*')->where('account', $account)->fetchOne();
+        return $this->getORM()->select('*')->where('account', $account)->where('status', 1)->fetchOne();
     }
 
     public function getAdminId($id)

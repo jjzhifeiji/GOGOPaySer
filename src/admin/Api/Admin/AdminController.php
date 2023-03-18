@@ -17,6 +17,14 @@ class AdminController extends BaseController
                 'admin_name' => array('name' => 'admin_name', 'require' => true, 'min' => 1, 'max' => 50, 'desc' => '账号'),
                 'pwd' => array('name' => 'pwd', 'require' => true, 'min' => 6, 'max' => 20, 'desc' => '密码'),
             ),
+            'addAdmin' => array(
+                'name' => array('name' => 'name', 'require' => true, 'desc' => '名称'),
+                'account' => array('name' => 'account', 'require' => true, 'desc' => '账号'),
+                'pwd' => array('name' => 'pwd', 'require' => true, 'desc' => '密码'),
+            ),
+            'delAdmin' => array(
+                'id' => array('name' => 'id', 'require' => true, 'desc' => 'id'),
+            )
 
         );
     }
@@ -51,10 +59,44 @@ class AdminController extends BaseController
         }
     }
 
+    /**
+     * 获取管理信息
+     */
     public function getInfo()
     {
         $admin = $this->member_arr;
         $res = $this->_getAdminDomain()->getAdminAccount($admin['account']);
+        return $this->api_success($res);
+    }
+
+    /**
+     * 添加管理员
+     */
+    public function addAdmin()
+    {
+        $admin = $this->member_arr;
+        if ($admin['id'] !== 1) {
+            return $this->api_error(1003, '权限不足，请使用超级管理员账户');
+        }
+        $name = $this->name;
+        $account = $this->account;
+        $pwd = $this->pwd;
+        $res = $this->_getAdminDomain()->addAdmin($name, $account, $pwd);
+        return $this->api_success($res);
+    }
+
+    /**
+     * 删除管理员
+     */
+    public function delAdmin()
+    {
+        $admin = $this->member_arr;
+        if ($admin['id'] !== 1) {
+            return $this->api_error(1003, '权限不足，请使用超级管理员账户');
+        }
+        $id = $this->id;
+
+        $res = $this->_getAdminDomain()->delAdmin($id);
         return $this->api_success($res);
     }
 

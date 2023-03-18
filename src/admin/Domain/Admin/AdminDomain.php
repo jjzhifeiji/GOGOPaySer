@@ -36,5 +36,26 @@ class AdminDomain extends BaseDomain
         return $this->_getAdminModel()->getAdminId($id);
     }
 
+    public function addAdmin($name, $account, $pwd)
+    {
+        $data = array(
+            'name' => $name,
+            'account' => $account,
+            'pwd' => $pwd,
+            'type' => 2,
+            'status' => 1,
+            'desc' => ''
+        );
+        return $this->_getAdminModel()->insert($data);
+    }
+
+    public function delAdmin($id)
+    {
+        $data = array(
+            'status' => 0,
+        );
+        return $this->_getAdminModel()->update($id, $data);
+    }
+
 
 }
