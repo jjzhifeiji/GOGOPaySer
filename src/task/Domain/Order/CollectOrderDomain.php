@@ -21,6 +21,7 @@ class CollectOrderDomain extends BaseDomain
             'status' => 1,
             'create_time' => date('Y-m-d H:i:s'),
             'update_time' => date('Y-m-d H:i:s'),
+            'expire_time' => date('Y-m-d H:i:s', strtotime("+15 minute")),
             'business_id' => $platform['id'],
             'business_name' => $platform['name'],
             'free' => $platform['collect_free'],
