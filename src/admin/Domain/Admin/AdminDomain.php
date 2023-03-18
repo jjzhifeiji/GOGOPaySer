@@ -59,7 +59,10 @@ class AdminDomain extends BaseDomain
 
     public function getAdminList($page, $limit)
     {
-        return $this->_getAdminModel()->getAdminList($page, $limit);
+        $file = array(
+            'status' => 1
+        );
+        return $this->_getAdminModel()->getAdminList($file, $page, $limit);
     }
 
 
