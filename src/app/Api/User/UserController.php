@@ -86,7 +86,7 @@ class UserController extends BaseController
             );
             return $this->api_success($res);
         } else {
-            return $this->api_error(5004, $is_login);
+            return $this->api_error(5004, '密码错误');
         }
     }
 
