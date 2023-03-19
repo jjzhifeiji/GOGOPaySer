@@ -13,11 +13,11 @@ class OutOrderController extends BaseController
     {
         return array(
             'getsOutingOrder' => array(
-                'type' => array('name' => 'type', 'require' => true, 'type' => 'int', 'desc' => '订单类型')
+                'type' => array('name' => 'type', 'require' => true, 'type' => 'int', 'desc' => '订单类型   1充值 2代付 3商户提现 4用户提现')
             ),
             'getsOutOrder' => array(
-                'type' => array('name' => 'type', 'desc' => '订单类型'),
-                'status' => array('name' => 'status', 'desc' => '订单状态'),
+                'type' => array('name' => 'type', 'desc' => '订单类型  1充值 2代付 3商户提现 4用户提现'),
+                'status' => array('name' => 'status', 'desc' => '订单状态  1 "待接单"  2  "待付款"  3  "待确认"  4 "已确认"  5  "已超时" 6  "待审核" 7  "审核拒绝"'),
                 'page' => array('name' => 'page', 'default' => '1', 'desc' => '页数'),
                 'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量')
             ),
