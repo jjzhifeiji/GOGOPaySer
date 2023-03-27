@@ -31,7 +31,7 @@ const IMAGE_SOURCE_COLLECT = 'image/collect/';
 const IMAGE_SOURCE_ALI = 'image/ali/';
 const IMAGE_SOURCE_WX = 'image/wx/';
 const CACHE_RESOURCE = 'cache/';
-const HTTP_RESOURCE = 'http://source.victorias-secret.club/';
+const HTTP_RESOURCE = 'http://source.gogopay.top/';
 
 
 // 调试模式
