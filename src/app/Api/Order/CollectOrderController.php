@@ -6,7 +6,7 @@ use App\Common\BaseController;
 use App\Common\ComRedis;
 
 /**
- * 代收订单 2000
+ * 代收订单(卖) 2000
  */
 class CollectOrderController extends BaseController
 {
@@ -44,7 +44,8 @@ class CollectOrderController extends BaseController
     }
 
     /**
-     *
+     * 获取可卖订单列表
+     * @desc 可接单的订单列表，这个订单列表的订单可调用下单接口进行交易
      */
     public function getWaitCollectOrderList()
     {
@@ -54,7 +55,8 @@ class CollectOrderController extends BaseController
     }
 
     /**
-     *
+     * 订单详情
+     * @desc 获取代收(卖)订单详情
      */
     public function getCollectOrder()
     {
@@ -65,7 +67,8 @@ class CollectOrderController extends BaseController
     }
 
     /**
-     *
+     * 下单，抢单
+     * @desc 从可接单的订单列表获取，下单进行交易
      */
     public function takeCollectOrder()
     {
@@ -88,7 +91,8 @@ class CollectOrderController extends BaseController
     }
 
     /**
-     *  获取我的订单
+     * 我的代收(卖)订单列表
+     * @desc获取我的代收(卖)订单列表
      */
     public function getCollectOrderList()
     {
