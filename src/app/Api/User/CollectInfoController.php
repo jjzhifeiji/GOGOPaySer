@@ -14,7 +14,7 @@ class CollectInfoController extends BaseController
     {
         return array(
             'getCollectInfoList' => array(
-                'status' => array('name' => 'status', 'desc' => ''),
+                'type' => array('name' => 'type', 'require' => true, 'desc' => '类型，0、全部 1、银行卡 2、微信 3、支付宝 '),
                 'page' => array('name' => 'page', 'default' => '1', 'desc' => '页数'),
                 'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量')
             ),
@@ -50,7 +50,11 @@ class CollectInfoController extends BaseController
     public function getCollectInfoList()
     {
         $user = $this->member_arr;
-        $res = $this->_getCollectInfoDomain()->getCollectInfoList($user['id']);
+        $type = $this->type;
+        $page = $this->page;
+        $limit = $this->limit;
+
+        $res = $this->_getCollectInfoDomain()->getCollectInfoList($user['id'], $type, $page, $limit);
         return $this->api_success($res);
     }
 

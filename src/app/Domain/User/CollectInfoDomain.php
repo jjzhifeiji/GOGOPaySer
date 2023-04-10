@@ -11,15 +11,18 @@ class CollectInfoDomain extends BaseDomain
 {
 
 
-    public function getCollectInfoList($user_id)
+    public function getCollectInfoList($user_id, $type, $page, $limit)
     {
         $file = array();
 
         if (is_numeric($user_id)) {
             $file['user_id'] = $user_id;
         }
+        if (is_numeric($type) && $type > 0) {
+            $file['type'] = $type;
+        }
 
-        return $this->_getUserCollectInfoModel()->getCollectInfoList($file);
+        return $this->_getUserCollectInfoModel()->getCollectInfoList($file, $page, $limit);
     }
 
 

@@ -21,13 +21,18 @@ class UserCollectInfoModel extends BaseModel
             ->fetchOne();
     }
 
-    public function getCollectInfoList(array $file)
+    public function getCollectInfoList(array $file, $page, $limit)
     {
-        return $this->getORM()->select('*')
-            ->where($file)
-            ->where('status', 1)
-            ->order("id desc")
-            ->fetchAll();
+        $data = $this->getORM()->where($file)->where('status', 1)->order("id desc")->limit($limit * ($page - 1), $limit)->fetchAll();
+        $allnum = $this->getORM()->where($file)->where('status', 1)->count();
+        $res = array(
+            "data" => $data,
+            "total" => $allnum,
+            "page" => $page,
+            "limit" => $limit
+        );
+        return $res;
+
     }
 
     public function delCollectInfo($file, $data)
