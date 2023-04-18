@@ -17,7 +17,9 @@ class BaseController extends Api
     protected function checkRequestMethod()
     {
         $request = \PhalApi\DI()->request->getAll();
-        \PhalApi\DI()->logger->debug('$request', $request);
+        $response = \PhalApi\DI()->response->getAll();
+        \PhalApi\DI()->logger->debug('request', $request);
+        \PhalApi\DI()->logger->debug('response', $response);
         return parent::checkRequestMethod();
     }
 
