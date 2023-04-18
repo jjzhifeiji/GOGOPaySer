@@ -65,8 +65,8 @@ class ApiController extends BaseController
 
         $res = array(
             'order_no' => $res,
-            'show_page' => 'http://120.48.10.211:9002/show_code.html?' . $res
-//            'show_page' => 'http://show.oubao1688.com/show_code.html?' . $res
+//            'show_page' => 'http://120.48.10.211:9002/show_code.html?' . $res
+            'show_page' => HTTP_SHOW . 'show_code.html?' . $res
         );
         return $this->api_success($res);
     }
