@@ -13,7 +13,7 @@ class OutOrderController extends BaseController
     {
         return array(
             'getsOutingOrder' => array(
-                'type' => array('name' => 'type', 'require' => true, 'type' => 'int', 'desc' => '订单类型   1充值 2代付 3商户提现 4用户提现')
+                'type' => array('name' => 'type', 'require' => true, 'type' => 'int', 'default' => 0, 'desc' => '订单类型   1充值 2代付 3商户提现 4用户提现')
             ),
             'getsOutOrder' => array(
                 'type' => array('name' => 'type', 'desc' => '订单类型  1充值 2代付 3商户提现 4用户提现'),

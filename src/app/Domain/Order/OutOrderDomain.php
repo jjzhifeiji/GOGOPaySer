@@ -19,7 +19,6 @@ class OutOrderDomain extends BaseDomain
         }
 
         $file = array(
-            'type' => $type,
             'status' => 1
         );
 
@@ -27,14 +26,20 @@ class OutOrderDomain extends BaseDomain
             //$type	1充值 2代付 3商户提现 4用户提现
             switch ($type) {
                 case 1:
+                    $file['type'] = $type;
                     $file['group_id'] = $uu['group_id'];
                     break;
                 case 2:
+                    $file['type'] = $type;
                     break;
                 case 3:
+                    $file['type'] = $type;
                     break;
                 case 4:
+                    $file['type'] = $type;
                     $file['group_id'] = $uu['group_id'];
+                    break;
+                default:
                     break;
             }
         }
