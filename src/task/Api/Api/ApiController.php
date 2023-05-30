@@ -122,7 +122,7 @@ class ApiController extends BaseController
             return $this->api_error(20004, '金额有误');
         }
 
-        if (!$this->checkPayInfo($pay_type, $number, $name, $organ, $address)) {
+        if (!$this->checkPayInfo($pay_type, $card_no, $name, $organ, $address)) {
             return $this->api_error(20005, '收款信息有误');
         }
 
@@ -143,7 +143,7 @@ class ApiController extends BaseController
         $res = false;
         switch ($pay_type) {
             case 1:
-                if (strlen($number) > 16 && !empty($name) && !empty($organ)) {
+                if (strlen($number) > 12 && !empty($name) && !empty($organ)) {
                     $res = true;
                 } else {
                     DI()->logger->info("收款信息有误" . sizeof($number) . "number" . $number . "name" . $name . " $organ" . $organ);
