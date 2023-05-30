@@ -20,16 +20,18 @@ class ApiController extends BaseController
                 'currency_code' => array('name' => 'currency_code', 'require' => true, 'desc' => '币种简码'),
 //                'type' => array('name' => 'type', 'require' => true, 'desc' => 'type1 代收 2充值 。。。', 'default' => 1),
                 'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
-                'trade_no' => array('name' => 'business_no', 'require' => false, 'desc' => '三方订单号'),
+                'business_no' => array('name' => 'business_no', 'require' => false, 'desc' => '三方订单号'),
                 'callback_url' => array('name' => 'notice_url', 'require' => false, 'desc' => '回调地址'),
                 'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
             ),
             'createPayOrder' => array(
                 'pay_type' => array('name' => 'pay_type', 'require' => true, 'desc' => '支付类型 1、银行卡 2、微信 3、支付宝 4、USDT', 'type' => 'int', 'min' => 1, 'max' => 4, 'default' => 1),
                 'business_no' => array('name' => 'business_no', 'desc' => '商户订单'),
+                'currency_code' => array('name' => 'currency_code', 'require' => true, 'desc' => '币种简码'),
                 'amount' => array('name' => 'amount', 'require' => true, 'desc' => '金额'),
-                'number' => array('name' => 'number', 'require' => true, 'desc' => '号码'),
+                'card_no' => array('name' => 'card_no', 'require' => true, 'desc' => '号码'),
                 'name' => array('name' => 'name', 'require' => true, 'desc' => '名字'),
+                'type' => array('name' => 'type', 'require' => true, 'default' => 1, 'desc' => '付款类型 1、网银 2、快转数 3、TRC20'),
                 'organ' => array('name' => 'organ', 'require' => true, 'desc' => '组织'),
                 'address' => array('name' => 'address', 'require' => true, 'desc' => '地址'),
                 'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
@@ -47,7 +49,7 @@ class ApiController extends BaseController
         $pay_type = $this->pay_type;
         $amount = $this->amount;
         $platform_id = $this->platform_id;
-        $business_no = $this->trade_no;
+        $business_no = $this->business_no;
         $currency_code = $this->currency_code;
         $callback_url = $this->callback_url;
         $sign = $this->sign;
@@ -59,12 +61,16 @@ class ApiController extends BaseController
         if ($amount < 500 || $amount > 100000) {
             return $this->api_error(10002, '金额有误');
         }
+        if ($currency_code != 'CNY') {
+            return $this->api_error(10003, '币种有误');
+        }
         //TODO 验证签名
         $filter = new \PhalApi\Filter\SimpleMD5Filter();
         try {
             $filter->check();
         } catch (\PhalApi\Exception $e) {
-            return $this->api_error(10003, "签名有误");
+            DI()->logger->error("签名有误" . $sign);
+            return $this->api_error(10004, '签名有误');
         }
 
         $res = $this->_getCollectOrderDomain()->createOrder($pay_type, $amount, $platform, $business_no, $callback_url);
@@ -82,8 +88,9 @@ class ApiController extends BaseController
     {
         $pay_type = $this->pay_type;
         $business_no = $this->business_no;
+        $currency_code = $this->currency_code;
         $amount = $this->amount;
-        $number = $this->number;
+        $card_no = $this->card_no;
         $name = $this->name;
         $organ = $this->organ;
         $address = $this->address;
@@ -97,23 +104,32 @@ class ApiController extends BaseController
             return $this->api_error(20001, '商户ID有误');
         }
 
+        //TODO 验证签名
+        $filter = new \PhalApi\Filter\SimpleMD5Filter();
+        try {
+            $filter->check();
+        } catch (\PhalApi\Exception $e) {
+            DI()->logger->error("签名有误" . $sign);
+            return $this->api_error(20002, '签名有误');
+        }
+
         $cost_free = $amount * $platform['out_free'] / 10000;
         if (($amount + $cost_free) > $platform['business_amount']) {
-            return $this->api_error(20002, '金额不足');
+            return $this->api_error(20003, '金额不足');
         }
 
         if ($amount > 10000) {
-            return $this->api_error(20003, '金额有误');
+            return $this->api_error(20004, '金额有误');
         }
 
         if (!$this->checkPayInfo($pay_type, $number, $name, $organ, $address)) {
-            return $this->api_error(20004, '收款信息有误');
+            return $this->api_error(20005, '收款信息有误');
         }
 
-        $r = $this->_getOutOrderDomain()->createOutOrder($pay_type, $amount, $platform, $business_no, $callback_url, $number, $name, $organ, $address);
+        $r = $this->_getOutOrderDomain()->createOutOrder($pay_type, $amount, $platform, $business_no, $callback_url, $card_no, $name, $organ, $address);
 
         if (empty($r['order_no'])) {
-            return $this->api_error(20005, $r);
+            return $this->api_error(20006, $r);
         }
         $res = array(
             'order_no' => $r['order_no']
