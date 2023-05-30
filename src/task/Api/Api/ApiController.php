@@ -61,8 +61,11 @@ class ApiController extends BaseController
         }
         //TODO 验证签名
         $filter = new \PhalApi\Filter\SimpleMD5Filter();
-
-
+        try {
+            $filter->check();
+        } catch (\PhalApi\Exception $e) {
+            return $this->api_error(10003, "签名有误");
+        }
 
         $res = $this->_getCollectOrderDomain()->createOrder($pay_type, $amount, $platform, $business_no, $callback_url);
 
