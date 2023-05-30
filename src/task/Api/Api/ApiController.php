@@ -18,7 +18,7 @@ class ApiController extends BaseController
                 'pay_type' => array('name' => 'pay_type', 'require' => true, 'desc' => '支付类型 1、银行卡 2、微信 3、支付宝 4、USDT', 'type' => 'int', 'min' => 1, 'max' => 4, 'default' => 1),
                 'amount' => array('name' => 'amount', 'require' => true, 'desc' => '金额'),
                 'currency_code' => array('name' => 'currency_code', 'require' => true, 'desc' => '币种简码'),
-                'type' => array('name' => 'type', 'require' => true, 'desc' => 'type', 'default' => 1),
+//                'type' => array('name' => 'type', 'require' => true, 'desc' => 'type1 代收 2充值 。。。', 'default' => 1),
                 'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
                 'trade_no' => array('name' => 'business_no', 'require' => false, 'desc' => '三方订单号'),
                 'callback_url' => array('name' => 'notice_url', 'require' => false, 'desc' => '回调地址'),
@@ -48,10 +48,9 @@ class ApiController extends BaseController
         $amount = $this->amount;
         $platform_id = $this->platform_id;
         $business_no = $this->trade_no;
+        $currency_code = $this->currency_code;
         $callback_url = $this->callback_url;
         $sign = $this->sign;
-        //TODO 验证签名
-
 
         $platform = $this->_getBusinessDomain()->getBusiness($platform_id);
         if (empty($platform)) {
@@ -60,13 +59,17 @@ class ApiController extends BaseController
         if ($amount < 500 || $amount > 100000) {
             return $this->api_error(10002, '金额有误');
         }
+        //TODO 验证签名
+        $filter = new \PhalApi\Filter\SimpleMD5Filter();
+
+
 
         $res = $this->_getCollectOrderDomain()->createOrder($pay_type, $amount, $platform, $business_no, $callback_url);
 
         $res = array(
             'order_no' => $res,
 //            'show_page' => 'http://120.48.10.211:9002/show_code.html?' . $res
-            'show_page' => HTTP_SHOW . 'show_code.html?' . $res
+            'show_page' => HTTP_SHOW . '?' . $res
         );
         return $this->api_success($res);
     }
