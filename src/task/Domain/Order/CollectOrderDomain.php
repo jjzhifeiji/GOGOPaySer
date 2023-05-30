@@ -44,6 +44,9 @@ class CollectOrderDomain extends BaseDomain
     //分配
     private function autoAccept($res)
     {
+        //TODO 获取可用收款信息
+        //TODO 根据人员已售金额排序选取收款信息
+        //TODO 分配
     }
 
     public function getOrder($orderNo)
