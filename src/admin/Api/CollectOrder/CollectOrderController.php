@@ -41,7 +41,7 @@ class CollectOrderController extends BaseController
     {
         $amount = $this->amount;
         $curl = new \PhalApi\CUrl();
-        $url = 'http://120.48.10.211:9002/Api_ApiController.createCollectionOrder?amount=' . $amount . '&sign=2&callback_url=2&platform_id=GP12339876fo';
+        $url = 'http://api.tmpay777.com/Task/Api_ApiController.createCollectionOrder?amount=' . $amount . '&sign=2&callback_url=2&platform_id=GP12339876fo';
         $rs = $curl->get($url, 3000);
 
         $res = json_decode($rs, true);
@@ -53,8 +53,8 @@ class CollectOrderController extends BaseController
     {
         $amount = $this->amount;
         $curl = new \PhalApi\CUrl();
-        $url = 'http://120.48.10.211:9002/Api_ApiController.createPayOrder?amount=' . $amount
-            . '&sign=2&pay_type=1&platform_id=GP12339876fo&number=79122387643388213131&name=xaxx&organ=xaxx&address=7912&callback_url=7912';
+        $url = 'http://api.tmpay777.com/Task/Api_ApiController.createPayOrder?' . $amount
+            . '&sign=2&pay_type=1&platform_id=GP12339876fo&type=1&currency_code=CNY&card_no=79122387643388213131&name=xaxx&organ=xaxx&address=7912&callback_url=7912';
 
         $rs = $curl->get($url, 3000);
 
