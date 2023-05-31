@@ -25,6 +25,12 @@ class BusinessModel extends BaseModel
         return $res;
     }
 
+    public function getsBusinessId($id)
+    {
+        $res = $this->getORM()->where('id', $id)->fetchOne();
+        return $res;
+    }
+
     public function addBusiness($data)
     {
         return $this->getORM()->insert($data);

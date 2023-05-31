@@ -15,6 +15,19 @@ use Admin\Model\Module\FiltrationAPI;
 class BaseDomain
 {
 
+    protected function encryptAppKey($params, $private_key)
+    {
+        ksort($params);
+
+        $paramsStrExceptSign = '';
+        foreach ($params as $val) {
+            $paramsStrExceptSign .= $val;
+        }
+
+        return md5($paramsStrExceptSign . $private_key);
+    }
+
+
     protected $UserModel;
 
     protected function _getUserModel(): UserModel
@@ -73,6 +86,7 @@ class BaseDomain
     {
         return empty($this->BusinessAmountRecordModel) ? new BusinessAmountRecordModel() : $this->BusinessAmountRecordModel;
     }
+
     protected $FiltrationAPI;
 
     protected function _getFiltrationAPI()
