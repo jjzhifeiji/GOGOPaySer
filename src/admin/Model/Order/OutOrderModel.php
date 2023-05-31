@@ -26,6 +26,14 @@ class OutOrderModel extends BaseModel
         return $this->getORM()->where($file)->fetchOne();
     }
 
+    public function getOutOrder($id)
+    {
+        $file = array(
+            'id' => $id
+        );
+        return $this->getORM()->where($file)->fetchOne();
+    }
+
     public function getsOutOrder(array $file, $page, $limit)
     {
         $data = $this->getORM()->where($file)->limit($limit * ($page - 1), $limit)->fetchAll();

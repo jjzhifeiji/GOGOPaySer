@@ -85,6 +85,7 @@ class OutOrderDomain extends BaseDomain
 
         $this->_getOutOrderModel()->confirmOutOrder($file, $data);
 
+        $this->pushOrder($id);
         return null;
 
     }
@@ -151,7 +152,7 @@ class OutOrderDomain extends BaseDomain
 
             $data = array('status' => 7);
 
-        }else{
+        } else {
             $data = array('status' => 1);
 
         }
@@ -174,6 +175,28 @@ class OutOrderDomain extends BaseDomain
         }
 
         return $this->_getOutOrderModel()->getsOutOrder($file, $page, $limit);
+    }
+
+    public function pushOrder($order_id)
+    {
+        $order = $this->_getOutOrderModel()->getOutOrder($order_id);
+        $business = $this->_getBusinessModel()->getsBusinessId($order['business_id']);
+
+        if (empty($order) || empty($order['callback_url']) || empty($business)) {
+            \PhalApi\DI()->logger->debug('回调异常 ->', $order);
+            return;
+        }
+
+        //todo 推送消息
+        $b_status = 0;
+        if (4 == $order['status'])
+            $b_status = 1;
+        $data = array('order_no' => $order['order_no'], 'business_no' => $order['business_no'], 'status' => $b_status, 'amount' => $order['order_amount']);
+
+        $sign = $this->encryptAppKey($data, $business['private_key']);
+        $data['sign'] = $sign;
+        $this->_getFiltrationAPI()->pushUrl($order['callback_url'], $data);
+
     }
 
 }

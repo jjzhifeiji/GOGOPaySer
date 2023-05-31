@@ -193,22 +193,22 @@ class CollectOrderDomain extends BaseDomain
 
 
         //todo 推送消息
-        $business = $this->_getBusinessModel()->getBusiness($order['business_id']);
+        $r_order = $this->_getCollectOrderModel()->getCollectOrder($id);
+        $business = $this->_getBusinessModel()->getBusiness($r_order['business_id']);
 
-        if (empty($order) || empty($order['callback_url']) || empty($business)) {
-            \PhalApi\DI()->logger->debug('回调异常 ->', $order);
+        if (empty($r_order) || empty($r_order['callback_url']) || empty($business)) {
+            \PhalApi\DI()->logger->debug('回调异常 ->', $r_order);
             return null;
         }
 
         $b_status = 0;
-        if (3 == $order['status'])
+        if (3 == $r_order['status'])
             $b_status = 1;
-        $data = array('order_no' => $order['order_no'], 'business_no' => $order['business_no'], 'status' => $b_status, 'amount' => $order['order_amount']);
+        $data = array('order_no' => $r_order['order_no'], 'business_no' => $r_order['business_no'], 'status' => $b_status, 'amount' => $r_order['order_amount']);
 
         $sign = $this->encryptAppKey($data, $business['private_key']);
         $data['sign'] = $sign;
-        $this->_getFiltrationAPI()->pushUrl($order['callback_url'], $data);
-
+        $this->_getFiltrationAPI()->pushUrl($r_order['callback_url'], $data);
 
         return null;
     }

@@ -30,6 +30,9 @@ class OutOrderController extends BaseController
                 'id' => array('name' => 'id', 'require' => true),
                 'status' => array('name' => 'status', 'min' => 0, 'max' => 1, 'require' => true)
             ),
+            'pushOrder' => array(
+                'order_id' => array('name' => 'order_id', 'require' => true)
+            ),
         );
     }
 
@@ -98,5 +101,12 @@ class OutOrderController extends BaseController
         }
     }
 
+    public function pushOrder()
+    {
+        $order_id = $this->order_id;
+        $this->_getOutOrderDomain()->pushOrder($order_id);
+        return $this->api_success();
+
+    }
 
 }
