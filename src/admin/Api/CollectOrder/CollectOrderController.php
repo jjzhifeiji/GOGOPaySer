@@ -23,6 +23,9 @@ class CollectOrderController extends BaseController
                 'page' => array('name' => 'page', 'default' => '1', 'desc' => '页数'),
                 'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量')
             ),
+            'pushOrder' => array(
+                'order_id' => array('name' => 'order_id', 'desc' => '')
+            ),
         );
     }
 
@@ -60,6 +63,14 @@ class CollectOrderController extends BaseController
 
         $res = json_decode($rs, true);
         return $this->api_success();
+    }
+
+    public function pushOrder(){
+
+        $order_id = $this->order_id;
+        $this->_getCollectOrderDomain()->pushOrder($order_id);
+        return $this->api_success();
+
     }
 
 

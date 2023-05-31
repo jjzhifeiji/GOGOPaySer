@@ -23,5 +23,21 @@ class CollectOrderDomain extends BaseDomain
         return $this->_getCollectOrderModel()->getCollectOrderList($file, $page, $limit);
     }
 
+    public function pushOrder($order_id)
+    {
+        $order = $this->_getCollectOrderModel()->getCollectOrder($order_id);
+
+        if (empty($order)) return;
+
+        //todo 推送消息
+        $b_status = 0;
+        if (3 == $order['status'])
+            $b_status = 1;
+        $data = array('order_no' => $order['order_no'], 'business_no' => $order['business_no'], 'status' => $b_status, 'amount' => $order['order_amount']);
+        $this->_getFiltrationAPI()->pushUrl($order['callback_url'], $data);
+
+
+    }
+
 
 }
