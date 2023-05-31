@@ -191,12 +191,24 @@ class CollectOrderDomain extends BaseDomain
         );
         $this->_getUserAmountRecordModel()->addUserLog($logData);
 
+
         //todo 推送消息
+        $business = $this->_getBusinessModel()->getBusiness($order['business_id']);
+
+        if (empty($order) || empty($order['callback_url']) || empty($business)) {
+            \PhalApi\DI()->logger->debug('回调异常 ->', $order);
+            return null;
+        }
+
         $b_status = 0;
         if (3 == $order['status'])
             $b_status = 1;
         $data = array('order_no' => $order['order_no'], 'business_no' => $order['business_no'], 'status' => $b_status, 'amount' => $order['order_amount']);
+
+        $sign = $this->encryptAppKey($data, $business['private_key']);
+        $data['sign'] = $sign;
         $this->_getFiltrationAPI()->pushUrl($order['callback_url'], $data);
+
 
         return null;
     }

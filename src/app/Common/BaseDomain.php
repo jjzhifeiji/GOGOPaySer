@@ -22,6 +22,21 @@ use App\Model\User\UserModel;
 class BaseDomain
 {
 
+    protected function encryptAppKey($params, $private_key)
+    {
+        ksort($params);
+
+        $paramsStrExceptSign = '';
+        foreach ($params as $val) {
+            $paramsStrExceptSign .= $val;
+        }
+        \PhalApi\DI()->logger->debug('推送sign params ->', $params);
+        \PhalApi\DI()->logger->debug('推送sign ->', $paramsStrExceptSign . $private_key);
+        $res = md5($paramsStrExceptSign . $private_key);
+        \PhalApi\DI()->logger->debug('推送sign res->', $res);
+        return $res;
+    }
+
 
     //用户model
     protected $UserModel;
