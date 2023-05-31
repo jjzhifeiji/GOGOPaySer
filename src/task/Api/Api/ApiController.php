@@ -21,7 +21,7 @@ class ApiController extends BaseController
 //                'type' => array('name' => 'type', 'require' => true, 'desc' => 'type1 代收 2充值 。。。', 'default' => 1),
                 'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
                 'business_no' => array('name' => 'business_no', 'require' => false, 'desc' => '三方订单号'),
-                'callback_url' => array('name' => 'notice_url', 'require' => false, 'desc' => '回调地址'),
+                'callback_url' => array('name' => 'callback_url', 'require' => true, 'desc' => '回调地址'),
                 'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
             ),
             'createPayOrder' => array(
