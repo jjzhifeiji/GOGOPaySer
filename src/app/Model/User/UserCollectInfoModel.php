@@ -13,10 +13,11 @@ class UserCollectInfoModel extends BaseModel
         return $this->getORM()->insert($data);
     }
 
-    public function getCode($user_id)
+    public function getCode($user_id, $pay_type)
     {
         return $this->getORM()->select('*')
             ->where('user_id', $user_id)
+            ->where('type', $pay_type)
             ->where('status', 1)
             ->fetchOne();
     }

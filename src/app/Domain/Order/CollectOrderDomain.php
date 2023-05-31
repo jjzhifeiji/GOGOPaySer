@@ -41,7 +41,10 @@ class CollectOrderDomain extends BaseDomain
     public function takeCollectOrder($id, $user)
     {
 
-        $code = $this->_getUserCollectInfoModel()->getCode($user['id']);
+        //查订单
+        $order = $this->_getCollectOrderModel()->getTakeCollectOrder($id);
+
+        $code = $this->_getUserCollectInfoModel()->getCode($user['id'], $order['pay_type']);
         if (empty($code)) {
             return "code error";
         }
@@ -51,9 +54,6 @@ class CollectOrderDomain extends BaseDomain
         if (!$isLock) {
             return "too hot";
         }
-
-        //查订单
-        $order = $this->_getCollectOrderModel()->getTakeCollectOrder($id);
 
         if (empty($order)) {
             ComRedis::unlock($orderLock);
