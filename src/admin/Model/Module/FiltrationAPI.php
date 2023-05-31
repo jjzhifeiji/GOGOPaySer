@@ -41,7 +41,6 @@ class FiltrationAPI extends BaseDomain
      */
     public function pushUrl($url, $data)
     {
-        \PhalApi\DI()->logger->debug('推送 ->', $url);
         $curl = new \PhalApi\CUrl();
         $rs = $curl->post($url, $data, 5000);
         $res = json_decode($rs, true);

@@ -27,7 +27,10 @@ class CollectOrderDomain extends BaseDomain
     {
         $order = $this->_getCollectOrderModel()->getCollectOrder($order_id);
 
-        if (empty($order)) return;
+        if (empty($order)||empty($order['callback_url'])) {
+            \PhalApi\DI()->logger->debug('回调异常 ->', $order);
+            return;
+        }
 
         //todo 推送消息
         $b_status = 0;
