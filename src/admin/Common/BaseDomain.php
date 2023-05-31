@@ -10,6 +10,7 @@ use Admin\Model\Order\OutOrderModel;
 use Admin\Model\User\CollectInfoModel;
 use Admin\Model\User\UserAmountRecordModel;
 use Admin\Model\User\UserModel;
+use Admin\Model\Module\FiltrationAPI;
 
 class BaseDomain
 {
@@ -71,5 +72,11 @@ class BaseDomain
     protected function _getBusinessAmountRecordModel()
     {
         return empty($this->BusinessAmountRecordModel) ? new BusinessAmountRecordModel() : $this->BusinessAmountRecordModel;
+    }
+    protected $FiltrationAPI;
+
+    protected function _getFiltrationAPI()
+    {
+        return empty($this->FiltrationAPI) ? new FiltrationAPI() : $this->FiltrationAPI;
     }
 }
