@@ -192,8 +192,7 @@ class CollectOrderDomain extends BaseDomain
         $this->_getUserAmountRecordModel()->addUserLog($logData);
 
         //todo 推送消息
-        $this->_getFiltrationAPI()->pushUrl($order['callback_url']);
-
+        $this->_getFiltrationAPI()->pushUrl($order['callback_url'], array('order_no' => $order['order_no'], 'business_no' => $order['business_no'], 'amount' => $order['order_amount']));
 
         return null;
     }
