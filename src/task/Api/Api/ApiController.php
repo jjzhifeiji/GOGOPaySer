@@ -141,7 +141,7 @@ class ApiController extends BaseController
         }
 
 
-        $order = $this->_getCollectOrderDomain()->getPlatformOrder($platform_id, $order_no, $business_no);
+        $order = $this->_getCollectOrderDomain()->getPlatformOrder($platform['id'], $order_no, $business_no);
 
         return $this->api_success($order);
 
@@ -239,7 +239,7 @@ class ApiController extends BaseController
 //            return $this->api_error(10001, '来源异常');
         }
 
-        $order = $this->_getOutOrderDomain()->getPlatformOrder($platform_id, $order_no, $business_no);
+        $order = $this->_getOutOrderDomain()->getPlatformOrder($platform['id'], $order_no, $business_no);
         return $this->api_success($order);
 
     }

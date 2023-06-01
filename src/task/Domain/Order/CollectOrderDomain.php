@@ -139,7 +139,7 @@ class CollectOrderDomain extends BaseDomain
 
     public function getPlatformOrder($platform_id, $order_no, $business_no)
     {
-        $file = array('platform_id' => $platform_id);
+        $file = array('business_id' => $platform_id);
 
         if (!empty($order_no)) {
             $file['order_no'] = $order_no;

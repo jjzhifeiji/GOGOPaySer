@@ -97,7 +97,7 @@ class OutOrderDomain extends BaseDomain
     {
 
         $file = array(
-            'platform_id' => $platform_id,
+            'business_id' => $platform_id,
             'type' => 2
         );
 
