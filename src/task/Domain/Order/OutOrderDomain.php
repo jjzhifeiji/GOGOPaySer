@@ -106,12 +106,12 @@ class OutOrderDomain extends BaseDomain
         } else if (!empty($business_no)) {
             $file['business_no'] = $business_no;
         } else {
-            return array();
+            return '订单有误1';
         }
         $order = $this->_getOutOrderModel()->getPlatformOrder($file);
 
         if (empty($order)) {
-            return array();
+            return '订单有误2';
         }
 
 //order_no,business_no,status,pay_type,type,order_amount
