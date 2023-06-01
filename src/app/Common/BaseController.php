@@ -35,7 +35,6 @@ class BaseController extends Api
             $token = \PhalApi\DI()->request->getHeader("Token");
         }
         if (empty($token) && !$isWhiteList) {
-            \PhalApi\DI()->logger->debug('token', $token);
             $this->api_error(502, 'token_null');
         }
         $this->member_arr = $this->getTCache($token);
