@@ -106,12 +106,12 @@ class OutOrderDomain extends BaseDomain
         } else if (!empty($business_no)) {
             $file['business_no'] = $business_no;
         } else {
-            return null;
+            return array();
         }
         $order = $this->_getOutOrderModel()->getPlatformOrder($file);
 
         if (empty($order)) {
-            return null;
+            return array();
         }
 
 //order_no,business_no,status,pay_type,type,order_amount

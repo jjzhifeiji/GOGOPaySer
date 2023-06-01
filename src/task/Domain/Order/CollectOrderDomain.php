@@ -146,12 +146,12 @@ class CollectOrderDomain extends BaseDomain
         } else if (!empty($business_no)) {
             $file['business_no'] = $business_no;
         } else {
-            return null;
+            return  array();
         }
         $order = $this->_getCollectOrderModel()->getPlatformOrder($file);
 
         if (empty($order)) {
-            return null;
+            return array();
         }
 //        order_no,status,pay_type,user_id,create_time,order_amount,code_id,business_no
 //        1待接单2已接单，待收款3已收款，已确认，4已超时，流单
