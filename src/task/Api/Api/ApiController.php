@@ -115,6 +115,9 @@ class ApiController extends BaseController
         $business_no = $this->business_no;
         $sign = $this->sign;
 
+        if (empty($order_no) && empty($business_no))
+            return $this->api_error(10002, '订单号有误');
+
         //TODO 验证签名
         $filter = new \PhalApi\Filter\SimpleMD5Filter();
         try {
@@ -210,6 +213,9 @@ class ApiController extends BaseController
         $business_no = $this->business_no;
         $platform_id = $this->platform_id;
         $sign = $this->sign;
+
+        if (empty($order_no) && empty($business_no))
+            return $this->api_error(10002, '订单号有误');
 
         //TODO 验证签名
         $filter = new \PhalApi\Filter\SimpleMD5Filter();
