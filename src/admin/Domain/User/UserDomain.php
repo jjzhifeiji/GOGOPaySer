@@ -16,9 +16,9 @@ class UserDomain extends BaseDomain
 {
 
     /**
-     * 注册新用户
+     * 注册团队
      */
-    public function register($user_name, $user_account, $collect_free, $out_free)
+    public function registerTop($user_name, $user_account, $collect_free, $out_free)
     {
 
         $is_top = 1;
@@ -34,7 +34,7 @@ class UserDomain extends BaseDomain
         $newUserInfo['pwd'] = $this->encryptPassword('123456');
         $newUserInfo['status'] = 1;
         $newUserInfo['type'] = 1;
-        $newUserInfo['group_id'] = '';
+        $newUserInfo['group_id'] = 0;
         $newUserInfo['group_name'] = '';
         $newUserInfo['group_account'] = '';
         $newUserInfo['account_amount'] = 0;
@@ -54,6 +54,40 @@ class UserDomain extends BaseDomain
 
         return true;
     }
+
+
+    public function register($user_name, $user_account, $group_id)
+    {
+        $is_top = 0;
+
+        $u = $this->_getUserModel()->getUserAccount($user_account);
+        $group = $this->_getUserModel()->getUserAccount($group_id);
+        if (!empty($u)) {
+            return '已存在';
+        }
+        if (empty($group)) {
+            return '团队有误';
+        }
+
+        //注册用户
+        $newUserInfo['user_name'] = $user_name;
+        $newUserInfo['account'] = $user_account;
+        $newUserInfo['pwd'] = $this->encryptPassword('123456');
+        $newUserInfo['status'] = 1;
+        $newUserInfo['type'] = 1;
+        $newUserInfo['group_id'] = $group['id'];
+        $newUserInfo['group_name'] = $group['user_name'];
+        $newUserInfo['group_account'] = $group['account'];
+        $newUserInfo['account_amount'] = 0;
+        $newUserInfo['is_top'] = $is_top;
+        $newUserInfo['collect_free'] = $group['collect_free'];
+        $newUserInfo['out_free'] = $group['out_free'];
+
+        $this->_getUserModel()->addUser($newUserInfo);
+
+        return true;
+    }
+
 
     // 密码加密算法
     private function encryptPassword($password)

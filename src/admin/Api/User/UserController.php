@@ -15,11 +15,16 @@ class UserController extends BaseController
             'getUser' => array(
                 'id' => array('name' => 'id', 'type' => 'int', 'require' => true, 'desc' => '用户ID'),
             ),
-            'addUser' => array(
+            'addTopUser' => array(
                 'user_name' => array('name' => 'user_name', 'require' => true, 'desc' => '名称'),
                 'user_account' => array('name' => 'user_account', 'require' => true, 'desc' => '名称'),
                 'out_free' => array('name' => 'out_free', 'require' => false, 'desc' => '描述'),
                 'collect_free' => array('name' => 'collect_free', 'require' => false, 'desc' => '描述'),
+            ),
+            'addUser' => array(
+                'user_name' => array('name' => 'user_name', 'require' => true, 'desc' => '名称'),
+                'user_account' => array('name' => 'user_account', 'require' => true, 'desc' => '名称'),
+                'group_id' => array('name' => 'group_id', 'require' => false, 'desc' => '描述'),
             ),
             'getUserList' => array(
                 'page' => array('name' => 'page', 'type' => 'int', 'default' => '1', 'desc' => '页数'),
@@ -36,6 +41,8 @@ class UserController extends BaseController
         );
     }
 
+//Request URL: http://ser.gogopay.top/Admin/User_UserController.addTopUser?user_name=123&user_account=123&group_id=&out_free=123&collect_free=123
+//Request URL: http://ser.gogopay.top/Admin/User_UserController.addUser?group_id=4&user_name=qwe&user_account=123
 
     /**
      * 用户信息
@@ -44,16 +51,31 @@ class UserController extends BaseController
     {
         $user_name = $this->user_name;
         $user_account = $this->user_account;
-        $out_free = $this->out_free;
-        $collect_free = $this->collect_free;
+        $group_id = $this->group_id;
 
-        $res = $this->_getUserDomain()->register($user_name, $user_account, $collect_free, $out_free);
+        $res = $this->_getUserDomain()->register($user_name, $user_account, $group_id);
         if ($res == true) {
             return $this->api_success();
         } else {
             return $this->api_error(8001, $res);
         }
     }
+
+    public function addTopUser()
+    {
+        $user_name = $this->user_name;
+        $user_account = $this->user_account;
+        $out_free = $this->out_free;
+        $collect_free = $this->collect_free;
+
+        $res = $this->_getUserDomain()->registerTop($user_name, $user_account, $collect_free, $out_free);
+        if ($res == true) {
+            return $this->api_success();
+        } else {
+            return $this->api_error(8001, $res);
+        }
+    }
+
 
     /**
      * 用户信息
