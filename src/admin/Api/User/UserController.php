@@ -54,7 +54,7 @@ class UserController extends BaseController
         $group_id = $this->group_id;
 
         $res = $this->_getUserDomain()->register($user_name, $user_account, $group_id);
-        if ($res == true) {
+        if ($res == '') {
             return $this->api_success();
         } else {
             return $this->api_error(8001, $res);
@@ -69,7 +69,7 @@ class UserController extends BaseController
         $collect_free = $this->collect_free;
 
         $res = $this->_getUserDomain()->registerTop($user_name, $user_account, $collect_free, $out_free);
-        if ($res == true) {
+        if ($res == '') {
             return $this->api_success();
         } else {
             return $this->api_error(8001, $res);

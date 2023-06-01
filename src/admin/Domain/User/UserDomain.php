@@ -52,7 +52,7 @@ class UserDomain extends BaseDomain
         );
         $this->_getUserModel()->update($uu['id'], $data);
 
-        return true;
+        return '';
     }
 
 
@@ -61,7 +61,7 @@ class UserDomain extends BaseDomain
         $is_top = 0;
 
         $u = $this->_getUserModel()->getUserAccount($user_account);
-        $group = $this->_getUserModel()->getUserAccount($group_id);
+        $group = $this->_getUserModel()->getUserId($group_id);
         if (!empty($u)) {
             return '已存在';
         }
@@ -85,7 +85,7 @@ class UserDomain extends BaseDomain
 
         $this->_getUserModel()->addUser($newUserInfo);
 
-        return true;
+        return '';
     }
 
 
