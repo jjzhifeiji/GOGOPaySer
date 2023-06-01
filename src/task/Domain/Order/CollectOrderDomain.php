@@ -137,5 +137,48 @@ class CollectOrderDomain extends BaseDomain
         return $res;
     }
 
+    public function getPlatformOrder($platform_id, $order_no, $business_no)
+    {
+        $file = array('platform_id' => $platform_id);
+
+        if (!empty($order_no)) {
+            $file['order_no'] = $order_no;
+        } else if (!empty($business_no)) {
+            $file['business_no'] = $business_no;
+        } else {
+            return null;
+        }
+        $order = $this->_getCollectOrderModel()->getPlatformOrder($file);
+
+        if (empty($order)) {
+            return null;
+        }
+//        order_no,status,pay_type,user_id,create_time,order_amount,code_id,business_no
+//        1待接单2已接单，待收款3已收款，已确认，4已超时，流单
+        $status = 0;
+        switch ($order['status']) {
+            case 3:
+                $status = 'SUCCESS';
+                break;
+            case 4:
+                $status = 'FAILED';
+                break;
+            default:
+                $status = 'WAITING';
+                break;
+        }
+        $res = array(
+            'order_no' => $order['order_no'],
+            'order_amount' => $order['order_amount'],
+            'create_time' => $order['create_time'],
+            'business_no' => $order['business_no'],
+            'status' => $status,
+            'currency_code' => 'CNY',
+            'pay_type' => $order['pay_type'],
+        );
+
+        return $res;
+    }
+
 
 }

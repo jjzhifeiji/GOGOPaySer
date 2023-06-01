@@ -93,7 +93,58 @@ class OutOrderDomain extends BaseDomain
         return $data;
     }
 
-    //分配
+    public function getPlatformOrder($platform_id, $order_no, $business_no)
+    {
+
+        $file = array(
+            'platform_id' => $platform_id,
+            'type' => 2
+        );
+
+        if (!empty($order_no)) {
+            $file['order_no'] = $order_no;
+        } else if (!empty($business_no)) {
+            $file['business_no'] = $business_no;
+        } else {
+            return null;
+        }
+        $order = $this->_getOutOrderModel()->getPlatformOrder($file);
+
+        if (empty($order)) {
+            return null;
+        }
+
+//order_no,business_no,status,pay_type,type,order_amount
+//         1 "待接单"  2  "待付款"  3  "待确认"  4 "已确认"  5  "已超时" 6  "待审核" 7  "审核拒绝"
+
+        $status = 'FAILED';
+        switch ($order['status']) {
+            case 4:
+                $status = 'SUCCESS';
+                break;
+            case 5:
+            case 7:
+                $status = 'FAILED';
+                break;
+            default:
+                $status = 'WAITING';
+                break;
+        }
+
+        $res = array(
+            'order_no' => $order['order_no'],
+            'order_amount' => $order['order_amount'],
+            'create_time' => $order['create_time'],
+            'business_no' => $order['business_no'],
+            'status' => $status,
+            'currency_code' => 'CNY',
+            'pay_type' => $order['pay_type'],
+        );
+
+        return $res;
+
+    }
+
     private function autoAccept($res)
     {
     }

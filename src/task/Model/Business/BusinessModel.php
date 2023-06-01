@@ -13,11 +13,11 @@ class BusinessModel extends BaseModel
         return 'business';
     }
 
-    public function getBusiness($platform_id)
+    public function getBusiness($platform_sn)
     {
         return $this->getORM()->select('*')
             ->where('status', 1)
-            ->where('platform_sn', $platform_id)
+            ->where('platform_sn', $platform_sn)
             ->fetchOne();
     }
 

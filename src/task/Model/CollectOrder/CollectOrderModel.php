@@ -42,6 +42,14 @@ class CollectOrderModel extends BaseModel
         return null;
     }
 
+    public function getPlatformOrder(array $file)
+    {
+        return $this->getORM()
+            ->select('order_no,status,pay_type,user_id,create_time,order_amount,code_id,business_no')
+            ->where($file)
+            ->fetchOne();
+    }
+
     protected function getTableName($id)
     {
         return 'collect_order';

@@ -9,9 +9,9 @@ class BusinessDomain extends BaseDomain
 {
 
 
-    public function getBusiness($platform_id)
+    public function getBusiness($platform_sn)
     {
-        return $this->_getBusinessModel()->getBusiness($platform_id);
+        return $this->_getBusinessModel()->getBusiness($platform_sn);
     }
 
 

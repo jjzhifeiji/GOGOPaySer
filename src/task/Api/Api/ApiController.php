@@ -2,6 +2,7 @@
 
 namespace Task\Api\Api;
 
+use http\Params;
 use Task\Common\BaseController;
 use function PhalApi\DI;
 
@@ -24,6 +25,12 @@ class ApiController extends BaseController
                 'callback_url' => array('name' => 'callback_url', 'require' => true, 'desc' => '回调地址'),
                 'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
             ),
+            'getCollectionOrder' => array(
+                'order_no' => array('name' => 'order_no', 'require' => true, 'desc' => '订单号'),
+                'business_no' => array('name' => 'business_no', 'require' => false, 'desc' => '三方订单号'),
+                'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
+                'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
+            ),
             'createPayOrder' => array(
                 'pay_type' => array('name' => 'pay_type', 'require' => true, 'desc' => '支付类型 1、银行卡 2、微信 3、支付宝 4、USDT', 'type' => 'int', 'min' => 1, 'max' => 4, 'default' => 1),
                 'business_no' => array('name' => 'business_no', 'desc' => '商户订单'),
@@ -36,6 +43,12 @@ class ApiController extends BaseController
                 'address' => array('name' => 'address', 'require' => true, 'desc' => '地址'),
                 'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
                 'callback_url' => array('name' => 'callback_url', 'require' => false, 'desc' => '商户ID'),
+                'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
+            ),
+            'getPayOrder' => array(
+                'order_no' => array('name' => 'order_no', 'require' => true, 'desc' => '订单号'),
+                'business_no' => array('name' => 'business_no', 'desc' => '商户订单'),
+                'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
                 'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
             ),
 
@@ -58,12 +71,23 @@ class ApiController extends BaseController
         if (empty($platform)) {
             return $this->api_error(10001, '商户ID有误');
         }
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if ($platform['remote_ip'] !== $ip) {
+            DI()->logger->info("异常 createOrder:" . $ip);
+            DI()->logger->info("异常 createOrder:" . $platform);
+            DI()->logger->info("异常 createOrder:" . $_SERVER);
+//            return $this->api_error(10001, '来源异常');
+        }
+
         if ($amount < 500 || $amount > 100000) {
             return $this->api_error(10002, '金额有误');
         }
+
         if ($currency_code != 'CNY') {
             return $this->api_error(10003, '币种有误');
         }
+
         //TODO 验证签名
         $filter = new \PhalApi\Filter\SimpleMD5Filter();
         try {
@@ -84,6 +108,42 @@ class ApiController extends BaseController
     }
 
 
+    public function getCollectionOrder()
+    {
+        $platform_id = $this->platform_id;
+        $order_no = $this->order_no;
+        $business_no = $this->business_no;
+        $sign = $this->sign;
+
+        //TODO 验证签名
+        $filter = new \PhalApi\Filter\SimpleMD5Filter();
+        try {
+            $filter->check();
+        } catch (\PhalApi\Exception $e) {
+            DI()->logger->error("签名有误" . $sign);
+            return $this->api_error(10004, '签名有误');
+        }
+
+        $platform = $this->_getBusinessDomain()->getBusiness($platform_id);
+        if (empty($platform)) {
+            return $this->api_error(10001, '商户ID有误');
+        }
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if ($platform['remote_ip'] !== $ip) {
+            DI()->logger->info("异常 createOrder:" . $ip);
+            DI()->logger->info("异常 createOrder:" . $platform);
+            DI()->logger->info("异常 createOrder:" . $_SERVER);
+//            return $this->api_error(10001, '来源异常');
+        }
+
+
+        $order = $this->_getCollectOrderDomain()->getPlatformOrder($platform_id, $order_no, $business_no);
+
+        return $this->api_success($order);
+
+    }
+
     public function createPayOrder()
     {
         $pay_type = $this->pay_type;
@@ -102,6 +162,13 @@ class ApiController extends BaseController
         $platform = $this->_getBusinessDomain()->getBusiness($platform_id);
         if (empty($platform)) {
             return $this->api_error(20001, '商户ID有误');
+        }
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if ($platform['remote_ip'] !== $ip) {
+            DI()->logger->info("异常 createOrder:" . $ip);
+            DI()->logger->info("异常 createOrder:" . $platform);
+            DI()->logger->info("异常 createOrder:" . $_SERVER);
+//            return $this->api_error(10001, '来源异常');
         }
 
         //TODO 验证签名
@@ -135,6 +202,40 @@ class ApiController extends BaseController
             'order_no' => $r['order_no']
         );
         return $this->api_success($res);
+    }
+
+    public function getPayOrder()
+    {
+        $order_no = $this->order_no;
+        $business_no = $this->business_no;
+        $platform_id = $this->platform_id;
+        $sign = $this->sign;
+
+        //TODO 验证签名
+        $filter = new \PhalApi\Filter\SimpleMD5Filter();
+        try {
+            $filter->check();
+        } catch (\PhalApi\Exception $e) {
+            DI()->logger->error("签名有误" . $sign);
+            return $this->api_error(10004, '签名有误');
+        }
+
+        $platform = $this->_getBusinessDomain()->getBusiness($platform_id);
+        if (empty($platform)) {
+            return $this->api_error(20001, '商户ID有误');
+        }
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if ($platform['remote_ip'] !== $ip) {
+            DI()->logger->info("异常 createOrder:" . $ip);
+            DI()->logger->info("异常 createOrder:" . $platform);
+            DI()->logger->info("异常 createOrder:" . $_SERVER);
+//            return $this->api_error(10001, '来源异常');
+        }
+
+        $order = $this->_getOutOrderDomain()->getPlatformOrder($platform_id, $order_no, $business_no);
+        return $this->api_success($order);
+
     }
 
     //检查付款账户信息
