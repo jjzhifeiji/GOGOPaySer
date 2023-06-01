@@ -80,7 +80,7 @@ class BaseController extends Api
         \PhalApi\DI()->cache->delete('admin' . $key);
     }
 
-    protected function api_success($data = array()): array
+    protected function api_success($data = '')
     {
         return $data;
     }
