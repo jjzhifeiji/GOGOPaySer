@@ -44,8 +44,9 @@ class FiltrationAPI extends BaseDomain
         $curl = new \PhalApi\CUrl();
         $rs = $curl->post($url, $data, 5000);
         $res = json_decode($rs, true);
-        \PhalApi\DI()->logger->debug('推送 ->', $rs);
-        \PhalApi\DI()->logger->debug('推送 ->', $res);
+        \PhalApi\DI()->logger->debug('推送发送 ->', $data);
+        \PhalApi\DI()->logger->debug('推送返回 ->', $rs);
+        \PhalApi\DI()->logger->debug('推送返回 ->', $res);
     }
 
 

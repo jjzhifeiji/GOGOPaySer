@@ -26,7 +26,7 @@ class ApiController extends BaseController
                 'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
             ),
             'getCollectionOrder' => array(
-                'order_no' => array('name' => 'order_no', 'require' => true, 'desc' => '订单号'),
+                'order_no' => array('name' => 'order_no', 'require' => false, 'desc' => '订单号'),
                 'business_no' => array('name' => 'business_no', 'require' => false, 'desc' => '三方订单号'),
                 'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
                 'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
@@ -46,8 +46,8 @@ class ApiController extends BaseController
                 'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
             ),
             'getPayOrder' => array(
-                'order_no' => array('name' => 'order_no', 'require' => true, 'desc' => '订单号'),
-                'business_no' => array('name' => 'business_no', 'desc' => '商户订单'),
+                'order_no' => array('name' => 'order_no', 'require' => false, 'desc' => '订单号'),
+                'business_no' => array('name' => 'business_no', 'require' => false, 'desc' => '商户订单'),
                 'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
                 'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
             ),
@@ -121,7 +121,7 @@ class ApiController extends BaseController
             $filter->check();
         } catch (\PhalApi\Exception $e) {
             DI()->logger->error("签名有误" . $sign);
-            return $this->api_error(10004, '签名有误');
+//            return $this->api_error(10004, '签名有误');
         }
 
         $platform = $this->_getBusinessDomain()->getBusiness($platform_id);
@@ -217,7 +217,7 @@ class ApiController extends BaseController
             $filter->check();
         } catch (\PhalApi\Exception $e) {
             DI()->logger->error("签名有误" . $sign);
-            return $this->api_error(10004, '签名有误');
+//            return $this->api_error(10004, '签名有误');
         }
 
         $platform = $this->_getBusinessDomain()->getBusiness($platform_id);
