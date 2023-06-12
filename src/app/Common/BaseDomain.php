@@ -11,6 +11,7 @@ namespace App\Common;
 
 use App\Model\Business\BusinessAmountRecordModel;
 use App\Model\Business\BusinessModel;
+use App\Model\Invitation\InvitationModel;
 use App\Model\Module\FiltrationAPI;
 use App\Model\Order\CollectOrderModel;
 use App\Model\Order\OutOrderModel;
@@ -35,6 +36,13 @@ class BaseDomain
         $res = md5($paramsStrExceptSign . $private_key);
         \PhalApi\DI()->logger->debug('推送sign res->', $res);
         return $res;
+    }
+
+    protected function getCode()
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $random_code = substr(str_shuffle($characters), 0, 6);
+        return $random_code;
     }
 
 
@@ -103,6 +111,13 @@ class BaseDomain
     protected function _getUserCollectInfoModel()
     {
         return empty($this->UserCollectInfoModel) ? new UserCollectInfoModel() : $this->UserCollectInfoModel;
+    }
+
+    protected $InvitationModel;
+
+    protected function _getInvitationModel()
+    {
+        return empty($this->InvitationModel) ? new InvitationModel() : $this->InvitationModel;
     }
 
 

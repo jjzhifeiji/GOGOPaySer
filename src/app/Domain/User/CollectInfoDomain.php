@@ -108,5 +108,67 @@ class CollectInfoDomain extends BaseDomain
         return $this->_getUserCollectInfoModel()->getCollectInfo($file);
     }
 
+    public function getMyInvitation($user, $id)
+    {
+
+        $file = array(
+            'id' => $id,
+            'user_id' => $user['id'],
+            'status' => 1
+        );
+
+        $res = $this->_getInvitationModel()->getMyInvitation($file);
+        return $res;
+
+    }
+
+    public function getMyInvitationList($user)
+    {
+        $file = array(
+            'user_id' => $user['id'],
+            'status' => 1
+        );
+        return $this->_getInvitationModel()->getMyInvitationList($file);
+    }
+
+    public function setMyInvitation($user, $blank_min_val, $blank_max_val, $wx_min_val, $wx_max_val, $ali_min_val, $ali_max_val)
+    {
+
+        $data = array(
+            'code' => $this->getCode(),
+            'user_id' => $user['id'],
+            'user_name' => $user['user_name'],
+            'create_time' => date('Y-m-d H:i:s'),
+            'invitation_num' => 1,
+            'end_time' => date('Y-m-d H:i:s', time() + (24 * 60 * 60)),
+            'type' => 1,
+            'status' => 1,
+            'blank_min_val' => $blank_min_val,
+            'blank_max_val' => $blank_max_val,
+            'wx_min_val' => $wx_min_val,
+            'wx_max_val' => $wx_max_val,
+            'ali_min_val' => $ali_min_val,
+            'ali_max_val' => $ali_max_val
+        );
+
+        $this->_getInvitationModel()->setMyInvitation($data);
+
+        return true;
+    }
+
+
+    public function delMyInvitation($user, $id)
+    {
+
+        $file = array(
+            'id' => $id,
+            'user_id' => $user['id'],
+        );
+
+        $this->_getInvitationModel()->delMyInvitation($file);
+
+        return true;
+    }
+
 
 }

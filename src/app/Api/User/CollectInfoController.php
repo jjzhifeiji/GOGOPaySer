@@ -39,6 +39,20 @@ class CollectInfoController extends BaseController
                     'desc' => '待上传的图片文件',
                 )
             ),
+            'getMyInvitation' => array(
+                'id' => array('name' => 'id', 'require' => true, 'desc' => '邀请码ID'),
+            ),
+            'setMyInvitation' => array(
+                'bank_min_val' => array('name' => 'bank_min_val', 'require' => true, 'desc' => 'min bank'),
+                'bank_max_val' => array('name' => 'bank_max_val', 'require' => true, 'desc' => 'max bank'),
+                'wx_min_val' => array('name' => 'wx_min_val', 'require' => true, 'desc' => '微信额度'),
+                'wx_max_val' => array('name' => 'wx_max_val', 'require' => true, 'desc' => '微信额度'),
+                'ali_min_val' => array('name' => 'ali_min_val', 'require' => true, 'desc' => '支付宝额度'),
+                'ali_max_val' => array('name' => 'ali_max_val', 'require' => true, 'desc' => '支付宝额度'),
+            ),
+            'delMyInvitation' => array(
+                'id' => array('name' => 'id', 'require' => true, 'desc' => '邀请码ID'),
+            ),
 
         );
     }
@@ -106,7 +120,7 @@ class CollectInfoController extends BaseController
         } else {
             \PhalApi\DI()->logger->info('tmpName', $tmpName);
             \PhalApi\DI()->logger->info('path', $path);
-            return $this->api_error("4002", "上传失败");
+            return $this->api_error(4002, "上传失败");
         }
 
 
@@ -141,6 +155,69 @@ class CollectInfoController extends BaseController
         $res = $this->_getCollectInfoDomain()->getCollectInfo($user, $id);
         return $this->api_success($res);
 
+    }
+
+    /**
+     * 获取我的邀请费率详情
+     * @desc 获取我的邀请费率详情
+     */
+    public function getMyInvitation()
+    {
+        $user = $this->member_arr;
+        $id = $this->id;
+        $res = $this->_getCollectInfoDomain()->getMyInvitation($user, $id);
+        return $this->api_success($res);
+    }
+
+    /**
+     * 获取我的邀请费率列表
+     * @desc 获取我的邀请费率列表
+     */
+    public function getMyInvitationList()
+    {
+        $user = $this->member_arr;
+        $res = $this->_getCollectInfoDomain()->getMyInvitationList($user);
+        return $this->api_success($res);
+    }
+
+    /**
+     * 添加邀请费率
+     * @desc 添加邀请费率
+     */
+    public function setMyInvitation()
+    {
+        $user = $this->member_arr;
+
+        $blank_min_val = $this->blank_min_val;
+        $blank_max_val = $this->blank_max_val;
+        $wx_min_val = $this->wx_min_val;
+        $wx_max_val = $this->wx_max_val;
+        $ali_min_val = $this->ali_min_val;
+        $ali_max_val = $this->ali_max_val;
+
+        $res = $this->_getCollectInfoDomain()->setMyInvitation($user, $blank_min_val, $blank_max_val, $wx_min_val, $wx_max_val, $ali_min_val, $ali_max_val);
+        if ($res == true) {
+            return $this->api_success();
+        } else {
+            return $this->api_error(4004, $res);
+        }
+    }
+
+    /**
+     * 添加邀请费率
+     * @desc 添加邀请费率
+     */
+    public function delMyInvitation()
+    {
+        $user = $this->member_arr;
+        $id = $this->id;
+
+        $res = $this->_getCollectInfoDomain()->delMyInvitation($user, $id);
+        if ($res == true) {
+            return $this->api_success();
+        } else {
+            return $this->api_error(4005, $res);
+        }
     }
 
 }
