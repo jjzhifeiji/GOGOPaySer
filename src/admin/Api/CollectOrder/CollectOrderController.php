@@ -5,7 +5,7 @@ namespace Admin\Api\CollectOrder;
 use Admin\Common\BaseController;
 
 /**
- *
+ * 收款数据3000
  */
 class CollectOrderController extends BaseController
 {

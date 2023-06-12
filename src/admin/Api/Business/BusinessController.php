@@ -5,7 +5,7 @@ namespace Admin\Api\Business;
 use Admin\Common\BaseController;
 
 /**
- *
+ * 商户数据2000
  */
 class BusinessController extends BaseController
 {

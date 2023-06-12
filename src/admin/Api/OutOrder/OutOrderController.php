@@ -5,7 +5,7 @@ namespace Admin\Api\OutOrder;
 use Admin\Common\BaseController;
 
 /**
- * admin数据1000
+ * 出款数据5000
  */
 class OutOrderController extends BaseController
 {

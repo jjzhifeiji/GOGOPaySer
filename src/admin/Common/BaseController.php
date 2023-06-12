@@ -4,6 +4,7 @@ namespace Admin\Common;
 
 use Admin\Domain\Admin\AdminDomain;
 use Admin\Domain\Business\BusinessDomain;
+use Admin\Domain\Common\CommonDomain;
 use Admin\Domain\Order\CollectOrderDomain;
 use Admin\Domain\Order\OutOrderDomain;
 use Admin\Domain\User\CollectInfoDomain;
@@ -143,6 +144,13 @@ class BaseController extends Api
     protected function _getCollectInfoDomain(): CollectInfoDomain
     {
         return empty($this->CollectInfoDomain) ? new CollectInfoDomain() : $this->CollectInfoDomain;
+    }
+
+    protected $CommonDomain;
+
+    protected function _getCommonDomain(): CommonDomain
+    {
+        return empty($this->CommonDomain) ? new CommonDomain() : $this->CommonDomain;
     }
 
 
