@@ -118,7 +118,7 @@ class CollectInfoDomain extends BaseDomain
         );
 
         $res = $this->_getInvitationModel()->getMyInvitation($file);
-        return $res;
+        return empty($res) ? array() : $res;
 
     }
 
