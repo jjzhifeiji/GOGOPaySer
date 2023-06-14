@@ -131,7 +131,7 @@ class CollectInfoDomain extends BaseDomain
         return $this->_getInvitationModel()->getMyInvitationList($file);
     }
 
-    public function setMyInvitation($user, $blank_min_val, $blank_max_val, $wx_min_val, $wx_max_val, $ali_min_val, $ali_max_val)
+    public function setMyInvitation($user, $bank_min_val, $bank_max_val, $wx_min_val, $wx_max_val, $ali_min_val, $ali_max_val)
     {
 
         $data = array(
@@ -143,8 +143,8 @@ class CollectInfoDomain extends BaseDomain
             'end_time' => date('Y-m-d H:i:s', time() + (24 * 60 * 60)),
             'type' => 1,
             'status' => 1,
-            'blank_min_val' => $blank_min_val,
-            'blank_max_val' => $blank_max_val,
+            'bank_min_val' => $bank_min_val,
+            'bank_max_val' => $bank_max_val,
             'wx_min_val' => $wx_min_val,
             'wx_max_val' => $wx_max_val,
             'ali_min_val' => $ali_min_val,

@@ -188,14 +188,14 @@ class CollectInfoController extends BaseController
     {
         $user = $this->member_arr;
 
-        $blank_min_val = $this->blank_min_val;
-        $blank_max_val = $this->blank_max_val;
+        $bank_min_val = $this->blank_min_val;
+        $bank_max_val = $this->blank_max_val;
         $wx_min_val = $this->wx_min_val;
         $wx_max_val = $this->wx_max_val;
         $ali_min_val = $this->ali_min_val;
         $ali_max_val = $this->ali_max_val;
 
-        $res = $this->_getCollectInfoDomain()->setMyInvitation($user, $blank_min_val, $blank_max_val, $wx_min_val, $wx_max_val, $ali_min_val, $ali_max_val);
+        $res = $this->_getCollectInfoDomain()->setMyInvitation($user, $bank_min_val, $bank_max_val, $wx_min_val, $wx_max_val, $ali_min_val, $ali_max_val);
         if ($res == true) {
             return $this->api_success();
         } else {
