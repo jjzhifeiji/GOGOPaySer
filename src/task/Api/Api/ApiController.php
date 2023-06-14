@@ -80,7 +80,7 @@ class ApiController extends BaseController
 //            return $this->api_error(10001, '来源异常');
         }
 
-        if ($amount < 500 || $amount > 100000) {
+        if ($amount < 100 || $amount > 5000) {
             return $this->api_error(10002, '金额有误');
         }
 
