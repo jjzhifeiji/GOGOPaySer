@@ -188,8 +188,8 @@ class CollectInfoController extends BaseController
     {
         $user = $this->member_arr;
 
-        $bank_min_val = $this->blank_min_val;
-        $bank_max_val = $this->blank_max_val;
+        $bank_min_val = $this->bank_min_val;
+        $bank_max_val = $this->bank_max_val;
         $wx_min_val = $this->wx_min_val;
         $wx_max_val = $this->wx_max_val;
         $ali_min_val = $this->ali_min_val;
