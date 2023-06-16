@@ -101,14 +101,16 @@ class OutOrderDomain extends BaseDomain
         $data = array(
             'status' => 3
         );
-        $this->_getOutOrderModel()->upOutOrder($file, $data);
-
+        $order = $this->_getOutOrderModel()->upOutOrder($file, $data);
+        if (empty($order)) {
+            return "订单有误";
+        }
         //todo 推送消息
         $business = $this->_getBusinessModel()->getBusiness($order['business_id']);
 
         if (empty($order) || empty($order['callback_url']) || empty($business)) {
             \PhalApi\DI()->logger->debug('回调异常 ->', $order);
-            return null;
+            return "回调异常";
         }
 
         $b_status = 0;

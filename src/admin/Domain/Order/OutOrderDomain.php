@@ -183,7 +183,7 @@ class OutOrderDomain extends BaseDomain
         $business = $this->_getBusinessModel()->getsBusinessId($order['business_id']);
 
         if (empty($order) || empty($order['callback_url']) || empty($business)) {
-            \PhalApi\DI()->logger->debug('回调异常 ->', $order);
+            \PhalApi\DI()->logger->debug('代收回调异常 ->', $order);
             return;
         }
 
