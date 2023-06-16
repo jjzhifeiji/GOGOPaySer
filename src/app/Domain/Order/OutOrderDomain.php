@@ -71,10 +71,21 @@ class OutOrderDomain extends BaseDomain
         if (empty($uu)) {
             return "用户有误";
         }
+
+        $outOrder = $this->_getOutOrderModel()->getOutOrder($id);
+        if (empty($outOrder)) {
+            return "订单有误";
+        }
+        if ($outOrder['status'] != 1) {
+            return "订单状态有误";
+        }
+
+        if ($outOrder['type'] != 2 && $uu['group_id'] != $outOrder['group_id']) {
+            return "订单用户有误";
+        }
         $file = array(
             'id' => $id,
-            'status' => 1,
-            'group_id' => $uu['group_id']
+            'status' => 1
         );
         $data = array(
             'status' => 2,
@@ -86,7 +97,8 @@ class OutOrderDomain extends BaseDomain
         return "";
     }
 
-    public function readyOutOrder($user_id, $id)
+    public
+    function readyOutOrder($user_id, $id)
     {
         $uu = $this->_getUserModel()->getInfo($user_id);
         if (empty($uu)) {
@@ -125,12 +137,14 @@ class OutOrderDomain extends BaseDomain
         return "";
     }
 
-    public function getOutOrder($user_id, $id)
+    public
+    function getOutOrder($user_id, $id)
     {
         return $this->_getOutOrderModel()->getOutOrder($id);
     }
 
-    public function withdrawal($id, $amount)
+    public
+    function withdrawal($id, $amount)
     {
         $data = array('id' => $id);
         $user = $this->_getUserModel()->getInfo($data);
@@ -190,7 +204,8 @@ class OutOrderDomain extends BaseDomain
 
     }
 
-    public function getWithdrawal($user_id, $page, $limit)
+    public
+    function getWithdrawal($user_id, $page, $limit)
     {
         $file = array(
             'business_id' => $user_id,
