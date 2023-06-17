@@ -97,8 +97,7 @@ class OutOrderDomain extends BaseDomain
         return "";
     }
 
-    public
-    function readyOutOrder($user_id, $id)
+    public function readyOutOrder($user_id, $id)
     {
         $uu = $this->_getUserModel()->getInfo($user_id);
         if (empty($uu)) {
@@ -107,8 +106,7 @@ class OutOrderDomain extends BaseDomain
         $file = array(
             'id' => $id,
             'status' => 2,
-            'user_id' => $uu['id'],
-            'group_id' => $uu['group_id']
+            'user_id' => $uu['id']
         );
         $data = array(
             'status' => 3
