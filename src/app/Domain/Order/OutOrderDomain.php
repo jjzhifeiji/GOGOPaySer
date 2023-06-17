@@ -111,10 +111,17 @@ class OutOrderDomain extends BaseDomain
         $data = array(
             'status' => 3
         );
-        $order = $this->_getOutOrderModel()->upOutOrder($file, $data);
-        if (empty($order)) {
+        $this->_getOutOrderModel()->upOutOrder($file, $data);
+
+        $order = $this->_getOutOrderModel()->getOutOrder($id);
+
+        if (empty($order) || $order['status'] != 3) {
             return "订单有误";
         }
+
+        //todo 佣金
+
+
         //todo 推送消息
         $business = $this->_getBusinessModel()->getBusiness($order['business_id']);
 
@@ -141,8 +148,7 @@ class OutOrderDomain extends BaseDomain
         return $this->_getOutOrderModel()->getOutOrder($id);
     }
 
-    public
-    function withdrawal($id, $amount)
+    public function withdrawal($id, $amount)
     {
         $data = array('id' => $id);
         $user = $this->_getUserModel()->getInfo($data);
