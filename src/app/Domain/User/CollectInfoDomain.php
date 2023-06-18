@@ -170,5 +170,32 @@ class CollectInfoDomain extends BaseDomain
         return true;
     }
 
+    public function setCollectInfoStatus($id, $user_id, $status)
+    {
+
+        $file = array(
+            'id' => $id,
+            'user_id' => $user_id
+        );
+        $collectInfo = $this->_getUserCollectInfoModel()->getCollectInfo($file);
+        if (empty($collectInfo)) {
+            return "无效信息";
+        }
+
+        $data = array();
+
+        if ($status == 1) {
+            $this->_getUserCollectInfoModel()->upCollectInfo(array('user_id' => $user_id, 'type' => $collectInfo['type'], 'status' => 1), array('status' => 2));
+            $data['status'] = 1;
+        } else if ($status == 2) {
+            $data['status'] = 2;
+        } else {
+            return "无效操作";
+        }
+
+        $this->_getUserCollectInfoModel()->upCollectInfo($file, $data);
+        return "";
+    }
+
 
 }

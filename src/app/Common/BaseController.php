@@ -117,7 +117,7 @@ class BaseController extends Api
      */
     protected function api_error($code, $msg = '')
     {
-        throw new RequestException($msg, $code);
+        return throw new RequestException($msg, $code);
     }
 
 

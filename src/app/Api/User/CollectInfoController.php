@@ -23,6 +23,10 @@ class CollectInfoController extends BaseController
                 'amount' => array('name' => 'amount', 'require' => true, 'default' => 0, 'desc' => '金额'),
                 'pay_info' => array('name' => 'pay_info', 'require' => true, 'desc' => '收款信息'),
             ),
+            'setCollectInfoStatus' => array(
+                'id' => array('name' => 'id', 'require' => true, 'desc' => '收款信息ID'),
+                'status' => array('name' => 'status', 'require' => true, 'desc' => '状态 1开启 2关闭'),
+            ),
             'delCollectInfo' => array(
                 'id' => array('name' => 'id', 'require' => true, 'desc' => '收款信息ID'),
             ),
@@ -55,6 +59,24 @@ class CollectInfoController extends BaseController
             ),
 
         );
+    }
+
+    /**
+     *  设置收款信息
+     * @desc 设置收款信息
+     */
+    public function setCollectInfoStatus()
+    {
+        $user = $this->member_arr;
+        $id = $this->id;
+        $status = $this->status;
+
+        $res = $this->_getCollectInfoDomain()->setCollectInfoStatus($id, $user['id'], $status);
+        if (empty($res)) {
+            return $this->api_success($res);
+        } else {
+            return $this->api_error(4001, $res);
+        }
     }
 
     /**

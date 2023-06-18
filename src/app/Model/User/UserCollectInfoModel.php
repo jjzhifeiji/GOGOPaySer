@@ -36,6 +36,10 @@ class UserCollectInfoModel extends BaseModel
 
     }
 
+    public function upCollectInfo($file, $data)
+    {
+        $this->getORM()->where($file)->update($data);
+    }
     public function delCollectInfo($file, $data)
     {
         $this->getORM()->where($file)->update($data);
