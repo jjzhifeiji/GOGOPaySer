@@ -18,6 +18,9 @@ class CollectOrderController extends BaseController
             'testCollectOrder' => array(
                 'amount' => array('name' => 'amount', 'desc' => ''),
             ),
+            'getCollectOrder' => array(
+                'id' => array('name' => 'id', 'require' => true, 'desc' => '账号'),
+            ),
             'getsCollectOrder' => array(
                 'status' => array('name' => 'status', 'desc' => ''),
                 'page' => array('name' => 'page', 'default' => '1', 'desc' => '页数'),
@@ -29,6 +32,12 @@ class CollectOrderController extends BaseController
         );
     }
 
+    public function getCollectOrder()
+    {
+        $id = $this->id;
+        $res = $this->_getCollectOrderDomain()->getCollectOrder($id);
+        return $this->api_success($res);
+    }
 
     public function getsCollectOrder()
     {
@@ -65,7 +74,8 @@ class CollectOrderController extends BaseController
         return $this->api_success();
     }
 
-    public function pushOrder(){
+    public function pushOrder()
+    {
 
         $order_id = $this->order_id;
         $this->_getCollectOrderDomain()->pushOrder($order_id);

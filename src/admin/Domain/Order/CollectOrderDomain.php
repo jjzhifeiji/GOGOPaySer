@@ -12,6 +12,18 @@ class CollectOrderDomain extends BaseDomain
 {
 
 
+    public function getCollectOrder($id)
+    {
+        $order = $this->_getCollectOrderModel()->getCollectOrder($id);
+
+        if ($order['code_id'] > 0) {
+            $pay_info = $this->_getCollectInfoModel()->getCollectInfo($order['code_id']);
+            $order['pay_info'] = $pay_info['pay_info'];
+        }
+
+        return $order;
+    }
+
     public function getCollectOrderList($status, $page, $limit)
     {
         $file = array();
