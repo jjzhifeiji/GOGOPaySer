@@ -102,7 +102,8 @@ class ApiController extends BaseController
         $res = array(
             'order_no' => $res,
 //            'show_page' => 'http://120.48.10.211:9002/show_code.html?' . $res
-            'show_page' => HTTP_SHOW . '?' . $res
+//            http://show.tmpay777.com/#/render?i202306181246439181
+            'show_page' => HTTP_SHOW . '/#/render?' . $res
         );
         return $this->api_success($res);
     }
