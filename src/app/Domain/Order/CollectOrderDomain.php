@@ -46,7 +46,7 @@ class CollectOrderDomain extends BaseDomain
 
         $code = $this->_getUserCollectInfoModel()->getCode($user['id'], $order['pay_type']);
         if (empty($code)) {
-            return "code error";
+            return "请检查收款信息";
         }
 
         $orderLock = 'collect' . $id;
