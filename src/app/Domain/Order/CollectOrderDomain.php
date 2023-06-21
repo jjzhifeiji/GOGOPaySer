@@ -167,11 +167,11 @@ class CollectOrderDomain extends BaseDomain
         //todo 用户金额
         //佣金
 
-        if ($order['type'] == 1) {
+        if ($order['pay_type'] == 1) {
             $collect_free = $user['bank_collect_val'];
-        } else if ($order['type'] == 2) {
+        } else if ($order['pay_type'] == 2) {
             $collect_free = $user['wx_collect_val'];
-        } else if ($order['type'] == 3) {
+        } else if ($order['pay_type'] == 3) {
             $collect_free = $user['ali_collect_val'];
         } else {
             $collect_free = 0;
@@ -197,7 +197,7 @@ class CollectOrderDomain extends BaseDomain
             'business_id' => $order['business_id'],
             'order_id' => $order['id'],
             'order_no' => $order['order_no'],
-            'remark' => '佣金',
+            'remark' => '收款佣金',
         );
         $this->_getUserAmountRecordModel()->addUserLog($logData);
 

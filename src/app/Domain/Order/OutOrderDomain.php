@@ -120,6 +120,39 @@ class OutOrderDomain extends BaseDomain
         }
 
         //todo 佣金
+        if ($order['pay_type'] == 1) {
+            $collect_free = $uu['bank_out_val'];
+        } else if ($order['pay_type'] == 2) {
+            $collect_free = $uu['wx_out_val'];
+        } else if ($order['pay_type'] == 3) {
+            $collect_free = $uu['ali_out_val'];
+        } else {
+            $collect_free = 0;
+        }
+
+        $userChangAmount = $order['order_amount'] * $collect_free / 10000;
+        $res = $this->_getUserModel()->changeUserAmount($uu['id'], $userChangAmount, true);
+
+        if (empty($res)) {
+            \PhalApi\DI()->logger->error('代付返佣失败', $uu);
+            \PhalApi\DI()->logger->error('代付返佣失败', $order);
+            return "返佣失败";
+        }
+
+        //用户金额log
+        $logData = array(
+            'user_id' => $uu['id'],
+            'create_time' => date('Y-m-d H:i:s'),
+            'before_amount' => $res['beforeAmount'],
+            'change_amount' => $res['changAmount'],
+            'result_amount' => $res['afterAmount'],
+            'type' => 2,
+            'business_id' => $order['business_id'],
+            'order_id' => $order['id'],
+            'order_no' => $order['order_no'],
+            'remark' => '代付佣金',
+        );
+        $this->_getUserAmountRecordModel()->addUserLog($logData);
 
 
         //todo 推送消息
