@@ -103,8 +103,8 @@ class CollectOrderDomain extends BaseDomain
 
             //订单五分钟超时
             if ($etime > 60 * 5) {
-                DI()->logger->info("超时订单->" . sizeof($order));
-                $this->backOrder($order);
+                $r = $this->backOrder($order);
+                DI()->logger->info($r . ":超时订单->" . sizeof($order));
             }
         }
 
@@ -143,7 +143,7 @@ class CollectOrderDomain extends BaseDomain
         $this->_getUserAmountRecordModel()->addUserLog($logData);
 
 
-        return $res;
+        return "成功";
     }
 
     public function getPlatformOrder($platform_id, $order_no, $business_no)
