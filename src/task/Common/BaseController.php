@@ -11,7 +11,7 @@ use PhalApi\Api;
 class BaseController extends Api
 {
 
-    protected function api_success($data)
+    protected function api_success($data = '')
     {
         return $data;
     }
