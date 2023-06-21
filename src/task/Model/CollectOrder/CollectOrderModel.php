@@ -19,7 +19,7 @@ class CollectOrderModel extends BaseModel
     public function getCheckOrder()
     {
         return $this->getORM()
-            ->where('type', 2)
+            ->where('status', 2)
             ->fetchAll();
     }
 
