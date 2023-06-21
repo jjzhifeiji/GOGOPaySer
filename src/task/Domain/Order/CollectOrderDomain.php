@@ -94,12 +94,16 @@ class CollectOrderDomain extends BaseDomain
     public function checkOrder()
     {
         $res = $this->_getCollectOrderModel()->getCheckOrder();
-        DI()->logger->info("超时订单->" . sizeof($res));
+        DI()->logger->info("进行中订单->" . sizeof($res));
+
         foreach ($res as $order) {
             $ptime = strtotime($order['create_time']);
             $etime = time() - $ptime;
+            DI()->logger->info("结束时间->" . $etime);
+
             //订单五分钟超时
-            if ($etime < 60 * 5) {
+            if ($etime > 60 * 5) {
+                DI()->logger->info("超时订单->" . sizeof($order));
                 $this->backOrder($order);
             }
         }
