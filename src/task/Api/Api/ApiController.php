@@ -184,7 +184,16 @@ class ApiController extends BaseController
             return $this->api_error(20002, '签名有误');
         }
 
-        $cost_free = $amount * $platform['out_free'] / 10000;
+        if ($pay_type == 1) {
+            $out_free = $platform['bank_out_free'];
+        } else if ($pay_type == 2) {
+            $out_free = $platform['wx_out_free'];
+        } else if ($pay_type == 3) {
+            $out_free = $platform['ali_out_free'];
+        } else {
+            $out_free = 100;
+        }
+        $cost_free = $amount * $out_free / 10000;
         if (($amount + $cost_free) > $platform['business_amount']) {
             return $this->api_error(20003, '金额不足');
         }

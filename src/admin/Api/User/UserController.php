@@ -17,14 +17,24 @@ class UserController extends BaseController
             ),
             'addTopUser' => array(
                 'user_name' => array('name' => 'user_name', 'require' => true, 'desc' => '名称'),
-                'user_account' => array('name' => 'user_account', 'require' => true, 'desc' => '名称'),
-                'out_free' => array('name' => 'out_free', 'require' => false, 'desc' => '描述'),
-                'collect_free' => array('name' => 'collect_free', 'require' => false, 'desc' => '描述'),
+                'user_account' => array('name' => 'user_account', 'require' => true, 'desc' => '账号'),
+                'bank_collect_val' => array('name' => 'bank_collect_val', 'require' => true, 'desc' => '银行卡收款'),
+                'wx_collect_val' => array('name' => 'wx_collect_val', 'require' => true, 'desc' => '微信收款'),
+                'ali_collect_val' => array('name' => 'ali_collect_val', 'require' => true, 'desc' => '支付宝收款'),
+                'bank_out_val' => array('name' => 'bank_out_val', 'require' => true, 'desc' => '银行卡退款'),
+                'wx_out_val' => array('name' => 'wx_out_val', 'require' => true, 'desc' => '微信退款'),
+                'ali_out_val' => array('name' => 'ali_out_val', 'require' => true, 'desc' => '支付宝退款'),
             ),
             'addUser' => array(
                 'user_name' => array('name' => 'user_name', 'require' => true, 'desc' => '名称'),
-                'user_account' => array('name' => 'user_account', 'require' => true, 'desc' => '名称'),
-                'group_id' => array('name' => 'group_id', 'require' => false, 'desc' => '描述'),
+                'user_account' => array('name' => 'user_account', 'require' => true, 'desc' => '账号'),
+                'group_id' => array('name' => 'group_id', 'require' => true, 'desc' => '所属组'),
+                'bank_collect_val' => array('name' => 'bank_collect_val', 'require' => true, 'desc' => '银行卡收款'),
+                'wx_collect_val' => array('name' => 'wx_collect_val', 'require' => true, 'desc' => '微信收款'),
+                'ali_collect_val' => array('name' => 'ali_collect_val', 'require' => true, 'desc' => '支付宝收款'),
+                'bank_out_val' => array('name' => 'bank_out_val', 'require' => true, 'desc' => '银行卡退款'),
+                'wx_out_val' => array('name' => 'wx_out_val', 'require' => true, 'desc' => '微信退款'),
+                'ali_out_val' => array('name' => 'ali_out_val', 'require' => true, 'desc' => '支付宝退款'),
             ),
             'getUserList' => array(
                 'page' => array('name' => 'page', 'type' => 'int', 'default' => '1', 'desc' => '页数'),
@@ -59,7 +69,14 @@ class UserController extends BaseController
         $user_account = $this->user_account;
         $group_id = $this->group_id;
 
-        $res = $this->_getUserDomain()->register($user_name, $user_account, $group_id);
+        $bank_collect_val = $this->bank_collect_val;
+        $wx_collect_val = $this->wx_collect_val;
+        $ali_collect_val = $this->ali_collect_val;
+        $bank_out_val = $this->bank_out_val;
+        $wx_out_val = $this->wx_out_val;
+        $ali_out_val = $this->ali_out_val;
+
+        $res = $this->_getUserDomain()->register($user_name, $user_account, $group_id, $bank_collect_val, $wx_collect_val, $ali_collect_val, $bank_out_val, $wx_out_val, $ali_out_val);
         if ($res == '') {
             return $this->api_success();
         } else {
@@ -71,10 +88,15 @@ class UserController extends BaseController
     {
         $user_name = $this->user_name;
         $user_account = $this->user_account;
-        $out_free = $this->out_free;
-        $collect_free = $this->collect_free;
 
-        $res = $this->_getUserDomain()->registerTop($user_name, $user_account, $collect_free, $out_free);
+        $bank_collect_val = $this->bank_collect_val;
+        $wx_collect_val = $this->wx_collect_val;
+        $ali_collect_val = $this->ali_collect_val;
+        $bank_out_val = $this->bank_out_val;
+        $wx_out_val = $this->wx_out_val;
+        $ali_out_val = $this->ali_out_val;
+
+        $res = $this->_getUserDomain()->registerTop($user_name, $user_account,$bank_collect_val, $wx_collect_val, $ali_collect_val, $bank_out_val, $wx_out_val, $ali_out_val);
         if ($res == '') {
             return $this->api_success();
         } else {

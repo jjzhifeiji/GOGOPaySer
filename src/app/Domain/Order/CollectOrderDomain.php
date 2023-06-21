@@ -167,7 +167,17 @@ class CollectOrderDomain extends BaseDomain
         //todo 用户金额
         //佣金
 
-        $userChangAmount = $order['order_amount'] * $user['collect_free'] / 10000;
+        if ($order['type'] == 1) {
+            $collect_free = $user['bank_collect_val'];
+        } else if ($order['type'] == 2) {
+            $collect_free = $user['wx_collect_val'];
+        } else if ($order['type'] == 3) {
+            $collect_free = $user['ali_collect_val'];
+        } else {
+            $collect_free = 0;
+        }
+
+        $userChangAmount = $order['order_amount'] * $collect_free / 10000;
         $res = $this->_getUserModel()->changeUserAmount($user['id'], $userChangAmount, true);
 
         if (empty($res)) {

@@ -13,7 +13,14 @@ class OutOrderDomain extends BaseDomain
     public function createOutOrder($pay_type, $amount, $platform, $business_no, $callback_url, $number, $name, $organ, $address)
     {
 
-        $cost_free = $amount * $platform['out_free'] / 10000;
+        if ($pay_type == 1) {
+            $out_free = $platform['out_bank_free'];
+        } else if ($pay_type == 2) {
+            $out_free = $platform['out_wx_free'];
+        } else if ($pay_type == 3) {
+            $out_free = $platform['out_ali_free'];
+        }
+        $cost_free = $amount * $out_free / 10000;
 
         $myObj = '';
         $myObj->pay_account = $number;

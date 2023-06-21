@@ -14,6 +14,15 @@ class CollectOrderDomain extends BaseDomain
     public function createOrder($pay_type, $amount, $platform, $business_no, $callback_url)
     {
 
+        if ($pay_type == 1) {
+            $collect_free = $platform['collect_bank_free'];
+        } else if ($pay_type == 2) {
+            $collect_free = $platform['collect_wx_free'];
+        } else if ($pay_type == 3) {
+            $collect_free = $platform['collect_ali_free'];
+        }
+
+
         $data = array(
             'order_no' => 'i' . date('YmdHis') . rand(1000, 9999),
             'type' => 1,
@@ -24,10 +33,10 @@ class CollectOrderDomain extends BaseDomain
             'expire_time' => date('Y-m-d H:i:s', strtotime("+15 minute")),
             'business_id' => $platform['id'],
             'business_name' => $platform['name'],
-            'free' => $platform['collect_free'],
+            'free' => $collect_free,
             'order_amount' => $amount,
-            'cost_free' => $amount * $platform['collect_free'] / 10000,
-            'entry_amount' => $amount * (10000 - $platform['collect_free']) / 10000,
+            'cost_free' => $amount * $collect_free / 10000,
+            'entry_amount' => $amount * (10000 - $collect_free) / 10000,
             'business_no' => $business_no,
             'callback_url' => $callback_url
         );
@@ -90,32 +99,27 @@ class CollectOrderDomain extends BaseDomain
             $etime = time() - $ptime;
             //订单五分钟超时
             if ($etime < 60 * 5) {
-                return $this->backOrder($order);
+                $this->backOrder($order);
             }
         }
+
     }
 
     private function backOrder($order)
     {
 
-        $orderLock = 'collect' . $order['id'];
-        $isLock = ComRedis::lock($orderLock);
-        if (!$isLock) {
-            return "too hot";
-        }
-
         $res = $this->_getCollectOrderModel()->timeOutOrder($order);
-        ComRedis::unlock($orderLock);
 
         if (!empty($res)) {
             return "退款失败";
         }
 
-        //扣款
+        //退款
         $res = $this->_getUserModel()->changeUserAmount($order['user_id'], $order['order_amount'], true);
 
         if (empty($res)) {
-            return "扣款失败";
+            DI()->logger->error("backOrder:" . $order);
+            return "用户退款失败";
         }
 
         //用户金额log

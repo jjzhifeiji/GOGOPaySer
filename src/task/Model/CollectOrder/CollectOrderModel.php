@@ -30,16 +30,9 @@ class CollectOrderModel extends BaseModel
 
     public function timeOutOrder($order)
     {
-        $orderLock = 'collect' . $order['id'];
-        $isLock = ComRedis::lock($orderLock);
-        if (!$isLock) {
-            return "error";
-        }
         $file = array('id' => $order['id'], 'status' => 1);
         $data = array('status' => 4);
-        $this->getORM()->where($file)->update($data);
-        ComRedis::unlock($orderLock);
-        return null;
+        return $this->getORM()->where($file)->update($data);
     }
 
     public function getPlatformOrder(array $file)
