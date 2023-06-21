@@ -112,7 +112,7 @@ class CollectOrderDomain extends BaseDomain
         $res = $this->_getCollectOrderModel()->timeOutOrder($order);
 
         if (!empty($res)) {
-            return "退款失败";
+            return "订单有误";
         }
 
         //退款

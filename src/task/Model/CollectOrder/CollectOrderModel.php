@@ -30,7 +30,7 @@ class CollectOrderModel extends BaseModel
 
     public function timeOutOrder($order)
     {
-        $file = array('id' => $order['id'], 'status' => 1);
+        $file = array('id' => $order['id'], 'status' => 2);
         $data = array('status' => 4);
         return $this->getORM()->where($file)->update($data);
     }
