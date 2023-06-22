@@ -113,10 +113,11 @@ class CollectOrderDomain extends BaseDomain
     private function backOrder($order)
     {
 
-        $res = $this->_getCollectOrderModel()->timeOutOrder($order);
+        $order_res = $this->_getCollectOrderModel()->timeOutOrder($order);
 
-        if (!empty($res)) {
-            return "订单有误" . $res;
+        if (is_numeric($order_res) && $order_res > 0) {
+        } else {
+            return "订单有误" . $order_res;
         }
 
         //退款
