@@ -31,6 +31,9 @@ class UserController extends BaseController
                 'page' => array('name' => 'page', 'default' => '1', 'desc' => '页数'),
                 'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量')
             ),
+            'setAssign' => array(
+                'status' => array('name' => 'status', 'require' => true, 'desc' => '状态 0关闭 1开启'),
+            ),
         );
     }
 
@@ -113,6 +116,24 @@ class UserController extends BaseController
         $pwd = $this->pwd;
         $newPwd = $this->newPwd;
         $res = $this->_getUserDomain()->modPwd($id, $pwd, $newPwd);
+        if ($res) {
+            $this->removeToken($id);
+            return $this->api_success();
+        } else {
+            return $this->api_error(5005, 'fail');
+        }
+    }
+
+
+    /**
+     * 自动接单
+     * @desc 自动接单开关
+     */
+    public function setAssign()
+    {
+        $id = $this->member_arr['id'];
+        $status = $this->status;
+        $res = $this->_getUserDomain()->setAssign($id, $status);
         if ($res) {
             $this->removeToken($id);
             return $this->api_success();

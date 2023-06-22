@@ -34,7 +34,7 @@ class CollectOrderController extends BaseController
                 'pay_type' => array('name' => 'pay_type', 'desc' => '支付类型'),
             ),
             'pushOrder' => array(
-                'order_id' => array('name' => 'order_id', 'desc' => '')
+                'order_id' => array('name' => 'order_id', 'require' => true, 'desc' => '')
             ),
         );
     }

@@ -67,4 +67,10 @@ class UserModel extends BaseModel
     }
 
 
+    public function setAssign($id, $status)
+    {
+        return $this->getORM()->where('id', $id)->update(array('assign' => $status));
+    }
+
+
 }

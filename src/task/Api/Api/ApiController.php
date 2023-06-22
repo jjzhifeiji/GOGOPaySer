@@ -75,7 +75,7 @@ class ApiController extends BaseController
         $ip = $_SERVER['REMOTE_ADDR'];
         if ($platform['remote_ip'] !== $ip) {
             DI()->logger->info("异常 createOrder:" . $ip);
-            DI()->logger->info("异常 createOrder:" . $platform);
+            DI()->logger->info("异常 createOrder:" . $platform['name']);
             DI()->logger->info("异常 createOrder:" . $_SERVER);
 //            return $this->api_error(10001, '来源异常');
         }

@@ -129,4 +129,14 @@ class UserDomain extends BaseDomain
 
     }
 
+    public function setAssign($id, $status)
+    {
+        if ($status == 1) {
+            $this->_getUserModel()->setAssign($id, 1);
+        } else {
+            $this->_getUserModel()->setAssign($id, 0);
+        }
+        return;
+    }
+
 }
