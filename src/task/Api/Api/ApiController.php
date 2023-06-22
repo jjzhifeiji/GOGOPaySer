@@ -277,6 +277,7 @@ class ApiController extends BaseController
     public function getAmount()
     {
         $platform_id = $this->platform_id;
+        $currency_code = $this->currency_code;
         $sign = $this->sign;
 
         //TODO 验证签名
@@ -304,8 +305,12 @@ class ApiController extends BaseController
             DI()->logger->info("正常 getAmount:" . $_SERVER);
         }
 
+        $amount = 0;
+        if ($currency_code == 'CNY') {
+            $amount = $platform['business_amount'];
+        }
 
-        return $this->api_success(array('name' => $platform['name'], 'amount' => $platform['business_amount']));
+        return $this->api_success(array('name' => $platform['name'], 'amount' => $amount, 'currency_code' => $currency_code));
 
 
     }
