@@ -24,12 +24,33 @@ class CollectOrderDomain extends BaseDomain
         return $order;
     }
 
-    public function getCollectOrderList($status, $page, $limit)
+    public function getCollectOrderList($status, $page, $limit, $order_no, $business_no, $amount, $order_fee, $user_name, $business_name, $pay_type)
     {
         $file = array();
 
         if (is_numeric($status) && $status > 0) {
             $file['status'] = $status;
+        }
+        if (!empty($order_no)) {
+            $file['order_no'] = $order_no;
+        }
+        if (!empty($business_no)) {
+            $file['business_no'] = $business_no;
+        }
+        if (!empty($amount)) {
+            $file['order_amount'] = $amount;
+        }
+        if (!empty($order_fee)) {
+            $file['cost_free'] = $order_fee;
+        }
+        if (!empty($user_name)) {
+            $file['user_name'] = $user_name;
+        }
+        if (!empty($business_name)) {
+            $file['business_name'] = $business_name;
+        }
+        if (!empty($pay_type)) {
+            $file['pay_type'] = $pay_type;
         }
 
         return $this->_getCollectOrderModel()->getCollectOrderList($file, $page, $limit);

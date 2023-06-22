@@ -9,7 +9,7 @@ class CollectOrderModel extends BaseModel
 
     public function getCollectOrderList(array $file, $offset, $limit)
     {
-        $data = $this->getORM()->where($file)->limit($limit * ($offset - 1), $limit)->fetchAll();
+        $data = $this->getORM()->where($file)->limit($limit * ($offset - 1), $limit)->order('create_time')->fetchAll();
         $allnum = $this->getORM()->where($file)->count();
         $res = array(
             "data" => $data,

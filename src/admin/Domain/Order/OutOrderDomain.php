@@ -163,7 +163,7 @@ class OutOrderDomain extends BaseDomain
 
     }
 
-    public function getsOutOrder($status, $type, $page, $limit)
+    public function getsOutOrder($status, $type, $page, $limit, $order_no, $business_no, $amount, $order_fee, $user_name, $business_name, $pay_type)
     {
         $file = array();
 
@@ -172,6 +172,27 @@ class OutOrderDomain extends BaseDomain
         }
         if (is_numeric($status) && $status > 0) {
             $file['status'] = $status;
+        }
+        if (!empty($order_no)) {
+            $file['order_no'] = $order_no;
+        }
+        if (!empty($business_no)) {
+            $file['business_no'] = $business_no;
+        }
+        if (!empty($amount)) {
+            $file['order_amount'] = $amount;
+        }
+        if (!empty($order_fee)) {
+            $file['free_amount'] = $order_fee;
+        }
+        if (!empty($user_name)) {
+            $file['user_name'] = $user_name;
+        }
+        if (!empty($business_name)) {
+            $file['business_name'] = $business_name;
+        }
+        if (!empty($pay_type)) {
+            $file['pay_type'] = $pay_type;
         }
 
         return $this->_getOutOrderModel()->getsOutOrder($file, $page, $limit);

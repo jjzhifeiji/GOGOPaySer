@@ -24,7 +24,14 @@ class OutOrderController extends BaseController
                 'status' => array('name' => 'status', 'desc' => ''),
                 'type' => array('name' => 'type', 'desc' => ''),
                 'page' => array('name' => 'page', 'default' => '1', 'desc' => '页数'),
-                'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量')
+                'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量'),
+                'order_no' => array('name' => 'order_no', 'desc' => '订单编号'),
+                'business_no' => array('name' => 'business_no', 'desc' => '商户编号'),
+                'amount' => array('name' => 'amount', 'desc' => '订单金额'),
+                'order_fee' => array('name' => 'order_fee', 'desc' => '手续费'),
+                'user_name' => array('name' => 'user_name', 'desc' => '用户'),
+                'business_name' => array('name' => 'business_name', 'desc' => '商户'),
+                'pay_type' => array('name' => 'pay_type', 'desc' => '支付类型'),
             ),
             'confWithdrawal' => array(
                 'id' => array('name' => 'id', 'require' => true),
@@ -60,7 +67,14 @@ class OutOrderController extends BaseController
         $limit = $this->limit;
         $status = $this->status;
         $type = $this->type;
-        $res = $this->_getOutOrderDomain()->getsOutOrder($status, $type, $page, $limit);
+        $order_no = $this->order_no;
+        $business_no = $this->business_no;
+        $amount = $this->amount;
+        $order_fee = $this->order_fee;
+        $user_name = $this->user_name;
+        $business_name = $this->business_name;
+        $pay_type = $this->pay_type;
+        $res = $this->_getOutOrderDomain()->getsOutOrder($status, $type, $page, $limit, $order_no, $business_no, $amount, $order_fee, $user_name, $business_name, $pay_type);
         return $this->api_success($res);
     }
 

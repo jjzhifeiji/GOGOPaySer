@@ -77,7 +77,6 @@ class UserModel extends BaseModel
     {
 
         $data = $this->getORM()
-            ->select('id,user_name,status,type,account,group_id,group_name,group_account,account_amount,is_top,collect_free,out_free')
             ->where($file)
             ->where($like_file)
             ->limit($limit * ($page - 1), $limit)
