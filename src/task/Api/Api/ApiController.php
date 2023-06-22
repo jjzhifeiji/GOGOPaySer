@@ -51,6 +51,10 @@ class ApiController extends BaseController
                 'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
                 'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
             ),
+            'getAmount' => array(
+                'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
+                'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
+            ),
 
         );
     }
@@ -172,11 +176,15 @@ class ApiController extends BaseController
             return $this->api_error(20001, '商户ID有误');
         }
         $ip = $_SERVER['REMOTE_ADDR'];
-        if ($platform['remote_ip'] !== $ip) {
+        if (strpos($platform['remote_ip'], $ip) !== false) {
             DI()->logger->info("异常 createOrder:" . $ip);
-            DI()->logger->info("异常 createOrder:" . $platform);
+            DI()->logger->info($platform['remote_ip'] . "异常 createOrder:" . $platform['name']);
             DI()->logger->info("异常 createOrder:" . $_SERVER);
 //            return $this->api_error(10001, '来源异常');
+        } else {
+            DI()->logger->info("正常 createOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 createOrder:" . $platform['name']);
+            DI()->logger->info("正常 createOrder:" . $_SERVER);
         }
 
         //TODO 验证签名
@@ -255,6 +263,42 @@ class ApiController extends BaseController
 
         $order = $this->_getOutOrderDomain()->getPlatformOrder($platform['id'], $order_no, $business_no);
         return $this->api_success($order);
+
+    }
+
+    public function getAmount()
+    {
+        $platform_id = $this->platform_id;
+        $sign = $this->sign;
+
+        //TODO 验证签名
+        $filter = new \PhalApi\Filter\SimpleMD5Filter();
+        try {
+            $filter->check();
+        } catch (\PhalApi\Exception $e) {
+            DI()->logger->error("签名有误" . $sign);
+//            return $this->api_error(10004, '签名有误');
+        }
+
+        $platform = $this->_getBusinessDomain()->getBusiness($platform_id);
+        if (empty($platform)) {
+            return $this->api_error(20001, '商户ID有误');
+        }
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if (strpos($platform['remote_ip'], $ip) !== false) {
+            DI()->logger->info("异常 createOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "异常 createOrder:" . $platform['name']);
+            DI()->logger->info("异常 createOrder:" . $_SERVER);
+//            return $this->api_error(10001, '来源异常');
+        } else {
+            DI()->logger->info("正常 createOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 createOrder:" . $platform['name']);
+            DI()->logger->info("正常 createOrder:" . $_SERVER);
+        }
+
+
+        return $this->api_success(array('name' => $platform['name'], 'amount' => $platform['business_amount']));
+
 
     }
 
