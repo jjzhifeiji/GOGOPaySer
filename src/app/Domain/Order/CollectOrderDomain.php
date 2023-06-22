@@ -92,7 +92,7 @@ class CollectOrderDomain extends BaseDomain
 
         //更新订单
         $file = array('id' => $order['id'], 'status' => 1);
-        $data = array('status' => 2, 'user_id' => $user['id'], 'code_id' => $code['id']);
+        $data = array('status' => 2, 'user_id' => $user['id'], 'user_name' => $user['user_name'], 'code_id' => $code['id']);
         $this->_getCollectOrderModel()->takeCollectOrder($file, $data);
 
         ComRedis::unlock($orderLock);
