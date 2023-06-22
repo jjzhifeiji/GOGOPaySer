@@ -222,12 +222,12 @@ class CollectInfoController extends BaseController
         $wx_max_val = $this->wx_max_val;
         $ali_min_val = $this->ali_min_val;
         $ali_max_val = $this->ali_max_val;
-        $bank_out_max_val = 80;//$this->bank_out_max_val;
-        $bank_out_min_val = 80;//$this->bank_out_min_val;
-        $wx_out_max_val = 80;//$this->wx_out_max_val;
-        $wx_out_min_val = 80;//$this->wx_out_min_val;
-        $ali_out_max_val = 80;//$this->ali_out_max_val;
-        $ali_out_min_val = 80;//$this->ali_out_min_val;
+        $bank_out_max_val = 0;//$this->bank_out_max_val;
+        $bank_out_min_val = 0;//$this->bank_out_min_val;
+        $wx_out_max_val = 0;//$this->wx_out_max_val;
+        $wx_out_min_val = 0;//$this->wx_out_min_val;
+        $ali_out_max_val = 0;//$this->ali_out_max_val;
+        $ali_out_min_val = 0;//$this->ali_out_min_val;
 
 
         $res = $this->_getCollectInfoDomain()->setMyInvitation($user, $bank_min_val, $bank_max_val, $wx_min_val, $wx_max_val, $ali_min_val, $ali_max_val, $bank_out_max_val, $bank_out_min_val, $wx_out_max_val, $wx_out_min_val, $ali_out_max_val, $ali_out_min_val);
