@@ -53,12 +53,12 @@ class CollectInfoController extends BaseController
                 'wx_max_val' => array('name' => 'wx_max_val', 'require' => true, 'desc' => '微信额度'),
                 'ali_min_val' => array('name' => 'ali_min_val', 'require' => true, 'desc' => '支付宝额度'),
                 'ali_max_val' => array('name' => 'ali_max_val', 'require' => true, 'desc' => '支付宝额度'),
-                'bank_out_max_val' => array('name' => 'bank_out_max_val', 'require' => true, 'desc' => '银行卡出款max'),
-                'bank_out_min_val' => array('name' => 'bank_out_min_val', 'require' => true, 'desc' => '银行卡出款min'),
-                'wx_out_max_val' => array('name' => 'wx_out_max_val', 'require' => true, 'desc' => '微信出款max'),
-                'wx_out_min_val' => array('name' => 'wx_out_min_val', 'require' => true, 'desc' => '微信出款min'),
-                'ali_out_max_val' => array('name' => 'ali_out_max_val', 'require' => true, 'desc' => '支付宝出款max'),
-                'ali_out_min_val' => array('name' => 'ali_out_min_val', 'require' => true, 'desc' => '支付宝出款min'),
+//                'bank_out_max_val' => array('name' => 'bank_out_max_val', 'require' => true, 'desc' => '银行卡出款max'),
+//                'bank_out_min_val' => array('name' => 'bank_out_min_val', 'require' => true, 'desc' => '银行卡出款min'),
+//                'wx_out_max_val' => array('name' => 'wx_out_max_val', 'require' => true, 'desc' => '微信出款max'),
+//                'wx_out_min_val' => array('name' => 'wx_out_min_val', 'require' => true, 'desc' => '微信出款min'),
+//                'ali_out_max_val' => array('name' => 'ali_out_max_val', 'require' => true, 'desc' => '支付宝出款max'),
+//                'ali_out_min_val' => array('name' => 'ali_out_min_val', 'require' => true, 'desc' => '支付宝出款min'),
             ),
             'delMyInvitation' => array(
                 'id' => array('name' => 'id', 'require' => true, 'desc' => '邀请码ID'),
@@ -222,12 +222,12 @@ class CollectInfoController extends BaseController
         $wx_max_val = $this->wx_max_val;
         $ali_min_val = $this->ali_min_val;
         $ali_max_val = $this->ali_max_val;
-        $bank_out_max_val = $this->bank_out_max_val;
-        $bank_out_min_val = $this->bank_out_min_val;
-        $wx_out_max_val = $this->wx_out_max_val;
-        $wx_out_min_val = $this->wx_out_min_val;
-        $ali_out_max_val = $this->ali_out_max_val;
-        $ali_out_min_val = $this->ali_out_min_val;
+        $bank_out_max_val = 80;//$this->bank_out_max_val;
+        $bank_out_min_val = 80;//$this->bank_out_min_val;
+        $wx_out_max_val = 80;//$this->wx_out_max_val;
+        $wx_out_min_val = 80;//$this->wx_out_min_val;
+        $ali_out_max_val = 80;//$this->ali_out_max_val;
+        $ali_out_min_val = 80;//$this->ali_out_min_val;
 
 
         $res = $this->_getCollectInfoDomain()->setMyInvitation($user, $bank_min_val, $bank_max_val, $wx_min_val, $wx_max_val, $ali_min_val, $ali_max_val, $bank_out_max_val, $bank_out_min_val, $wx_out_max_val, $wx_out_min_val, $ali_out_max_val, $ali_out_min_val);

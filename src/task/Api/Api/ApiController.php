@@ -53,6 +53,7 @@ class ApiController extends BaseController
             ),
             'getAmount' => array(
                 'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
+                'currency_code' => array('name' => 'currency_code', 'require' => false, 'default' => 'CNY', 'desc' => '币种简码'),
                 'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
             ),
 
