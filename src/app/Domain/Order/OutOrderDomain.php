@@ -160,7 +160,7 @@ class OutOrderDomain extends BaseDomain
 
         if (empty($order) || empty($order['callback_url']) || empty($business)) {
             \PhalApi\DI()->logger->debug('回调异常 ->', $order);
-            return "回调异常";
+            return "";
         }
 
         $b_status = 0;
