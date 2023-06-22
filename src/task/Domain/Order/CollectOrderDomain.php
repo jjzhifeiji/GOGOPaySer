@@ -104,7 +104,7 @@ class CollectOrderDomain extends BaseDomain
             //订单五分钟超时
             if ($etime > 60 * 5) {
                 $r = $this->backOrder($order);
-                DI()->logger->info($r . ":超时订单->" . sizeof($order));
+                DI()->logger->info(":超时订单->" . $order['id'] . ':' . $r);
             }
         }
 
@@ -116,7 +116,7 @@ class CollectOrderDomain extends BaseDomain
         $res = $this->_getCollectOrderModel()->timeOutOrder($order);
 
         if (!empty($res)) {
-            return "订单有误";
+            return "订单有误" . $res;
         }
 
         //退款
