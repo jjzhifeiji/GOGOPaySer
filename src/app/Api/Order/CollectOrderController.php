@@ -74,6 +74,12 @@ class CollectOrderController extends BaseController
     {
         $user = $this->member_arr;
         $id = $this->id;
+
+        $c = $this->_getCollectOrderDomain()->getOrdering($user);
+        if (sizeof($c) > 5) {
+            return $this->api_error(2005, "进行中订单数量过多");
+        }
+
         $isLock = $this->getCache('take' . $id);
         if ($isLock == true) {
             \PhalApi\DI()->logger->error('take' . $id . '<-确认->' . $isLock);

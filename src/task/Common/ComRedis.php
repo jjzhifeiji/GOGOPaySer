@@ -137,11 +137,11 @@ class ComRedis
      * @param $key
      * @param $val
      */
-    public static function setRCache($key, $val)
+    public static function setRCache($key, $val, $t = 0)
     {
         if (empty($val)) return;
         $redis = self::getRedis('cache');
-        $redis->set($key, json_encode($val));
+        $redis->set($key, $val, ['nx', 'ex' => $t]);
         $redis->close();
     }
 

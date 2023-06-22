@@ -25,7 +25,8 @@ class CollectOrderModel extends BaseModel
 
     public function createOrder($data)
     {
-        return $this->getORM()->insert($data);
+        $this->getORM()->insert($data);
+        return $this->getORM()->insert_id();
     }
 
     public function timeOutOrder($order)

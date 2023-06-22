@@ -2,6 +2,7 @@
 
 namespace Task\Domain\Order;
 
+use App\Api\Order\CollectOrderController;
 use Task\Common\BaseDomain;
 use Task\Common\ComRedis;
 use PhalApi\Tool;
@@ -41,21 +42,52 @@ class CollectOrderDomain extends BaseDomain
             'callback_url' => $callback_url
         );
 
-        $res = $this->_getCollectOrderModel()->createOrder($data);
-
+        $orderId = $this->_getCollectOrderModel()->createOrder($data);
+        $data['id'] = $orderId;
         DI()->logger->info($platform['name'] . "createOrder:" . $res);
 
-        $this->autoAccept($res);
+        $this->autoAssign($data);
 
         return $data['order_no'];
     }
 
     //分配
-    private function autoAccept($res)
+    private function autoAssign($order)
     {
         //TODO 获取可用收款信息
+        $code = $this->_getUserCollectInfoModel()->getAssignCode($order['pay_type']);
+
         //TODO 根据人员已售金额排序选取收款信息
-        //TODO 分配
+        if (sizeof($code) > 0) {
+
+            $user_min_code = array();
+            $min = 100;
+            foreach ($code as $item) {
+                $u_amount = ComRedis::getRCache($order['pay_type'] . 'collect_amount' . $item['user_id']);
+                if ($u_amount < $min) {
+                    $min = $u_amount;
+                    $user_min_code = $item;
+                    DI()->logger->info('');
+                }
+            }
+            if (empty($user_min_code)) {
+                DI()->logger->info('暂无可分配用户');
+                return;
+            }
+            DI()->logger->info('匹配信息->' . $user_min_code);
+
+            if (empty($user_min_code['user_id']) || empty($order['id'])) {
+                DI()->logger->info('暂无法分配' . $user_min_code);
+                DI()->logger->info('暂无法分配' . $order);
+                return;
+            }
+            $user = array('id' => $user_min_code['user_id'], 'user_name' => $user_min_code['user_name']);
+            //TODO 分配
+            $collectDomain = new \App\Domain\Order\CollectOrderDomain();
+            $collectDomain->takeCollectOrder($order['id'], $user);
+        } else {
+            DI()->logger->info('暂无可分配用户');
+        }
     }
 
     public function getOrder($orderNo)

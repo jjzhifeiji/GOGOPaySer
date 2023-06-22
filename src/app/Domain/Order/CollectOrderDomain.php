@@ -20,6 +20,15 @@ class CollectOrderDomain extends BaseDomain
         return $this->_getCollectOrderModel()->getWaitCollectOrderList($file);
     }
 
+    public function getOrdering($user)
+    {
+        $file = array(
+            'user_id' => $user['id'],
+            'status' => 2
+        );
+        return $this->_getCollectOrderModel()->getOrdering($file);
+    }
+
     public function getCollectOrder(array $user, $id)
     {
         return $this->_getCollectOrderModel()->getCollectOrder($id);
@@ -200,6 +209,10 @@ class CollectOrderDomain extends BaseDomain
             'remark' => '收款佣金',
         );
         $this->_getUserAmountRecordModel()->addUserLog($logData);
+
+        //统计收款
+        $u_amount = ComRedis::getRCache($order['pay_type'] . 'collect_amount' . $user['id']);
+        ComRedis::setRCache($order['pay_type'] . 'collect_amount' . $user['id'], $order['order_amount'] + $u_amount);
 
 
         //todo 推送消息
