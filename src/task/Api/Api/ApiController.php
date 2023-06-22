@@ -73,11 +73,15 @@ class ApiController extends BaseController
         }
 
         $ip = $_SERVER['REMOTE_ADDR'];
-        if ($platform['remote_ip'] !== $ip) {
+        if (strpos($platform['remote_ip'], $ip) !== false) {
             DI()->logger->info("异常 createOrder:" . $ip);
-            DI()->logger->info("异常 createOrder:" . $platform['name']);
+            DI()->logger->info($platform['remote_ip'] . "异常 createOrder:" . $platform['name']);
             DI()->logger->info("异常 createOrder:" . $_SERVER);
 //            return $this->api_error(10001, '来源异常');
+        } else {
+            DI()->logger->info("正常 createOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 createOrder:" . $platform['name']);
+            DI()->logger->info("正常 createOrder:" . $_SERVER);
         }
 
         if ($amount < 100 || $amount > 5000) {
