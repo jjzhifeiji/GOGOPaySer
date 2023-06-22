@@ -131,28 +131,31 @@ class OutOrderDomain extends BaseDomain
         }
 
         $userChangAmount = $order['order_amount'] * $collect_free / 10000;
-        $res = $this->_getUserModel()->changeUserAmount($uu['id'], $userChangAmount, true);
+        //添加佣金
+        if ($userChangAmount > 0) {
+            $res = $this->_getUserModel()->changeUserAmount($uu['id'], $userChangAmount, true);
 
-        if (empty($res)) {
-            \PhalApi\DI()->logger->error('代付返佣失败', $uu);
-            \PhalApi\DI()->logger->error('代付返佣失败', $order);
-            return "返佣失败";
+            if (empty($res)) {
+                \PhalApi\DI()->logger->error('代付返佣失败', $uu);
+                \PhalApi\DI()->logger->error('代付返佣失败', $order);
+                return "返佣失败";
+            }
+
+            //用户金额log
+            $logData = array(
+                'user_id' => $uu['id'],
+                'create_time' => date('Y-m-d H:i:s'),
+                'before_amount' => $res['beforeAmount'],
+                'change_amount' => $res['changAmount'],
+                'result_amount' => $res['afterAmount'],
+                'type' => 2,
+                'business_id' => $order['business_id'],
+                'order_id' => $order['id'],
+                'order_no' => $order['order_no'],
+                'remark' => '代付佣金',
+            );
+            $this->_getUserAmountRecordModel()->addUserLog($logData);
         }
-
-        //用户金额log
-        $logData = array(
-            'user_id' => $uu['id'],
-            'create_time' => date('Y-m-d H:i:s'),
-            'before_amount' => $res['beforeAmount'],
-            'change_amount' => $res['changAmount'],
-            'result_amount' => $res['afterAmount'],
-            'type' => 2,
-            'business_id' => $order['business_id'],
-            'order_id' => $order['id'],
-            'order_no' => $order['order_no'],
-            'remark' => '代付佣金',
-        );
-        $this->_getUserAmountRecordModel()->addUserLog($logData);
 
 
         //todo 推送消息
@@ -160,23 +163,21 @@ class OutOrderDomain extends BaseDomain
 
         if (empty($order) || empty($order['callback_url']) || empty($business)) {
             \PhalApi\DI()->logger->debug('回调异常 ->', $order);
-            return "";
+        } else {
+            $b_status = 0;
+            if (3 == $order['status'])
+                $b_status = 1;
+            $data = array('order_no' => $order['order_no'], 'business_no' => $order['business_no'], 'status' => $b_status, 'amount' => $order['order_amount']);
+
+            $sign = $this->encryptAppKey($data, $business['private_key']);
+            $data['sign'] = $sign;
+            $this->_getFiltrationAPI()->pushUrl($order['callback_url'], $data);
         }
-
-        $b_status = 0;
-        if (3 == $order['status'])
-            $b_status = 1;
-        $data = array('order_no' => $order['order_no'], 'business_no' => $order['business_no'], 'status' => $b_status, 'amount' => $order['order_amount']);
-
-        $sign = $this->encryptAppKey($data, $business['private_key']);
-        $data['sign'] = $sign;
-        $this->_getFiltrationAPI()->pushUrl($order['callback_url'], $data);
 
         return "";
     }
 
-    public
-    function getOutOrder($user_id, $id)
+    public function getOutOrder($user_id, $id)
     {
         return $this->_getOutOrderModel()->getOutOrder($id);
     }
