@@ -136,7 +136,7 @@ class UserDomain extends BaseDomain
         } else {
             $this->_getUserModel()->setAssign($id, 0);
         }
-        return;
+        return '';
     }
 
 }

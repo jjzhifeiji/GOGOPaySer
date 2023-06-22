@@ -134,8 +134,7 @@ class UserController extends BaseController
         $id = $this->member_arr['id'];
         $status = $this->status;
         $res = $this->_getUserDomain()->setAssign($id, $status);
-        if ($res) {
-            $this->removeToken($id);
+        if (empty($res)) {
             return $this->api_success();
         } else {
             return $this->api_error(5005, 'fail');
