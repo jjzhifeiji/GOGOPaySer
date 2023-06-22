@@ -78,14 +78,14 @@ class ApiController extends BaseController
 
         $ip = $_SERVER['REMOTE_ADDR'];
         if (strpos($platform['remote_ip'], $ip) !== false) {
-            DI()->logger->info("异常 createOrder:" . $ip);
-            DI()->logger->info($platform['remote_ip'] . "异常 createOrder:" . $platform['name']);
-            DI()->logger->info("异常 createOrder:" . $_SERVER);
+            DI()->logger->info("异常 createCollectionOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "异常 createCollectionOrder:" . $platform['name']);
+            DI()->logger->info("异常 createCollectionOrder:" . $_SERVER);
 //            return $this->api_error(10001, '来源异常');
         } else {
-            DI()->logger->info("正常 createOrder:" . $ip);
-            DI()->logger->info($platform['remote_ip'] . "正常 createOrder:" . $platform['name']);
-            DI()->logger->info("正常 createOrder:" . $_SERVER);
+            DI()->logger->info("正常 createCollectionOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 createCollectionOrder:" . $platform['name']);
+            DI()->logger->info("正常 createCollectionOrder:" . $_SERVER);
         }
 
         if ($amount < 100 || $amount > 5000) {
@@ -142,11 +142,15 @@ class ApiController extends BaseController
         }
 
         $ip = $_SERVER['REMOTE_ADDR'];
-        if ($platform['remote_ip'] !== $ip) {
-            DI()->logger->info("异常 createOrder:" . $ip);
-            DI()->logger->info("异常 createOrder:" . $platform);
-            DI()->logger->info("异常 createOrder:" . $_SERVER);
+        if (strpos($platform['remote_ip'], $ip) !== false) {
+            DI()->logger->info("异常 getCollectionOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "异常 getCollectionOrder:" . $platform['name']);
+            DI()->logger->info("异常 getCollectionOrder:" . $_SERVER);
 //            return $this->api_error(10001, '来源异常');
+        } else {
+            DI()->logger->info("正常 getCollectionOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 getCollectionOrder:" . $platform['name']);
+            DI()->logger->info("正常 getCollectionOrder:" . $_SERVER);
         }
 
 
@@ -177,14 +181,14 @@ class ApiController extends BaseController
         }
         $ip = $_SERVER['REMOTE_ADDR'];
         if (strpos($platform['remote_ip'], $ip) !== false) {
-            DI()->logger->info("异常 createOrder:" . $ip);
-            DI()->logger->info($platform['remote_ip'] . "异常 createOrder:" . $platform['name']);
+            DI()->logger->info("异常 createPayOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "异常 createPayOrder:" . $platform['name']);
             DI()->logger->info("异常 createOrder:" . $_SERVER);
 //            return $this->api_error(10001, '来源异常');
         } else {
-            DI()->logger->info("正常 createOrder:" . $ip);
-            DI()->logger->info($platform['remote_ip'] . "正常 createOrder:" . $platform['name']);
-            DI()->logger->info("正常 createOrder:" . $_SERVER);
+            DI()->logger->info("正常 createPayOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 createPayOrder:" . $platform['name']);
+            DI()->logger->info("正常 createPayOrder:" . $_SERVER);
         }
 
         //TODO 验证签名
@@ -254,11 +258,15 @@ class ApiController extends BaseController
         }
 
         $ip = $_SERVER['REMOTE_ADDR'];
-        if ($platform['remote_ip'] !== $ip) {
-            DI()->logger->info("异常 createOrder:" . $ip);
-            DI()->logger->info("异常 createOrder:" . $platform);
-            DI()->logger->info("异常 createOrder:" . $_SERVER);
+        if (strpos($platform['remote_ip'], $ip) !== false) {
+            DI()->logger->info("异常 getPayOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "异常 getPayOrder:" . $platform['name']);
+            DI()->logger->info("异常 getPayOrder:" . $_SERVER);
 //            return $this->api_error(10001, '来源异常');
+        } else {
+            DI()->logger->info("正常 getPayOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 getPayOrder:" . $platform['name']);
+            DI()->logger->info("正常 getPayOrder:" . $_SERVER);
         }
 
         $order = $this->_getOutOrderDomain()->getPlatformOrder($platform['id'], $order_no, $business_no);
@@ -286,14 +294,14 @@ class ApiController extends BaseController
         }
         $ip = $_SERVER['REMOTE_ADDR'];
         if (strpos($platform['remote_ip'], $ip) !== false) {
-            DI()->logger->info("异常 createOrder:" . $ip);
-            DI()->logger->info($platform['remote_ip'] . "异常 createOrder:" . $platform['name']);
-            DI()->logger->info("异常 createOrder:" . $_SERVER);
+            DI()->logger->info("异常 getAmount:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "异常 getAmount:" . $platform['name']);
+            DI()->logger->info("异常 getAmount:" . $_SERVER);
 //            return $this->api_error(10001, '来源异常');
         } else {
-            DI()->logger->info("正常 createOrder:" . $ip);
-            DI()->logger->info($platform['remote_ip'] . "正常 createOrder:" . $platform['name']);
-            DI()->logger->info("正常 createOrder:" . $_SERVER);
+            DI()->logger->info("正常 getAmount:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 getAmount:" . $platform['name']);
+            DI()->logger->info("正常 getAmount:" . $_SERVER);
         }
 
 
