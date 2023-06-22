@@ -7,7 +7,7 @@
  * Time: 9:40 PM
  */
 
-namespace Task\Common;
+namespace Proxy\Common;
 
 use PhalApi\Tool;
 

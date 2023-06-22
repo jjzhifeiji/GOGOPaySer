@@ -7,7 +7,7 @@
  * Time: 9:40 PM
  */
 
-namespace Task\Common;
+namespace Business\Common;
 
 use PhalApi\Tool;
 
