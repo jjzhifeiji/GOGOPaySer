@@ -84,8 +84,8 @@ class CollectOrderDomain extends BaseDomain
 
         $order = $this->_getCollectOrderModel()->getCollectOrder($id);
 
-        if ($order['status'] !== '4') {
-            return '订单有误,无法补单' . $order['status'];
+        if ($order['status'] != 4) {
+            return '订单有误,无法补单';
         }
 
         //更新订单
