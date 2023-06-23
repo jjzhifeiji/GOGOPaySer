@@ -54,6 +54,13 @@ class CollectOrderDomain extends BaseDomain
     //分配
     private function autoAssign($order)
     {
+        $isAutoAssign = $this->_getSystemModel()->getAutoAssign();
+        if (!$isAutoAssign) {
+            DI()->logger->info('自动分配关闭' . $isAutoAssign);
+            return;
+        }
+        DI()->logger->info('开始自动分配');
+
         //TODO 获取可用收款信息
         $code = $this->_getUserCollectInfoModel()->getAssignCode($order['pay_type']);
 

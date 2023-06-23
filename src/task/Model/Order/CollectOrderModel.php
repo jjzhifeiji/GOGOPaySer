@@ -1,6 +1,6 @@
 <?php
 
-namespace Task\Model\CollectOrder;
+namespace Task\Model\Order;
 
 use Task\Common\BaseModel;
 use Task\Common\ComRedis;
