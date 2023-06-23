@@ -85,18 +85,11 @@ class CollectOrderDomain extends BaseDomain
         $order = $this->_getCollectOrderModel()->getCollectOrder($id);
 
         if ($order['status'] != 4) {
-            \PhalApi\DI()->logger->debug(($order['status'] != 4) . '补单失败' . ($order['status'] == 4) . ' ->', $order['status']);
-
             return '订单有误,无法补单';
         }
 
-        //更新订单
-        $file = array('id' => $order['id'], 'status' => 4);
-        $data = array('status' => 2);
-        $res = $this->_getCollectOrderModel()->upCollectOrder($file, $data);
-
-        if ($res > 0) {
-            $user = $this->_getUserModel()->getUserId($order['user_id']);
+        $user = $this->_getUserModel()->getUserId($order['user_id']);
+        if (!empty($order) && !empty($user)) {
             $collect = new \App\Domain\Order\CollectOrderDomain();
             return $collect->repairCollectOrder($user, $id, '');
         } else {
