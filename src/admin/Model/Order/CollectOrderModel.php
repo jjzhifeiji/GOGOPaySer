@@ -28,6 +28,11 @@ class CollectOrderModel extends BaseModel
         return $this->getORM()->where($file)->fetchOne();
     }
 
+    public function upCollectOrder(array $file, array $data)
+    {
+        return $this->getORM()->where($file)->update($data);
+    }
+
     protected function getTableName($id)
     {
         return 'collect_order';

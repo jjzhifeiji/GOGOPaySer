@@ -36,6 +36,9 @@ class CollectOrderController extends BaseController
             'pushOrder' => array(
                 'order_id' => array('name' => 'order_id', 'require' => true, 'desc' => '')
             ),
+            'repairCollectOrder' => array(
+                'id' => array('name' => 'id', 'require' => true, 'desc' => '')
+            ),
         );
     }
 
@@ -62,6 +65,32 @@ class CollectOrderController extends BaseController
 
         $res = $this->_getCollectOrderDomain()->getCollectOrderList($status, $page, $limit, $order_no, $business_no, $amount, $order_fee, $user_name, $business_name, $pay_type);
         return $this->api_success($res);
+    }
+
+
+    /**
+     *  补单
+     * @desc 确认已超时的代收订单
+     */
+    public function repairCollectOrder()
+    {
+        $id = $this->id;
+
+        $isLock = $this->getCache('config' . $id);
+        if ($isLock == true) {
+            \PhalApi\DI()->logger->error('config' . $id . '<-确认->' . $isLock);
+            return $this->api_error(2003, "too late");
+        }
+        $this->setCache('config' . $id, true, 60);
+
+        $res = $this->_getCollectOrderDomain()->repairCollectOrder($id);
+        $this->delCache('config' . $id);
+
+        if (empty($res)) {
+            return $this->api_success();
+        } else {
+            return $this->api_error(2004, $res);
+        }
     }
 
 
