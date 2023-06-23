@@ -134,7 +134,7 @@ class CollectOrderDomain extends BaseDomain
             DI()->logger->info("结束时间->" . $etime);
 
             //订单五分钟超时
-            if ($etime > 60 * 5) {
+            if ($etime > 60 * 15) {
                 $r = $this->backOrder($order);
                 DI()->logger->info(":超时订单->" . $order['id'] . ':' . $r);
             }
