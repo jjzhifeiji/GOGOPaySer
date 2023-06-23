@@ -5,7 +5,7 @@ namespace App\Api\Order;
 use App\Common\BaseController;
 
 /**
- * 代付订单 3000
+ * 代付订单(买) 3000
  */
 class OutOrderController extends BaseController
 {
