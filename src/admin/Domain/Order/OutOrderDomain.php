@@ -66,7 +66,7 @@ class OutOrderDomain extends BaseDomain
                 if (empty($uu)) {
                     return "用户有误";
                 }
-                $res = $this->_getUserModel()->changeUserAmount($uu['user_id'], $userChangAmount, true);
+                $res = $this->_getUserModel()->changeUserAmount($uu['id'], $userChangAmount, true);
 
                 if (empty($res)) {
                     \PhalApi\DI()->logger->error('代付添加失败', $uu['user_name']);
@@ -76,7 +76,7 @@ class OutOrderDomain extends BaseDomain
 
                 //用户金额log
                 $logData = array(
-                    'user_id' => $uu['user_id'],
+                    'user_id' => $uu['id'],
                     'create_time' => date('Y-m-d H:i:s'),
                     'before_amount' => $res['beforeAmount'],
                     'change_amount' => $res['changAmount'],
