@@ -170,7 +170,7 @@ class CollectOrderDomain extends BaseDomain
         //更新订单
         $file = array('id' => $order['id'], 'status' => 2, 'user_id' => $user['id']);
         $data = array('status' => 3, 'conf_img' => $url);
-        $this->_getCollectOrderModel()->configCollectOrderList($file, $data);
+        $this->_getCollectOrderModel()->upCollectOrder($file, $data);
 
 
         //todo 用户金额
@@ -234,6 +234,27 @@ class CollectOrderDomain extends BaseDomain
         $this->_getFiltrationAPI()->pushUrl($r_order['callback_url'], $data);
 
         return null;
+    }
+
+    public function repairCollectOrder($user, $id, $url)
+    {
+
+        $order = $this->_getCollectOrderModel()->getCollectOrder($id);
+
+        if ($order['status'] !== 4) {
+            return '订单有误,无法补单';
+        }
+
+        //更新订单
+        $file = array('id' => $order['id'], 'status' => 4, 'user_id' => $user['id']);
+        $data = array('status' => 2);
+        $res = $this->_getCollectOrderModel()->upCollectOrder($file, $data);
+
+        if ($res > 0) {
+            return $this->configCollectOrderList($user, $id, $url);
+        }else{
+            return '补单失败';
+        }
     }
 
 

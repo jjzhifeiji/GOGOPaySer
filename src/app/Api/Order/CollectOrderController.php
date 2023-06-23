@@ -138,6 +138,34 @@ class CollectOrderController extends BaseController
         }
     }
 
+
+    /**
+     *  补单
+     * @desc 确认已超时的代收订单
+     */
+    public function repairCollectOrder()
+    {
+        $user = $this->member_arr;
+        $id = $this->id;
+        $url = $this->url;
+
+        $isLock = $this->getCache('config' . $id);
+        if ($isLock == true) {
+            \PhalApi\DI()->logger->error('config' . $id . '<-确认->' . $isLock);
+            return $this->api_error(2003, "too late");
+        }
+        $this->setCache('config' . $id, true, 60);
+
+        $res = $this->_getCollectOrderDomain()->repairCollectOrder($user, $id, $url);
+        $this->delCache('config' . $id);
+
+        if (empty($res)) {
+            return $this->api_success();
+        } else {
+            return $this->api_error(2004, $res);
+        }
+    }
+
 //    /**
 //     * 确认订单
 //     * @desc 确认代收订单

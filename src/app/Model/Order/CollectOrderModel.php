@@ -61,7 +61,7 @@ class CollectOrderModel extends BaseModel
         return $this->getORM()->where($file)->update($data);
     }
 
-    public function configCollectOrderList(array $file, array $data)
+    public function upCollectOrder(array $file, array $data)
     {
         return $this->getORM()->where($file)->update($data);
     }
