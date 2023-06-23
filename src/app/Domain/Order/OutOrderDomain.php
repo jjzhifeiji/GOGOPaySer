@@ -130,6 +130,34 @@ class OutOrderDomain extends BaseDomain
             $collect_free = 0;
         }
 
+        //添加余额
+        if ($order['order_amount'] > 0) {
+            $res = $this->_getUserModel()->changeUserAmount($uu['id'], $order['order_amount'], true);
+
+            if (empty($res)) {
+                \PhalApi\DI()->logger->error('代付添加失败', $uu);
+                \PhalApi\DI()->logger->error('代付添加失败', $order);
+                return "返佣失败";
+            }
+
+            //用户金额log
+            $logData = array(
+                'user_id' => $uu['id'],
+                'create_time' => date('Y-m-d H:i:s'),
+                'before_amount' => $res['beforeAmount'],
+                'change_amount' => $res['changAmount'],
+                'result_amount' => $res['afterAmount'],
+                'type' => 3,
+                'business_id' => $order['business_id'],
+                'order_id' => $order['id'],
+                'order_no' => $order['order_no'],
+                'remark' => '代付入账',
+            );
+            $this->_getUserAmountRecordModel()->addUserLog($logData);
+        }
+
+
+
         $userChangAmount = $order['order_amount'] * $collect_free / 10000;
         //添加佣金
         if ($userChangAmount > 0) {
