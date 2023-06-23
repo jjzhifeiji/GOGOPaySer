@@ -89,7 +89,11 @@ class ApiController extends BaseController
             DI()->logger->info("正常 createCollectionOrder:" . $_SERVER);
         }
 
-        if ($amount < 100 || $amount > 5000) {
+        if ($pay_type == 3 && $amount < 100 || $amount > 50000) {
+            return $this->api_error(10002, '金额有误');
+        } else if ($pay_type == 2 && $amount < 100 || $amount > 5000) {
+            return $this->api_error(10002, '金额有误');
+        } else if ($pay_type == 1 && $amount < 100 || $amount > 5000) {
             return $this->api_error(10002, '金额有误');
         }
 
