@@ -56,7 +56,7 @@ class OutOrderDomain extends BaseDomain
             //todo 用户金额变动
 
             $ouOrder = $this->_getOutOrderModel()->getconfirmOutOrder($id);
-            if (empty($order) || $order['status'] != 3) {
+            if (empty($ouOrder) || $ouOrder['status'] != 3) {
                 return "订单有误";
             }
             $userChangAmount = $ouOrder['order_amount'];
@@ -82,20 +82,20 @@ class OutOrderDomain extends BaseDomain
                     'change_amount' => $res['changAmount'],
                     'result_amount' => $res['afterAmount'],
                     'type' => 3,
-                    'business_id' => $order['business_id'],
-                    'order_id' => $order['id'],
-                    'order_no' => $order['order_no'],
+                    'business_id' => $ouOrder['business_id'],
+                    'order_id' => $ouOrder['id'],
+                    'order_no' => $ouOrder['order_no'],
                     'remark' => '代付入账',
                 );
                 $this->_getUserAmountRecordModel()->addUserLog($logData);
 
 
                 //todo 佣金
-                if ($order['pay_type'] == 1) {
+                if ($ouOrder['pay_type'] == 1) {
                     $collect_free = $uu['bank_out_val'];
-                } else if ($order['pay_type'] == 2) {
+                } else if ($ouOrder['pay_type'] == 2) {
                     $collect_free = $uu['wx_out_val'];
-                } else if ($order['pay_type'] == 3) {
+                } else if ($ouOrder['pay_type'] == 3) {
                     $collect_free = $uu['ali_out_val'];
                 } else {
                     $collect_free = 0;
@@ -108,7 +108,7 @@ class OutOrderDomain extends BaseDomain
 
                     if (empty($res)) {
                         \PhalApi\DI()->logger->error('代付返佣失败', $ouOrder['user_id']);
-                        \PhalApi\DI()->logger->error('代付返佣失败', $order);
+                        \PhalApi\DI()->logger->error('代付返佣失败', $ouOrder);
                         return "返佣失败";
                     }
 
@@ -120,9 +120,9 @@ class OutOrderDomain extends BaseDomain
                         'change_amount' => $res['changAmount'],
                         'result_amount' => $res['afterAmount'],
                         'type' => 4,
-                        'business_id' => $order['business_id'],
-                        'order_id' => $order['id'],
-                        'order_no' => $order['order_no'],
+                        'business_id' => $ouOrder['business_id'],
+                        'order_id' => $ouOrder['id'],
+                        'order_no' => $ouOrder['order_no'],
                         'remark' => '代付佣金',
                     );
                     $this->_getUserAmountRecordModel()->addUserLog($logData);
