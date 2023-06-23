@@ -62,17 +62,21 @@ class OutOrderDomain extends BaseDomain
             $userChangAmount = $ouOrder['order_amount'];
             //添加余额
             if ($userChangAmount > 0) {
-                $res = $this->_getUserModel()->changeUserAmount($ouOrder['user_id'], $userChangAmount, true);
+                $uu = $this->_getUserModel()->getUserId($ouOrder['user_id']);
+                if (empty($uu)) {
+                    return "用户有误";
+                }
+                $res = $this->_getUserModel()->changeUserAmount($uu['user_id'], $userChangAmount, true);
 
                 if (empty($res)) {
-                    \PhalApi\DI()->logger->error('代付添加失败', $ouOrder['user_name']);
+                    \PhalApi\DI()->logger->error('代付添加失败', $uu['user_name']);
                     \PhalApi\DI()->logger->error('代付添加失败', $ouOrder);
                     return "返佣失败";
                 }
 
                 //用户金额log
                 $logData = array(
-                    'user_id' => $ouOrder['user_id'],
+                    'user_id' => $uu['user_id'],
                     'create_time' => date('Y-m-d H:i:s'),
                     'before_amount' => $res['beforeAmount'],
                     'change_amount' => $res['changAmount'],
