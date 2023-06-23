@@ -37,12 +37,15 @@ class BusinessController extends BaseController
         $r['status'] = $res['status'];
         $r['private_key'] = $res['private_key'];
         $r['business_amount'] = $res['business_amount'];
-        $r['bank_collect_val'] = $res['bank_collect_val'];
-        $r['wx_collect_val'] = $res['wx_collect_val'];
-        $r['ali_collect_val'] = $res['ali_collect_val'];
+
+        $r['bank_collect_val'] = $res['collect_bank_val'];
+        $r['wx_collect_val'] = $res['collect_wx_val'];
+        $r['ali_collect_val'] = $res['collect_ali_val'];
+
         $r['bank_out_free'] = $res['bank_out_free'];
         $r['wx_out_free'] = $res['wx_out_free'];
         $r['ali_out_free'] = $res['ali_out_free'];
+
         $r['whitelist'] = $res['whitelist'];
         return $this->api_success($r);
     }
