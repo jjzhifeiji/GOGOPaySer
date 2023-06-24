@@ -15,7 +15,7 @@ class UserController extends BaseController
         return array(
             'register' => array(
                 'user_name' => array('name' => 'user_name', 'require' => true, 'desc' => '昵称'),
-                'user_account' => array('name' => 'user_account', 'require' => true, 'desc' => '账号'),
+                'user_account' => array('name' => 'user_account', 'require' => true, 'desc' => '账号(邮箱)'),
                 'code' => array('name' => 'code', 'require' => true, 'desc' => '密码'),
                 'invitation' => array('name' => 'invitation', 'require' => true, 'desc' => '邀请码'),
             ),
