@@ -65,5 +65,14 @@ class AdminDomain extends BaseDomain
         return $this->_getAdminModel()->getAdminList($file, $page, $limit);
     }
 
+    public function setAdminAccount($id, $secret)
+    {
+        $data = array(
+            'google_authenticator' => $secret,
+        );
+        $this->_getAdminModel()->update($id, $data);
+        return;
+    }
+
 
 }

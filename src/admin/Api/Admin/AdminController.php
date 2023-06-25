@@ -3,6 +3,7 @@
 namespace Admin\Api\Admin;
 
 use Admin\Common\BaseController;
+use Admin\Common\GoogleAuthenticator;
 
 /**
  * admin数据1000
@@ -16,6 +17,7 @@ class AdminController extends BaseController
             'login' => array(
                 'admin_name' => array('name' => 'admin_name', 'require' => true, 'min' => 1, 'max' => 50, 'desc' => '账号'),
                 'pwd' => array('name' => 'pwd', 'require' => true, 'min' => 6, 'max' => 20, 'desc' => '密码'),
+                'code' => array('name' => 'code', 'require' => false, 'desc' => 'google code'),
             ),
             'getAdminList' => array(
                 'page' => array('name' => 'page', 'type' => 'int', 'default' => '1', 'desc' => '页数'),
@@ -28,6 +30,10 @@ class AdminController extends BaseController
             ),
             'delAdmin' => array(
                 'id' => array('name' => 'id', 'require' => true, 'desc' => 'id'),
+            ),
+            'setGoogleAuthenticator' => array(
+                'secret' => array('name' => 'secret', 'require' => true, 'desc' => '密钥'),
+                'code' => array('name' => 'code', 'require' => true, 'desc' => 'code'),
             )
 
         );
@@ -41,8 +47,19 @@ class AdminController extends BaseController
     {
         $admin_name = $this->admin_name;   // 账号参数
         $pwd = $this->pwd;   // 密码参数
+        $code = $this->code;   // 密码参数
 
         $user = $this->_getAdminDomain()->getAdminAccount($admin_name);
+
+        if (!empty($user['google_authenticator'])) {
+            $google = new GoogleAuthenticator();
+            if (empty($code)) {
+                return $this->api_error(1003, '请输入google code');
+            } else if (!$google->verifyCode($user['google_authenticator'], $code)) {
+                return $this->api_error(1004, 'google code错误');
+            }
+        }
+
 
         if (empty($user) || empty($user['id'])) {
             return $this->api_error(1001, '账户有误');
@@ -61,6 +78,30 @@ class AdminController extends BaseController
             );
             return $this->api_success($res);
         }
+    }
+
+    public function createGoogleAuthenticator()
+    {
+        $google = new GoogleAuthenticator();
+        $secret = $google->createSecret();
+        return $this->api_success($secret);
+    }
+
+    public function setGoogleAuthenticator()
+    {
+        $admin = $this->member_arr;
+        $secret = $this->secret;
+        $code = $this->code;
+
+        $google = new GoogleAuthenticator();
+
+        if (!$google->verifyCode($secret, $code)) {
+            $this->_getAdminDomain()->setAdminAccount($admin['id'], $secret);
+            return $this->api_success();
+        }
+
+        return $this->api_error(1004, 'google code错误');
+
     }
 
     /**
