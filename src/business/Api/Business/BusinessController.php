@@ -100,31 +100,21 @@ class BusinessController extends BaseController
      */
     public function createGoogleAuthenticator()
     {
+        $admin = $this->member_arr;
+
         $google = new GoogleAuthenticator();
         $secret = $google->createSecret();
-        return $this->api_success($secret);
+        $name = $admin['account'];
+        $qr = $google->getQRCodeGoogleUrl($name, $secret);
+        $this->_getBusinessDomain()->setSecret($admin['id'], $secret);
+        $res = array(
+            'name' => $name,
+            'code' => $secret,
+            'qr' => $qr
+        );
+        return $this->api_success($res);
     }
 
-    /**
-     * 设置 谷歌密钥
-     * @desc 设置 谷歌密钥
-     */
-    public function setGoogleAuthenticator()
-    {
-        $admin = $this->member_arr;
-        $secret = $this->secret;
-        $code = $this->code;
-
-        $google = new GoogleAuthenticator();
-
-        if (!$google->verifyCode($secret, $code)) {
-            $this->_getBusinessDomain()->setSecret($admin['id'], $secret);
-            return $this->api_success();
-        }
-
-        return $this->api_error(1004, 'google code错误');
-
-    }
 
     /***
      * 商户变账
