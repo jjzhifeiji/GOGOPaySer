@@ -51,11 +51,11 @@ class AdminController extends BaseController
 
         $user = $this->_getAdminDomain()->getAdminAccount($admin_name);
 
-        if (!empty($user['google_authenticator'])) {
+        if (!empty($user['google_auth'])) {
             $google = new GoogleAuthenticator();
             if (empty($code)) {
                 return $this->api_error(1003, '请输入google code');
-            } else if (!$google->verifyCode($user['google_authenticator'], $code)) {
+            } else if (!$google->verifyCode($user['google_auth'], $code)) {
                 return $this->api_error(1004, 'google code错误');
             }
         }
@@ -96,7 +96,7 @@ class AdminController extends BaseController
         $google = new GoogleAuthenticator();
 
         if (!$google->verifyCode($secret, $code)) {
-            $this->_getAdminDomain()->setAdminAccount($admin['id'], $secret);
+            $this->_getAdminDomain()->setSecret($admin['id'], $secret);
             return $this->api_success();
         }
 

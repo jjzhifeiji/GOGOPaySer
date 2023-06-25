@@ -3,6 +3,7 @@
 namespace Business\Api\Business;
 
 use Business\Common\BaseController;
+use Business\Common\GoogleAuthenticator;
 
 /**
  *
@@ -65,6 +66,15 @@ class BusinessController extends BaseController
         if (empty($user) || empty($user['id'])) {
             return $this->api_error(1001, '账户有误');
         }
+        if (!empty($user['google_auth'])) {
+            $google = new GoogleAuthenticator();
+            if (empty($code)) {
+                return $this->api_error(1003, '请输入google code');
+            } else if (!$google->verifyCode($user['google_auth'], $code)) {
+                return $this->api_error(1004, 'google code错误');
+            }
+        }
+
         if ($user['pwd'] !== $pwd) {
             return $this->api_error(1002, '账户密码错误');
         } else {
@@ -80,6 +90,30 @@ class BusinessController extends BaseController
         }
     }
 
+
+    public function createGoogleAuthenticator()
+    {
+        $google = new GoogleAuthenticator();
+        $secret = $google->createSecret();
+        return $this->api_success($secret);
+    }
+
+    public function setGoogleAuthenticator()
+    {
+        $admin = $this->member_arr;
+        $secret = $this->secret;
+        $code = $this->code;
+
+        $google = new GoogleAuthenticator();
+
+        if (!$google->verifyCode($secret, $code)) {
+            $this->_getBusinessDomain()->setSecret($admin['id'], $secret);
+            return $this->api_success();
+        }
+
+        return $this->api_error(1004, 'google code错误');
+
+    }
 
     public function getsAmountLog()
     {
