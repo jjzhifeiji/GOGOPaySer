@@ -27,6 +27,10 @@ class BusinessController extends BaseController
         );
     }
 
+    /***
+     * 商户信息
+     * @return array|mixed
+     */
     public function getInfo()
     {
         $user = $this->member_arr;
@@ -122,6 +126,10 @@ class BusinessController extends BaseController
 
     }
 
+    /***
+     * 商户变账
+     * @return array|mixed
+     */
     public function getsAmountLog()
     {
         $user = $this->member_arr;

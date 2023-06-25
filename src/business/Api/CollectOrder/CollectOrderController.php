@@ -21,6 +21,10 @@ class CollectOrderController extends BaseController
     }
 
 
+    /***
+     * 代收列表
+     * @return array|mixed
+     */
     public function getsCollectOrder()
     {
         $user = $this->member_arr;
