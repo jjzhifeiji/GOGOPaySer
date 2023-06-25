@@ -26,6 +26,7 @@ class OutOrderController extends BaseController
 
     /**
      * 商户提现
+     * @desc 商户提现
      */
     public function createOutOrder()
     {
@@ -41,7 +42,8 @@ class OutOrderController extends BaseController
 
     /**
      *获取出款单
-     **/
+     * @desc 获取出款单
+     */
     public function getsOutOrder()
     {
         $user = $this->member_arr;

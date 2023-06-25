@@ -23,7 +23,7 @@ class CollectOrderController extends BaseController
 
     /***
      * 代收列表
-     * @return array|mixed
+     * @desc 代收列表
      */
     public function getsCollectOrder()
     {

@@ -29,7 +29,7 @@ class BusinessController extends BaseController
 
     /***
      * 商户信息
-     * @return array|mixed
+     * @desc 商户信息
      */
     public function getInfo()
     {
@@ -128,7 +128,7 @@ class BusinessController extends BaseController
 
     /***
      * 商户变账
-     * @return array|mixed
+     * @desc 商户变账
      */
     public function getsAmountLog()
     {
