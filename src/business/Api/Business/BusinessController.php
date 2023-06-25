@@ -23,6 +23,9 @@ class BusinessController extends BaseController
                 'page' => array('name' => 'page', 'default' => '1', 'desc' => '页数'),
                 'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量')
             ),
+            'createGoogleAuthenticator' => array(
+                'status' => array('name' => 'status', 'require' => true, 'desc' => ''),
+            ),
 
         );
     }
@@ -101,18 +104,26 @@ class BusinessController extends BaseController
     public function createGoogleAuthenticator()
     {
         $admin = $this->member_arr;
+        $status = $this->status;
 
-        $google = new GoogleAuthenticator();
-        $secret = $google->createSecret();
-        $name = $admin['account'];
-        $qr = $google->getQRCodeGoogleUrl($name, $secret);
-        $this->_getBusinessDomain()->setSecret($admin['id'], $secret);
-        $res = array(
-            'name' => $name,
-            'code' => $secret,
-            'qr' => $qr
-        );
-        return $this->api_success($res);
+        if ($status == 1) {
+            $google = new GoogleAuthenticator();
+            $secret = $google->createSecret();
+            $name = $admin['account'];
+            $qr = $google->getQRCodeGoogleUrl($name, $secret);
+            $this->_getBusinessDomain()->setSecret($admin['id'], $secret);
+            $res = array(
+                'name' => $name,
+                'code' => $secret,
+                'qr' => $qr
+            );
+            return $this->api_success($res);
+        } else {
+            $secret = '';
+            $this->_getBusinessDomain()->setSecret($admin['id'], $secret);
+            return $this->api_success();
+        }
+
     }
 
 

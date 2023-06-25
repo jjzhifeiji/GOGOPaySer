@@ -31,10 +31,9 @@ class AdminController extends BaseController
             'delAdmin' => array(
                 'id' => array('name' => 'id', 'require' => true, 'desc' => 'id'),
             ),
-            'setGoogleAuthenticator' => array(
-                'secret' => array('name' => 'secret', 'require' => true, 'desc' => '密钥'),
-                'code' => array('name' => 'code', 'require' => true, 'desc' => 'code'),
-            )
+            'createGoogleAuthenticator' => array(
+                'status' => array('name' => 'status', 'require' => true, 'desc' => ''),
+            ),
 
         );
     }
@@ -86,20 +85,28 @@ class AdminController extends BaseController
      */
     public function createGoogleAuthenticator()
     {
+
         $admin = $this->member_arr;
+        $status = $this->status;
 
-        $google = new GoogleAuthenticator();
-        $secret = $google->createSecret();
-        $name = $admin['account'];
-        $qr = $google->getQRCodeGoogleUrl($name, $secret);
+        if ($status == 1) {
+            $google = new GoogleAuthenticator();
+            $secret = $google->createSecret();
+            $name = $admin['account'];
+            $qr = $google->getQRCodeGoogleUrl($name, $secret);
+            $this->_getAdminDomain()->setSecret($admin['id'], $secret);
+            $res = array(
+                'name' => $name,
+                'code' => $secret,
+                'qr' => $qr
+            );
+            return $this->api_success($res);
+        } else {
+            $secret = '';
+            $this->_getAdminDomain()->setSecret($admin['id'], $secret);
+            return $this->api_success();
+        }
 
-        $this->_getAdminDomain()->setSecret($admin['id'], $secret);
-        $res = array(
-            'name' => $name,
-            'code' => $secret,
-            'qr' => $qr
-        );
-        return $this->api_success($res);
     }
 
     /**
