@@ -90,7 +90,10 @@ class BusinessController extends BaseController
         }
     }
 
-
+    /**
+     * 创建谷歌密钥
+     * @desc 创建谷歌密钥
+     */
     public function createGoogleAuthenticator()
     {
         $google = new GoogleAuthenticator();
@@ -98,6 +101,10 @@ class BusinessController extends BaseController
         return $this->api_success($secret);
     }
 
+    /**
+     * 设置 谷歌密钥
+     * @desc 设置 谷歌密钥
+     */
     public function setGoogleAuthenticator()
     {
         $admin = $this->member_arr;
