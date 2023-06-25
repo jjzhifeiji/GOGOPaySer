@@ -6,7 +6,7 @@ use Business\Common\BaseController;
 use Business\Common\GoogleAuthenticator;
 
 /**
- *
+ * 商户信息
  */
 class BusinessController extends BaseController
 {

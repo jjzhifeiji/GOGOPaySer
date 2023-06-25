@@ -5,7 +5,7 @@ namespace Business\Api\CollectOrder;
 use Business\Common\BaseController;
 
 /**
- *
+ * 商户代收
  */
 class CollectOrderController extends BaseController
 {

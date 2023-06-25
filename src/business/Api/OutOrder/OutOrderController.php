@@ -5,7 +5,7 @@ namespace Business\Api\OutOrder;
 use Business\Common\BaseController;
 
 /**
- * admin数据1000
+ * 商户代付
  */
 class OutOrderController extends BaseController
 {
