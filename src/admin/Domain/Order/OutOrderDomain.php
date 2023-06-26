@@ -263,7 +263,7 @@ class OutOrderDomain extends BaseDomain
             \PhalApi\DI()->logger->debug('回调异常 ->', $order);
         } else {
             $b_status = 0;
-            if (3 == $order['status'])
+            if (4 == $order['status'])
                 $b_status = 1;
             $data = array('order_no' => $order['order_no'], 'business_no' => $order['business_no'], 'status' => $b_status, 'amount' => $order['order_amount']);
 
