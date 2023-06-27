@@ -85,7 +85,7 @@ class UserDomain extends BaseDomain
         return $this->_getUserAmountRecordModel()->getMyRecord($file, $page, $limit);
     }
 
-    public function register($user_name, $user_account, $pwd, $invitation)
+    public function register($user_name, $user_account, $pwd, $invitation_code)
     {
 
         $invitation = $this->_getInvitationModel()->getMyInvitationCode($invitation_code);

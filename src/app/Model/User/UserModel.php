@@ -45,6 +45,11 @@ class UserModel extends BaseModel
         );
     }
 
+    public function upUserPwd($id, string $encryptPassword)
+    {
+        return $this->getORM()->where('id', $id)->update(array('pwd' => $encryptPassword));
+    }
+
     protected
     function getTableName($id)
     {
