@@ -85,7 +85,7 @@ class UserDomain extends BaseDomain
         return $this->_getUserAmountRecordModel()->getMyRecord($file, $page, $limit);
     }
 
-    public function register($user_name, $user_account, $invitation)
+    public function register($user_name, $user_account, $pwd, $invitation)
     {
 
         $u = $this->_getUserModel()->getInfoAccount($user_account);
@@ -98,7 +98,7 @@ class UserDomain extends BaseDomain
         //注册用户
         $newUserInfo['user_name'] = $user_name;
         $newUserInfo['account'] = $user_account;
-        $newUserInfo['pwd'] = $this->encryptPassword('123456');
+        $newUserInfo['pwd'] = $this->encryptPassword($pwd);
         $newUserInfo['status'] = 1;
         $newUserInfo['type'] = 1;
         $newUserInfo['group_id'] = $group['id'];

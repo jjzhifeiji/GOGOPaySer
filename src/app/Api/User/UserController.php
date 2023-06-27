@@ -16,7 +16,8 @@ class UserController extends BaseController
             'register' => array(
                 'user_name' => array('name' => 'user_name', 'require' => true, 'desc' => '昵称'),
                 'user_account' => array('name' => 'user_account', 'require' => true, 'desc' => '账号'),
-                'code' => array('name' => 'code', 'require' => true, 'desc' => '密码'),
+                'pwd' => array('name' => 'pwd', 'require' => true, 'desc' => '密码'),
+                'code' => array('name' => 'code', 'require' => true, 'desc' => '验证码'),
                 'invitation' => array('name' => 'invitation', 'require' => true, 'desc' => '邀请码'),
             ),
             'login' => array(
@@ -43,6 +44,7 @@ class UserController extends BaseController
     {
         $user_name = $this->user_name;
         $user_account = $this->user_account;
+        $pwd = $this->pwd;
         $code = $this->code;
         $invitation = $this->invitation;
 
@@ -50,7 +52,7 @@ class UserController extends BaseController
             return $this->api_error(5002, "验证吗有误");
         }
 
-        $res = $this->_getUserDomain()->register($user_name, $user_account, $invitation);
+        $res = $this->_getUserDomain()->register($user_name, $user_account, $pwd, $invitation);
 
         if ($res == true) {
             return $this->api_success();
