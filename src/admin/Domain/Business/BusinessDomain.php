@@ -15,7 +15,7 @@ class BusinessDomain extends BaseDomain
     }
 
 
-    public function addBusiness($name, $account, $collect_free, $out_free)
+    public function addBusiness($name, $account, $collect_bank_free, $collect_ali_free, $collect_wx_free)
     {
         $private_key = strtoupper(substr(sha1(uniqid(NULL, TRUE)) . sha1(uniqid(NULL, TRUE)), 0, 32));
         $platform_sn = strtoupper(substr(sha1(uniqid(NULL, TRUE)) . sha1(uniqid(NULL, TRUE)), 0, 10));
@@ -29,8 +29,9 @@ class BusinessDomain extends BaseDomain
             'private_key' => $private_key,
             'business_amount' => 0,
             'create_time' => date('Y-m-d H:i:s'),
-            'collect_free' => $collect_free,
-            'out_free' => $out_free,
+            'collect_bank_free' => $collect_bank_free,
+            'collect_ali_free' => $collect_ali_free,
+            'collect_wx_free' => $collect_wx_free,
             'whitelist' => ""
         );
         $this->_getBusinessModel()->addBusiness($date);

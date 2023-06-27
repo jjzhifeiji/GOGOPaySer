@@ -20,6 +20,15 @@ class CollectOrderDomain extends BaseDomain
         return $this->_getCollectOrderModel()->getWaitCollectOrderList($file);
     }
 
+    public function getOrdering($user)
+    {
+        $file = array(
+            'user_id' => $user['id'],
+            'status' => 2
+        );
+        return $this->_getCollectOrderModel()->getOrdering($file);
+    }
+
     public function getCollectOrder(array $user, $id)
     {
         return $this->_getCollectOrderModel()->getCollectOrder($id);
@@ -46,7 +55,7 @@ class CollectOrderDomain extends BaseDomain
 
         $code = $this->_getUserCollectInfoModel()->getCode($user['id'], $order['pay_type']);
         if (empty($code)) {
-            return "code error";
+            return "请检查收款信息";
         }
 
         $orderLock = 'collect' . $id;
@@ -92,7 +101,7 @@ class CollectOrderDomain extends BaseDomain
 
         //更新订单
         $file = array('id' => $order['id'], 'status' => 1);
-        $data = array('status' => 2, 'user_id' => $user['id'], 'code_id' => $code['id']);
+        $data = array('status' => 2, 'user_id' => $user['id'], 'user_name' => $user['user_name'], 'code_id' => $code['id']);
         $this->_getCollectOrderModel()->takeCollectOrder($file, $data);
 
         ComRedis::unlock($orderLock);
@@ -161,13 +170,23 @@ class CollectOrderDomain extends BaseDomain
         //更新订单
         $file = array('id' => $order['id'], 'status' => 2, 'user_id' => $user['id']);
         $data = array('status' => 3, 'conf_img' => $url);
-        $this->_getCollectOrderModel()->configCollectOrderList($file, $data);
+        $this->_getCollectOrderModel()->upCollectOrder($file, $data);
 
 
         //todo 用户金额
         //佣金
 
-        $userChangAmount = $order['order_amount'] * $user['collect_free'] / 10000;
+        if ($order['pay_type'] == 1) {
+            $collect_free = $user['bank_collect_val'];
+        } else if ($order['pay_type'] == 2) {
+            $collect_free = $user['wx_collect_val'];
+        } else if ($order['pay_type'] == 3) {
+            $collect_free = $user['ali_collect_val'];
+        } else {
+            $collect_free = 0;
+        }
+
+        $userChangAmount = $order['order_amount'] * $collect_free / 10000;
         $res = $this->_getUserModel()->changeUserAmount($user['id'], $userChangAmount, true);
 
         if (empty($res)) {
@@ -187,9 +206,13 @@ class CollectOrderDomain extends BaseDomain
             'business_id' => $order['business_id'],
             'order_id' => $order['id'],
             'order_no' => $order['order_no'],
-            'remark' => '佣金',
+            'remark' => '收款佣金',
         );
         $this->_getUserAmountRecordModel()->addUserLog($logData);
+
+        //统计收款
+        $u_amount = ComRedis::getRCache($order['pay_type'] . 'collect_amount' . $user['id']);
+        ComRedis::setRCache($order['pay_type'] . 'collect_amount' . $user['id'], $order['order_amount'] + $u_amount);
 
 
         //todo 推送消息
@@ -211,6 +234,27 @@ class CollectOrderDomain extends BaseDomain
         $this->_getFiltrationAPI()->pushUrl($r_order['callback_url'], $data);
 
         return null;
+    }
+
+    public function repairCollectOrder($user, $id, $url)
+    {
+
+        $order = $this->_getCollectOrderModel()->getCollectOrder($id);
+
+        if ($order['status'] !== 4) {
+            return '订单有误,无法补单';
+        }
+
+        //更新订单
+        $file = array('id' => $order['id'], 'status' => 4, 'user_id' => $user['id']);
+        $data = array('status' => 2);
+        $res = $this->_getCollectOrderModel()->upCollectOrder($file, $data);
+
+        if ($res > 0) {
+            return $this->configCollectOrderList($user, $id, $url);
+        }else{
+            return '补单失败';
+        }
     }
 
 

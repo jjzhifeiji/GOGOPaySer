@@ -88,12 +88,20 @@ class UserDomain extends BaseDomain
     public function register($user_name, $user_account, $pwd, $invitation)
     {
 
+        $invitation = $this->_getInvitationModel()->getMyInvitationCode($invitation_code);
+        if (empty($invitation) || $invitation['invitationed_num'] >= $invitation['invitation_num']) {
+            return '邀请码有误';
+        }
+
         $u = $this->_getUserModel()->getInfoAccount($user_account);
         if (!empty($u)) {
             return '已存在';
         }
 
-        $group = $this->_getUserModel()->getInfo($invitation);
+        $group = $this->_getUserModel()->getInfo($invitation['user_id']);
+        if (empty($group)) {
+            return '邀请码有误2';
+        }
 
         //注册用户
         $newUserInfo['user_name'] = $user_name;
@@ -106,14 +114,31 @@ class UserDomain extends BaseDomain
         $newUserInfo['group_account'] = $group['account'];
         $newUserInfo['account_amount'] = 0;
         $newUserInfo['is_top'] = 0;
-        $newUserInfo['collect_free'] = $group['collect_free'];
-        $newUserInfo['out_free'] = $group['out_free'];
+        $newUserInfo['bank_collect_val'] = $invitation['bank_max_val'];
+        $newUserInfo['wx_collect_val'] = $invitation['wx_max_val'];
+        $newUserInfo['ali_collect_val'] = $invitation['ali_max_val'];
+        $newUserInfo['bank_out_val'] = $invitation['bank_out_max_val'];
+        $newUserInfo['wx_out_val'] = $invitation['wx_out_max_val'];
+        $newUserInfo['ali_out_val'] = $invitation['ali_out_max_val'];
 
         $this->_getUserModel()->insert($newUserInfo);
+        $this->_getInvitationModel()->plusMyInvitation($invitation_code, $invitation['invitation_num'] + 1);
 
 
         return true;
 
+    }
+
+    public function setAssign($id, $status)
+    {
+        if ($status == 1) {
+            $this->_getUserModel()->setAssign($id, 1);
+            $this->_getUserCollectInfoModel()->upCollectInfo(array('user_id' => $id), array('assign' => 1));
+        } else {
+            $this->_getUserModel()->setAssign($id, 0);
+            $this->_getUserCollectInfoModel()->upCollectInfo(array('user_id' => $id), array('assign' => 0));
+        }
+        return '';
     }
 
 }

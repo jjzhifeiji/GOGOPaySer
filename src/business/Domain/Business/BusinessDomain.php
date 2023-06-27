@@ -37,5 +37,13 @@ class BusinessDomain extends BaseDomain
         return $this->_getBusinessAmountRecordModel()->getBusinessRecord($file, $page, $limit);
     }
 
+    public function setSecret($id, $secret)
+    {
+        $data = array(
+            'google_auth' => $secret,
+        );
+        return $this->_getBusinessModel()->update($id, $data);
+    }
+
 
 }

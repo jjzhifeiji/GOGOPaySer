@@ -3,9 +3,10 @@
 namespace Business\Api\Business;
 
 use Business\Common\BaseController;
+use Business\Common\GoogleAuthenticator;
 
 /**
- *
+ * 商户信息
  */
 class BusinessController extends BaseController
 {
@@ -22,10 +23,17 @@ class BusinessController extends BaseController
                 'page' => array('name' => 'page', 'default' => '1', 'desc' => '页数'),
                 'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量')
             ),
+            'createGoogleAuthenticator' => array(
+                'status' => array('name' => 'status', 'require' => true, 'desc' => ''),
+            ),
 
         );
     }
 
+    /***
+     * 商户信息
+     * @desc 商户信息
+     */
     public function getInfo()
     {
         $user = $this->member_arr;
@@ -37,8 +45,15 @@ class BusinessController extends BaseController
         $r['status'] = $res['status'];
         $r['private_key'] = $res['private_key'];
         $r['business_amount'] = $res['business_amount'];
-        $r['collect_free'] = $res['collect_free'];
-        $r['out_free'] = $res['out_free'];
+
+        $r['bank_collect_val'] = $res['collect_bank_free'];
+        $r['wx_collect_val'] = $res['collect_wx_free'];
+        $r['ali_collect_val'] = $res['collect_ali_free'];
+
+        $r['bank_out_free'] = $res['bank_out_free'];
+        $r['wx_out_free'] = $res['wx_out_free'];
+        $r['ali_out_free'] = $res['ali_out_free'];
+
         $r['whitelist'] = $res['whitelist'];
         return $this->api_success($r);
     }
@@ -58,6 +73,15 @@ class BusinessController extends BaseController
         if (empty($user) || empty($user['id'])) {
             return $this->api_error(1001, '账户有误');
         }
+        if (!empty($user['google_auth'])) {
+            $google = new GoogleAuthenticator();
+            if (empty($code)) {
+                return $this->api_error(1003, '请输入google code');
+            } else if (!$google->verifyCode($user['google_auth'], $code)) {
+                return $this->api_error(1004, 'google code错误');
+            }
+        }
+
         if ($user['pwd'] !== $pwd) {
             return $this->api_error(1002, '账户密码错误');
         } else {
@@ -73,7 +97,40 @@ class BusinessController extends BaseController
         }
     }
 
+    /**
+     * 创建谷歌密钥
+     * @desc 创建谷歌密钥
+     */
+    public function createGoogleAuthenticator()
+    {
+        $admin = $this->member_arr;
+        $status = $this->status;
 
+        if ($status == 1) {
+            $google = new GoogleAuthenticator();
+            $secret = $google->createSecret();
+            $name = $admin['account'];
+            $qr = $google->getQRCodeGoogleUrl($name, $secret);
+            $this->_getBusinessDomain()->setSecret($admin['id'], $secret);
+            $res = array(
+                'name' => $name,
+                'code' => $secret,
+                'qr' => $qr
+            );
+            return $this->api_success($res);
+        } else {
+            $secret = '';
+            $this->_getBusinessDomain()->setSecret($admin['id'], $secret);
+            return $this->api_success();
+        }
+
+    }
+
+
+    /***
+     * 商户变账
+     * @desc 商户变账
+     */
     public function getsAmountLog()
     {
         $user = $this->member_arr;

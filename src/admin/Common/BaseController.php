@@ -65,17 +65,17 @@ class BaseController extends Api
         $this->delCache($admin['id']);
     }
 
-    private function getCache($key)
+    protected function getCache($key)
     {
         return \PhalApi\DI()->cache->get('admin' . $key);
     }
 
-    private function setCache($key, $val)
+    protected function setCache($key, $val, $time = 60 * 60 * 1)
     {
-        \PhalApi\DI()->cache->set('admin' . $key, $val, 60 * 60 * 1);
+        \PhalApi\DI()->cache->set('admin' . $key, $val, );
     }
 
-    private function delCache($key)
+    protected function delCache($key)
     {
         \PhalApi\DI()->cache->delete('admin' . $key);
     }

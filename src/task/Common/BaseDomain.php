@@ -5,8 +5,9 @@ namespace Task\Common;
 use Task\Model\Admin\AdminModel;
 use Task\Model\Business\BusinessAmountRecordModel;
 use Task\Model\Business\BusinessModel;
-use Task\Model\CollectOrder\CollectOrderModel;
-use Task\Model\CollectOrder\OutOrderModel;
+use Task\Model\Order\CollectOrderModel;
+use Task\Model\Order\OutOrderModel;
+use Task\Model\Sys\SystemModel;
 use Task\Model\User\UserAmountRecordModel;
 use Task\Model\User\UserCollectInfoModel;
 use Task\Model\User\UserModel;
@@ -65,11 +66,19 @@ class BaseDomain
     {
         return empty($this->BusinessAmountRecordModel) ? new BusinessAmountRecordModel() : $this->BusinessAmountRecordModel;
     }
+
     protected $UserAmountRecordModel;
 
     protected function _getUserAmountRecordModel()
     {
         return empty($this->UserAmountRecordModel) ? new UserAmountRecordModel() : $this->UserAmountRecordModel;
+    }
+
+    protected $SystemModel;
+
+    protected function _getSystemModel()
+    {
+        return empty($this->SystemModel) ? new SystemModel() : $this->SystemModel;
     }
 
 }

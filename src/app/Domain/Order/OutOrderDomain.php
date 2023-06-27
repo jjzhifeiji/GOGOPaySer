@@ -71,10 +71,21 @@ class OutOrderDomain extends BaseDomain
         if (empty($uu)) {
             return "用户有误";
         }
+
+        $outOrder = $this->_getOutOrderModel()->getOutOrder($id);
+        if (empty($outOrder)) {
+            return "订单有误";
+        }
+        if ($outOrder['status'] != 1) {
+            return "订单状态有误";
+        }
+
+        if ($outOrder['type'] != 2 && $uu['group_id'] != $outOrder['group_id']) {
+            return "订单用户有误";
+        }
         $file = array(
             'id' => $id,
-            'status' => 1,
-            'group_id' => $uu['group_id']
+            'status' => 1
         );
         $data = array(
             'status' => 2,
@@ -95,30 +106,12 @@ class OutOrderDomain extends BaseDomain
         $file = array(
             'id' => $id,
             'status' => 2,
-            'user_id' => $uu['id'],
-            'group_id' => $uu['group_id']
+            'user_id' => $uu['id']
         );
         $data = array(
             'status' => 3
         );
         $this->_getOutOrderModel()->upOutOrder($file, $data);
-
-        //todo 推送消息
-        $business = $this->_getBusinessModel()->getBusiness($order['business_id']);
-
-        if (empty($order) || empty($order['callback_url']) || empty($business)) {
-            \PhalApi\DI()->logger->debug('回调异常 ->', $order);
-            return null;
-        }
-
-        $b_status = 0;
-        if (3 == $order['status'])
-            $b_status = 1;
-        $data = array('order_no' => $order['order_no'], 'business_no' => $order['business_no'], 'status' => $b_status, 'amount' => $order['order_amount']);
-
-        $sign = $this->encryptAppKey($data, $business['private_key']);
-        $data['sign'] = $sign;
-        $this->_getFiltrationAPI()->pushUrl($order['callback_url'], $data);
 
         return "";
     }
@@ -188,7 +181,8 @@ class OutOrderDomain extends BaseDomain
 
     }
 
-    public function getWithdrawal($user_id, $page, $limit)
+    public
+    function getWithdrawal($user_id, $page, $limit)
     {
         $file = array(
             'business_id' => $user_id,

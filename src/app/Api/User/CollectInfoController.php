@@ -23,6 +23,10 @@ class CollectInfoController extends BaseController
                 'amount' => array('name' => 'amount', 'require' => true, 'default' => 0, 'desc' => '金额'),
                 'pay_info' => array('name' => 'pay_info', 'require' => true, 'desc' => '收款信息'),
             ),
+            'setCollectInfoStatus' => array(
+                'id' => array('name' => 'id', 'require' => true, 'desc' => '收款信息ID'),
+                'status' => array('name' => 'status', 'require' => true, 'desc' => '状态 1开启 2关闭'),
+            ),
             'delCollectInfo' => array(
                 'id' => array('name' => 'id', 'require' => true, 'desc' => '收款信息ID'),
             ),
@@ -49,12 +53,36 @@ class CollectInfoController extends BaseController
                 'wx_max_val' => array('name' => 'wx_max_val', 'require' => true, 'desc' => '微信额度'),
                 'ali_min_val' => array('name' => 'ali_min_val', 'require' => true, 'desc' => '支付宝额度'),
                 'ali_max_val' => array('name' => 'ali_max_val', 'require' => true, 'desc' => '支付宝额度'),
+//                'bank_out_max_val' => array('name' => 'bank_out_max_val', 'require' => true, 'desc' => '银行卡出款max'),
+//                'bank_out_min_val' => array('name' => 'bank_out_min_val', 'require' => true, 'desc' => '银行卡出款min'),
+//                'wx_out_max_val' => array('name' => 'wx_out_max_val', 'require' => true, 'desc' => '微信出款max'),
+//                'wx_out_min_val' => array('name' => 'wx_out_min_val', 'require' => true, 'desc' => '微信出款min'),
+//                'ali_out_max_val' => array('name' => 'ali_out_max_val', 'require' => true, 'desc' => '支付宝出款max'),
+//                'ali_out_min_val' => array('name' => 'ali_out_min_val', 'require' => true, 'desc' => '支付宝出款min'),
             ),
             'delMyInvitation' => array(
                 'id' => array('name' => 'id', 'require' => true, 'desc' => '邀请码ID'),
             ),
 
         );
+    }
+
+    /**
+     *  设置收款信息
+     * @desc 设置收款信息
+     */
+    public function setCollectInfoStatus()
+    {
+        $user = $this->member_arr;
+        $id = $this->id;
+        $status = $this->status;
+
+        $res = $this->_getCollectInfoDomain()->setCollectInfoStatus($id, $user['id'], $status);
+        if (empty($res)) {
+            return $this->api_success($res);
+        } else {
+            return $this->api_error(4001, $res);
+        }
     }
 
     /**
@@ -188,14 +216,21 @@ class CollectInfoController extends BaseController
     {
         $user = $this->member_arr;
 
-        $blank_min_val = $this->blank_min_val;
-        $blank_max_val = $this->blank_max_val;
+        $bank_min_val = $this->bank_min_val;
+        $bank_max_val = $this->bank_max_val;
         $wx_min_val = $this->wx_min_val;
         $wx_max_val = $this->wx_max_val;
         $ali_min_val = $this->ali_min_val;
         $ali_max_val = $this->ali_max_val;
+        $bank_out_max_val = 0;//$this->bank_out_max_val;
+        $bank_out_min_val = 0;//$this->bank_out_min_val;
+        $wx_out_max_val = 0;//$this->wx_out_max_val;
+        $wx_out_min_val = 0;//$this->wx_out_min_val;
+        $ali_out_max_val = 0;//$this->ali_out_max_val;
+        $ali_out_min_val = 0;//$this->ali_out_min_val;
 
-        $res = $this->_getCollectInfoDomain()->setMyInvitation($user, $blank_min_val, $blank_max_val, $wx_min_val, $wx_max_val, $ali_min_val, $ali_max_val);
+
+        $res = $this->_getCollectInfoDomain()->setMyInvitation($user, $bank_min_val, $bank_max_val, $wx_min_val, $wx_max_val, $ali_min_val, $ali_max_val, $bank_out_max_val, $bank_out_min_val, $wx_out_max_val, $wx_out_min_val, $ali_out_max_val, $ali_out_min_val);
         if ($res == true) {
             return $this->api_success();
         } else {

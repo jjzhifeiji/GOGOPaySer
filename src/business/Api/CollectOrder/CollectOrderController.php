@@ -5,7 +5,7 @@ namespace Business\Api\CollectOrder;
 use Business\Common\BaseController;
 
 /**
- *
+ * 商户代收
  */
 class CollectOrderController extends BaseController
 {
@@ -21,6 +21,10 @@ class CollectOrderController extends BaseController
     }
 
 
+    /***
+     * 代收列表
+     * @desc 代收列表
+     */
     public function getsCollectOrder()
     {
         $user = $this->member_arr;

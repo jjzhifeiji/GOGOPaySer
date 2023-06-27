@@ -7,6 +7,14 @@ use Admin\Common\BaseModel;
 class CollectInfoModel extends BaseModel
 {
 
+    public function getCollectInfo($code_id)
+    {
+        $file = array(
+            'id' => $code_id
+        );
+        return $this->getORM()->where($file)->fetchOne();
+    }
+
     protected function getTableName($id)
     {
         return 'user_collect_info';

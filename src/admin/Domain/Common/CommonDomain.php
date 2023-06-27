@@ -53,11 +53,11 @@ class CommonDomain extends BaseDomain
         $months['dateTime'] = array();
 
         $res = array(
-            'userAlINumber' => 123,
+            'userAllNumber' => 123,
             'userAllAmount' => 321,
             'userGrabAmount' => 345,
             'userShareAmount' => 456,
-            'latformAlINumber' => 567,
+            'latformAllNumber' => 567,
             'platformPayment' => 678,
             'platformOut' => 789,
             'all_present' => 96784,
@@ -67,6 +67,7 @@ class CommonDomain extends BaseDomain
             'days' => $days,
             'weeks' => $weeks,
             'months' => $months,
+            'platformCol' => ''
         );
 
 

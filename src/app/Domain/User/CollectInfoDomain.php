@@ -118,7 +118,7 @@ class CollectInfoDomain extends BaseDomain
         );
 
         $res = $this->_getInvitationModel()->getMyInvitation($file);
-        return $res;
+        return empty($res) ? array() : $res;
 
     }
 
@@ -131,7 +131,7 @@ class CollectInfoDomain extends BaseDomain
         return $this->_getInvitationModel()->getMyInvitationList($file);
     }
 
-    public function setMyInvitation($user, $blank_min_val, $blank_max_val, $wx_min_val, $wx_max_val, $ali_min_val, $ali_max_val)
+    public function setMyInvitation($user, $bank_min_val, $bank_max_val, $wx_min_val, $wx_max_val, $ali_min_val, $ali_max_val, $bank_out_max_val, $bank_out_min_val, $wx_out_max_val, $wx_out_min_val, $ali_out_max_val, $ali_out_min_val)
     {
 
         $data = array(
@@ -143,12 +143,19 @@ class CollectInfoDomain extends BaseDomain
             'end_time' => date('Y-m-d H:i:s', time() + (24 * 60 * 60)),
             'type' => 1,
             'status' => 1,
-            'blank_min_val' => $blank_min_val,
-            'blank_max_val' => $blank_max_val,
+            'bank_min_val' => $bank_min_val,
+            'bank_max_val' => $bank_max_val,
             'wx_min_val' => $wx_min_val,
             'wx_max_val' => $wx_max_val,
             'ali_min_val' => $ali_min_val,
-            'ali_max_val' => $ali_max_val
+            'ali_max_val' => $ali_max_val,
+            'bank_out_max_val' => $bank_out_max_val,
+            'bank_out_min_val' => $bank_out_min_val,
+            'wx_out_max_val' => $wx_out_max_val,
+            'wx_out_min_val' => $wx_out_min_val,
+            'ali_out_max_val' => $ali_out_max_val,
+            'ali_out_min_val' => $ali_out_min_val
+
         );
 
         $this->_getInvitationModel()->setMyInvitation($data);
@@ -168,6 +175,33 @@ class CollectInfoDomain extends BaseDomain
         $this->_getInvitationModel()->delMyInvitation($file);
 
         return true;
+    }
+
+    public function setCollectInfoStatus($id, $user_id, $status)
+    {
+
+        $file = array(
+            'id' => $id,
+            'user_id' => $user_id
+        );
+        $collectInfo = $this->_getUserCollectInfoModel()->getCollectInfo($file);
+        if (empty($collectInfo)) {
+            return "无效信息";
+        }
+
+        $data = array();
+
+        if ($status == 1) {
+            $this->_getUserCollectInfoModel()->upCollectInfo(array('user_id' => $user_id, 'type' => $collectInfo['type'], 'status' => 1), array('status' => 2));
+            $data['status'] = 1;
+        } else if ($status == 2) {
+            $data['status'] = 2;
+        } else {
+            return "无效操作";
+        }
+
+        $this->_getUserCollectInfoModel()->upCollectInfo($file, $data);
+        return "";
     }
 
 

@@ -18,7 +18,7 @@ class UserDomain extends BaseDomain
     /**
      * 注册团队
      */
-    public function registerTop($user_name, $user_account, $collect_free, $out_free)
+    public function registerTop($user_name, $user_account, $bank_collect_val, $wx_collect_val, $ali_collect_val, $bank_out_val, $wx_out_val, $ali_out_val)
     {
 
         $is_top = 1;
@@ -39,8 +39,12 @@ class UserDomain extends BaseDomain
         $newUserInfo['group_account'] = '';
         $newUserInfo['account_amount'] = 0;
         $newUserInfo['is_top'] = $is_top;
-        $newUserInfo['collect_free'] = $collect_free;
-        $newUserInfo['out_free'] = $out_free;
+        $newUserInfo['bank_collect_val'] = $bank_collect_val;
+        $newUserInfo['wx_collect_val'] = $wx_collect_val;
+        $newUserInfo['ali_collect_val'] = $ali_collect_val;
+        $newUserInfo['bank_out_val'] = $bank_out_val;
+        $newUserInfo['wx_out_val'] = $wx_out_val;
+        $newUserInfo['ali_out_val'] = $ali_out_val;
 
         $this->_getUserModel()->addUser($newUserInfo);
 
@@ -55,8 +59,7 @@ class UserDomain extends BaseDomain
         return '';
     }
 
-
-    public function register($user_name, $user_account, $group_id)
+    public function register($user_name, $user_account, $group_id, $bank_collect_val, $wx_collect_val, $ali_collect_val, $bank_out_val, $wx_out_val, $ali_out_val)
     {
         $is_top = 0;
 
@@ -80,8 +83,12 @@ class UserDomain extends BaseDomain
         $newUserInfo['group_account'] = $group['account'];
         $newUserInfo['account_amount'] = 0;
         $newUserInfo['is_top'] = $is_top;
-        $newUserInfo['collect_free'] = $group['collect_free'];
-        $newUserInfo['out_free'] = $group['out_free'];
+        $newUserInfo['bank_collect_val'] = $bank_collect_val;
+        $newUserInfo['wx_collect_val'] = $wx_collect_val;
+        $newUserInfo['ali_collect_val'] = $ali_collect_val;
+        $newUserInfo['bank_out_val'] = $bank_out_val;
+        $newUserInfo['wx_out_val'] = $wx_out_val;
+        $newUserInfo['ali_out_val'] = $ali_out_val;
 
         $this->_getUserModel()->addUser($newUserInfo);
 

@@ -51,6 +51,11 @@ class ApiController extends BaseController
                 'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
                 'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
             ),
+            'getAmount' => array(
+                'platform_id' => array('name' => 'platform_id', 'require' => true, 'desc' => '商户ID'),
+                'currency_code' => array('name' => 'currency_code', 'require' => false, 'default' => 'CNY', 'desc' => '币种简码'),
+                'sign' => array('name' => 'sign', 'require' => true, 'desc' => '签名'),
+            ),
 
         );
     }
@@ -73,14 +78,22 @@ class ApiController extends BaseController
         }
 
         $ip = $_SERVER['REMOTE_ADDR'];
-        if ($platform['remote_ip'] !== $ip) {
-            DI()->logger->info("异常 createOrder:" . $ip);
-            DI()->logger->info("异常 createOrder:" . $platform);
-            DI()->logger->info("异常 createOrder:" . $_SERVER);
+        if (strpos($platform['remote_ip'], $ip) !== false) {
+            DI()->logger->info("异常 createCollectionOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "异常 createCollectionOrder:" . $platform['name']);
+            DI()->logger->info("异常 createCollectionOrder:" . $_SERVER);
 //            return $this->api_error(10001, '来源异常');
+        } else {
+            DI()->logger->info("正常 createCollectionOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 createCollectionOrder:" . $platform['name']);
+            DI()->logger->info("正常 createCollectionOrder:" . $_SERVER);
         }
 
-        if ($amount < 500 || $amount > 100000) {
+        if ($pay_type == 3 && $amount < 100 || $amount > 50000) {
+            return $this->api_error(10002, '金额有误');
+        } else if ($pay_type == 2 && $amount < 100 || $amount > 5000) {
+            return $this->api_error(10002, '金额有误');
+        } else if ($pay_type == 1 && $amount < 100 || $amount > 5000) {
             return $this->api_error(10002, '金额有误');
         }
 
@@ -102,7 +115,8 @@ class ApiController extends BaseController
         $res = array(
             'order_no' => $res,
 //            'show_page' => 'http://120.48.10.211:9002/show_code.html?' . $res
-            'show_page' => HTTP_SHOW . '?' . $res
+//            http://show.tmpay777.com/#/render?i202306181246439181
+            'show_page' => HTTP_SHOW . '/#/render?' . $res
         );
         return $this->api_success($res);
     }
@@ -133,11 +147,15 @@ class ApiController extends BaseController
         }
 
         $ip = $_SERVER['REMOTE_ADDR'];
-        if ($platform['remote_ip'] !== $ip) {
-            DI()->logger->info("异常 createOrder:" . $ip);
-            DI()->logger->info("异常 createOrder:" . $platform);
-            DI()->logger->info("异常 createOrder:" . $_SERVER);
+        if (strpos($platform['remote_ip'], $ip) !== false) {
+            DI()->logger->info("异常 getCollectionOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "异常 getCollectionOrder:" . $platform['name']);
+            DI()->logger->info("异常 getCollectionOrder:" . $_SERVER);
 //            return $this->api_error(10001, '来源异常');
+        } else {
+            DI()->logger->info("正常 getCollectionOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 getCollectionOrder:" . $platform['name']);
+            DI()->logger->info("正常 getCollectionOrder:" . $_SERVER);
         }
 
 
@@ -167,11 +185,15 @@ class ApiController extends BaseController
             return $this->api_error(20001, '商户ID有误');
         }
         $ip = $_SERVER['REMOTE_ADDR'];
-        if ($platform['remote_ip'] !== $ip) {
-            DI()->logger->info("异常 createOrder:" . $ip);
-            DI()->logger->info("异常 createOrder:" . $platform);
+        if (strpos($platform['remote_ip'], $ip) !== false) {
+            DI()->logger->info("异常 createPayOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "异常 createPayOrder:" . $platform['name']);
             DI()->logger->info("异常 createOrder:" . $_SERVER);
 //            return $this->api_error(10001, '来源异常');
+        } else {
+            DI()->logger->info("正常 createPayOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 createPayOrder:" . $platform['name']);
+            DI()->logger->info("正常 createPayOrder:" . $_SERVER);
         }
 
         //TODO 验证签名
@@ -183,7 +205,16 @@ class ApiController extends BaseController
             return $this->api_error(20002, '签名有误');
         }
 
-        $cost_free = $amount * $platform['out_free'] / 10000;
+        if ($pay_type == 1) {
+            $out_free = $platform['bank_out_free'];
+        } else if ($pay_type == 2) {
+            $out_free = $platform['wx_out_free'];
+        } else if ($pay_type == 3) {
+            $out_free = $platform['ali_out_free'];
+        } else {
+            $out_free = 100;
+        }
+        $cost_free = $amount * $out_free / 10000;
         if (($amount + $cost_free) > $platform['business_amount']) {
             return $this->api_error(20003, '金额不足');
         }
@@ -232,15 +263,60 @@ class ApiController extends BaseController
         }
 
         $ip = $_SERVER['REMOTE_ADDR'];
-        if ($platform['remote_ip'] !== $ip) {
-            DI()->logger->info("异常 createOrder:" . $ip);
-            DI()->logger->info("异常 createOrder:" . $platform);
-            DI()->logger->info("异常 createOrder:" . $_SERVER);
+        if (strpos($platform['remote_ip'], $ip) !== false) {
+            DI()->logger->info("异常 getPayOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "异常 getPayOrder:" . $platform['name']);
+            DI()->logger->info("异常 getPayOrder:" . $_SERVER);
 //            return $this->api_error(10001, '来源异常');
+        } else {
+            DI()->logger->info("正常 getPayOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 getPayOrder:" . $platform['name']);
+            DI()->logger->info("正常 getPayOrder:" . $_SERVER);
         }
 
         $order = $this->_getOutOrderDomain()->getPlatformOrder($platform['id'], $order_no, $business_no);
         return $this->api_success($order);
+
+    }
+
+    public function getAmount()
+    {
+        $platform_id = $this->platform_id;
+        $currency_code = $this->currency_code;
+        $sign = $this->sign;
+
+        //TODO 验证签名
+        $filter = new \PhalApi\Filter\SimpleMD5Filter();
+        try {
+            $filter->check();
+        } catch (\PhalApi\Exception $e) {
+            DI()->logger->error("签名有误" . $sign);
+//            return $this->api_error(10004, '签名有误');
+        }
+
+        $platform = $this->_getBusinessDomain()->getBusiness($platform_id);
+        if (empty($platform)) {
+            return $this->api_error(20001, '商户ID有误');
+        }
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if (strpos($platform['remote_ip'], $ip) !== false) {
+            DI()->logger->info("异常 getAmount:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "异常 getAmount:" . $platform['name']);
+            DI()->logger->info("异常 getAmount:" . $_SERVER);
+//            return $this->api_error(10001, '来源异常');
+        } else {
+            DI()->logger->info("正常 getAmount:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "正常 getAmount:" . $platform['name']);
+            DI()->logger->info("正常 getAmount:" . $_SERVER);
+        }
+
+        $amount = 0;
+        if ($currency_code == 'CNY') {
+            $amount = $platform['business_amount'];
+        }
+
+        return $this->api_success(array('name' => $platform['name'], 'amount' => $amount, 'currency_code' => $currency_code));
+
 
     }
 

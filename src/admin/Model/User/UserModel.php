@@ -27,6 +27,9 @@ class UserModel extends BaseModel
     //锁 ,account_sum 变动
     public function changeUserAmount($user_id, $change_sum, $isAdd)
     {
+        if (empty($user_id) || empty($change_sum)) {
+            return null;
+        }
         $lock = 'user' . $user_id;
         $isLock = ComRedis::lock($lock);
         if (!$isLock) {
@@ -77,7 +80,6 @@ class UserModel extends BaseModel
     {
 
         $data = $this->getORM()
-            ->select('id,user_name,status,type,account,group_id,group_name,group_account,account_amount,is_top,collect_free,out_free')
             ->where($file)
             ->where($like_file)
             ->limit($limit * ($page - 1), $limit)

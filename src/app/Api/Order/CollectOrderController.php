@@ -74,6 +74,12 @@ class CollectOrderController extends BaseController
     {
         $user = $this->member_arr;
         $id = $this->id;
+
+        $c = $this->_getCollectOrderDomain()->getOrdering($user);
+        if (sizeof($c) > 5) {
+            return $this->api_error(2005, "进行中订单数量过多");
+        }
+
         $isLock = $this->getCache('take' . $id);
         if ($isLock == true) {
             \PhalApi\DI()->logger->error('take' . $id . '<-确认->' . $isLock);
@@ -123,6 +129,34 @@ class CollectOrderController extends BaseController
         $this->setCache('config' . $id, true, 60);
 
         $res = $this->_getCollectOrderDomain()->configCollectOrderList($user, $id, $url);
+        $this->delCache('config' . $id);
+
+        if (empty($res)) {
+            return $this->api_success();
+        } else {
+            return $this->api_error(2004, $res);
+        }
+    }
+
+
+    /**
+     *  补单
+     * @desc 确认已超时的代收订单
+     */
+    public function repairCollectOrder()
+    {
+        $user = $this->member_arr;
+        $id = $this->id;
+        $url = $this->url;
+
+        $isLock = $this->getCache('config' . $id);
+        if ($isLock == true) {
+            \PhalApi\DI()->logger->error('config' . $id . '<-确认->' . $isLock);
+            return $this->api_error(2003, "too late");
+        }
+        $this->setCache('config' . $id, true, 60);
+
+        $res = $this->_getCollectOrderDomain()->repairCollectOrder($user, $id, $url);
         $this->delCache('config' . $id);
 
         if (empty($res)) {

@@ -56,35 +56,84 @@ class OutOrderDomain extends BaseDomain
             //todo 用户金额变动
 
             $ouOrder = $this->_getOutOrderModel()->getconfirmOutOrder($id);
-            if (empty($ouOrder)) {
+            if (empty($ouOrder) || $ouOrder['status'] != 3) {
                 return "订单有误";
             }
             $userChangAmount = $ouOrder['order_amount'];
-            $res = $this->_getUserModel()->changeUserAmount($ouOrder['user_id'], $userChangAmount, true);
+            //添加余额
+            if ($userChangAmount > 0) {
+                $uu = $this->_getUserModel()->getUserId($ouOrder['user_id']);
+                if (empty($uu)) {
+                    return "用户有误";
+                }
+                $res = $this->_getUserModel()->changeUserAmount($uu['id'], $userChangAmount, true);
 
-            if (empty($res)) {
-                \PhalApi\DI()->logger->error('充值订单失败', $ouOrder);
-                return "充值订单失败";
+                if (empty($res)) {
+                    \PhalApi\DI()->logger->error('代付添加失败', $uu['user_name']);
+                    \PhalApi\DI()->logger->error('代付添加失败', $ouOrder);
+                    return "返佣失败";
+                }
+
+                //用户金额log
+                $logData = array(
+                    'user_id' => $uu['id'],
+                    'create_time' => date('Y-m-d H:i:s'),
+                    'before_amount' => $res['beforeAmount'],
+                    'change_amount' => $res['changAmount'],
+                    'result_amount' => $res['afterAmount'],
+                    'type' => 3,
+                    'business_id' => $ouOrder['business_id'],
+                    'order_id' => $ouOrder['id'],
+                    'order_no' => $ouOrder['order_no'],
+                    'remark' => '代付入账',
+                );
+                $this->_getUserAmountRecordModel()->addUserLog($logData);
+
+
+                //todo 佣金
+                if ($ouOrder['pay_type'] == 1) {
+                    $collect_free = $uu['bank_out_val'];
+                } else if ($ouOrder['pay_type'] == 2) {
+                    $collect_free = $uu['wx_out_val'];
+                } else if ($ouOrder['pay_type'] == 3) {
+                    $collect_free = $uu['ali_out_val'];
+                } else {
+                    $collect_free = 0;
+                }
+
+                $userChangAmount = $userChangAmount * $collect_free / 10000;
+                //添加佣金
+                if ($userChangAmount > 0) {
+                    $res = $this->_getUserModel()->changeUserAmount($ouOrder['user_id'], $userChangAmount, true);
+
+                    if (empty($res)) {
+                        \PhalApi\DI()->logger->error('代付返佣失败', $ouOrder['user_id']);
+                        \PhalApi\DI()->logger->error('代付返佣失败', $ouOrder);
+                        return "返佣失败";
+                    }
+
+                    //用户金额log
+                    $logData = array(
+                        'user_id' => $ouOrder['user_id'],
+                        'create_time' => date('Y-m-d H:i:s'),
+                        'before_amount' => $res['beforeAmount'],
+                        'change_amount' => $res['changAmount'],
+                        'result_amount' => $res['afterAmount'],
+                        'type' => 4,
+                        'business_id' => $ouOrder['business_id'],
+                        'order_id' => $ouOrder['id'],
+                        'order_no' => $ouOrder['order_no'],
+                        'remark' => '代付佣金',
+                    );
+                    $this->_getUserAmountRecordModel()->addUserLog($logData);
+                }
             }
-
-            //用户金额log
-            $logData = array(
-                'user_id' => $ouOrder['user_id'],
-                'create_time' => date('Y-m-d H:i:s'),
-                'before_amount' => $res['beforeAmount'],
-                'change_amount' => $res['changAmount'],
-                'result_amount' => $res['afterAmount'],
-                'type' => 3,
-                'business_id' => 0,
-                'order_id' => $ouOrder['id'],
-                'order_no' => $ouOrder['order_no'],
-                'remark' => '充值',
-            );
-            $this->_getUserAmountRecordModel()->addUserLog($logData);
         }
 
         $this->_getOutOrderModel()->confirmOutOrder($file, $data);
 
+
+        //todo 推送消息
         $this->pushOrder($id);
         return null;
 
@@ -163,7 +212,7 @@ class OutOrderDomain extends BaseDomain
 
     }
 
-    public function getsOutOrder($status, $type, $page, $limit)
+    public function getsOutOrder($status, $type, $page, $limit, $order_no, $business_no, $amount, $order_fee, $user_name, $business_name, $pay_type)
     {
         $file = array();
 
@@ -172,6 +221,27 @@ class OutOrderDomain extends BaseDomain
         }
         if (is_numeric($status) && $status > 0) {
             $file['status'] = $status;
+        }
+        if (!empty($order_no)) {
+            $file['order_no'] = $order_no;
+        }
+        if (!empty($business_no)) {
+            $file['business_no'] = $business_no;
+        }
+        if (!empty($amount)) {
+            $file['order_amount'] = $amount;
+        }
+        if (!empty($order_fee)) {
+            $file['free_amount'] = $order_fee;
+        }
+        if (!empty($user_name)) {
+            $file['user_name'] = $user_name;
+        }
+        if (!empty($business_name)) {
+            $file['business_name'] = $business_name;
+        }
+        if (!empty($pay_type)) {
+            $file['pay_type'] = $pay_type;
         }
 
         return $this->_getOutOrderModel()->getsOutOrder($file, $page, $limit);
@@ -183,19 +253,24 @@ class OutOrderDomain extends BaseDomain
         $business = $this->_getBusinessModel()->getsBusinessId($order['business_id']);
 
         if (empty($order) || empty($order['callback_url']) || empty($business)) {
-            \PhalApi\DI()->logger->debug('回调异常 ->', $order);
+            \PhalApi\DI()->logger->debug('代收回调异常 ->', $order);
             return;
         }
 
-        //todo 推送消息
-        $b_status = 0;
-        if (4 == $order['status'])
-            $b_status = 1;
-        $data = array('order_no' => $order['order_no'], 'business_no' => $order['business_no'], 'status' => $b_status, 'amount' => $order['order_amount']);
 
-        $sign = $this->encryptAppKey($data, $business['private_key']);
-        $data['sign'] = $sign;
-        $this->_getFiltrationAPI()->pushUrl($order['callback_url'], $data);
+        //todo 推送消息
+        if (empty($order) || empty($order['callback_url']) || empty($business)) {
+            \PhalApi\DI()->logger->debug('回调异常 ->', $order);
+        } else {
+            $b_status = 0;
+            if (4 == $order['status'])
+                $b_status = 1;
+            $data = array('order_no' => $order['order_no'], 'business_no' => $order['business_no'], 'status' => $b_status, 'amount' => $order['order_amount']);
+
+            $sign = $this->encryptAppKey($data, $business['private_key']);
+            $data['sign'] = $sign;
+            $this->_getFiltrationAPI()->pushUrl($order['callback_url'], $data);
+        }
 
     }
 

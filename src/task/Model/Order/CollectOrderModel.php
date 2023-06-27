@@ -1,6 +1,6 @@
 <?php
 
-namespace Task\Model\CollectOrder;
+namespace Task\Model\Order;
 
 use Task\Common\BaseModel;
 use Task\Common\ComRedis;
@@ -19,27 +19,21 @@ class CollectOrderModel extends BaseModel
     public function getCheckOrder()
     {
         return $this->getORM()
-            ->where('type', 2)
+            ->where('status', 2)
             ->fetchAll();
     }
 
     public function createOrder($data)
     {
-        return $this->getORM()->insert($data);
+        $this->getORM()->insert($data);
+        return $this->getORM()->insert_id();
     }
 
     public function timeOutOrder($order)
     {
-        $orderLock = 'collect' . $order['id'];
-        $isLock = ComRedis::lock($orderLock);
-        if (!$isLock) {
-            return "error";
-        }
-        $file = array('id' => $order['id'], 'status' => 1);
+        $file = array('id' => $order['id'], 'status' => 2);
         $data = array('status' => 4);
-        $this->getORM()->where($file)->update($data);
-        ComRedis::unlock($orderLock);
-        return null;
+        return $this->getORM()->where($file)->update($data);
     }
 
     public function getPlatformOrder(array $file)

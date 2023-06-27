@@ -39,6 +39,7 @@ class ComRedis
 
     /**
      * 加锁
+     * key:key_look + $id
      * @param $id
      * @return bool
      */
@@ -52,9 +53,11 @@ class ComRedis
             $count++;
             usleep(50000);;//50毫秒拿一次锁
             $is_lock = $redis->setnx($id, $uid);
-            \PhalApi\DI()->logger->info($id . '锁被占用，重新获取', $is_lock);
-            \PhalApi\DI()->logger->info($id . '锁被占用，重新获取', $uid);
-            \PhalApi\DI()->logger->info($id . '锁被占用，重新获取' . $is_lock, $redis->get($id));
+            if ($is_lock) {
+                \PhalApi\DI()->logger->info($id . '锁被占用，重新获取成功->' . $uid, $redis->get($id));
+            } else {
+                \PhalApi\DI()->logger->info($id . '锁被占用，重新获取失败->' . $uid, $redis->get($id));
+            }
             if ($count > 200)//10秒
                 break;
         }
@@ -67,15 +70,19 @@ class ComRedis
                 $redis->setex('key_look' . $id, 5, $uid);
             }
         }
-        \PhalApi\DI()->logger->info($id . '拿锁', $is_lock);
-        \PhalApi\DI()->logger->info($id . '拿锁', $uid);
-        \PhalApi\DI()->logger->info($id . '拿锁', $redis->get($id));
+        if ($is_lock) {
+            \PhalApi\DI()->logger->info($id . '拿锁成功->' . $uid, $redis->get($id));
+        } else {
+            \PhalApi\DI()->logger->info($id . '拿锁失败->' . $uid, $redis->get($id));
+        }
+
         $redis->close();
         return $is_lock;
     }
 
     /**
      * 解锁
+     * key:key_look + $id
      * @param $id
      */
     public static function unlock($id)
@@ -83,13 +90,11 @@ class ComRedis
         $redis = self::getRedis('lock');
         $uid = $redis->get('key_look' . $id);
         if ($uid == $redis->get($id)) {
-            \PhalApi\DI()->logger->info($id . '还锁', $uid);
-            \PhalApi\DI()->logger->info($id . '还锁', $redis->get($id));
+            \PhalApi\DI()->logger->info($id . '还锁' . $uid, $redis->get($id));
             $redis->del($id);
             $redis->del('key_look' . $id);
         } else {
-            \PhalApi\DI()->logger->info($id . '还锁失败', $uid);
-            \PhalApi\DI()->logger->info($id . '还锁失败', $redis->get($id));
+            \PhalApi\DI()->logger->info($id . '还锁失败' . $uid, $redis->get($id));
         }
         $redis->close();
     }
@@ -132,13 +137,14 @@ class ComRedis
      * @param $key
      * @param $val
      */
-    public static function setRCache($key, $val)
+    public static function setRCache($key, $val, $t = 0)
     {
         if (empty($val)) return;
         $redis = self::getRedis('cache');
-        $redis->set($key, json_encode($val));
+        $redis->set($key, $val, ['nx', 'ex' => $t]);
         $redis->close();
     }
+
 
     /**
      * @param $key
@@ -151,6 +157,7 @@ class ComRedis
         $redis->close();
         return json_decode($json_msg);
     }
+
 
     /**-----------------------------------------------redis-cache--end--------------------------------------------------------*/
 

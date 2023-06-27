@@ -16,12 +16,9 @@ class BaseController extends Api
 
     protected function checkRequestMethod()
     {
-        \PhalApi\DI()->logger->debug('\n\n\n\n\n\n');
-        \PhalApi\DI()->logger->debug('\n\n\n\n\n\n');
-
-        $request = \PhalApi\DI()->request->getAll();
-        \PhalApi\DI()->logger->debug('$_SERVER', $_SERVER);
-        \PhalApi\DI()->logger->debug('request', $request);
+//        $request = \PhalApi\DI()->request->getAll();
+//        \PhalApi\DI()->logger->debug('$_SERVER', $_SERVER);
+//        \PhalApi\DI()->logger->debug('request', $request);
         return parent::checkRequestMethod();
     }
 
@@ -41,6 +38,7 @@ class BaseController extends Api
         if ((empty($this->member_arr)) && !$isWhiteList) {
             $this->api_error(501, 'token_error');
         } else {
+//            \PhalApi\DI()->logger->debug($token . '|member_arr', $this->member_arr);
             $this->upUserCheck($token, $this->member_arr);
         }
     }

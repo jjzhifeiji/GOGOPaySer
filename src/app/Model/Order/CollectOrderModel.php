@@ -7,6 +7,15 @@ use App\Common\BaseModel;
 class CollectOrderModel extends BaseModel
 {
 
+    public function getOrdering(array $file)
+    {
+        $data = $this->getORM()
+            ->select('id')
+            ->where($file)
+            ->fetchAll();
+        return $data;
+    }
+
     public function getWaitCollectOrderList(array $file)
     {
         $data = $this->getORM()
@@ -52,7 +61,7 @@ class CollectOrderModel extends BaseModel
         return $this->getORM()->where($file)->update($data);
     }
 
-    public function configCollectOrderList(array $file, array $data)
+    public function upCollectOrder(array $file, array $data)
     {
         return $this->getORM()->where($file)->update($data);
     }
