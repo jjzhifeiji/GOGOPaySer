@@ -72,7 +72,7 @@ class BaseController extends Api
 
     protected function setCache($key, $val, $time = 60 * 60 * 1)
     {
-        \PhalApi\DI()->cache->set('admin' . $key, $val, );
+        \PhalApi\DI()->cache->set('admin' . $key, $val, $time);
     }
 
     protected function delCache($key)
