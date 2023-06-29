@@ -77,7 +77,7 @@ class ApiController extends BaseController
             return $this->api_error(10001, '商户ID有误');
         }
 
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = \PhalApi\Tool::getClientIp();
         if (strpos($platform['remote_ip'], $ip) !== false) {
             DI()->logger->info("异常 createCollectionOrder:" . $ip);
             DI()->logger->info($platform['remote_ip'] . "异常 createCollectionOrder:" . $platform['name']);
@@ -146,7 +146,7 @@ class ApiController extends BaseController
             return $this->api_error(10001, '商户ID有误');
         }
 
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = \PhalApi\Tool::getClientIp();
         if (strpos($platform['remote_ip'], $ip) !== false) {
             DI()->logger->info("异常 getCollectionOrder:" . $ip);
             DI()->logger->info($platform['remote_ip'] . "异常 getCollectionOrder:" . $platform['name']);
@@ -184,7 +184,7 @@ class ApiController extends BaseController
         if (empty($platform)) {
             return $this->api_error(20001, '商户ID有误');
         }
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = \PhalApi\Tool::getClientIp();
         if (strpos($platform['remote_ip'], $ip) !== false) {
             DI()->logger->info("异常 createPayOrder:" . $ip);
             DI()->logger->info($platform['remote_ip'] . "异常 createPayOrder:" . $platform['name']);
@@ -262,7 +262,7 @@ class ApiController extends BaseController
             return $this->api_error(20001, '商户ID有误');
         }
 
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = \PhalApi\Tool::getClientIp();
         if (strpos($platform['remote_ip'], $ip) !== false) {
             DI()->logger->info("异常 getPayOrder:" . $ip);
             DI()->logger->info($platform['remote_ip'] . "异常 getPayOrder:" . $platform['name']);
@@ -298,7 +298,7 @@ class ApiController extends BaseController
         if (empty($platform)) {
             return $this->api_error(20001, '商户ID有误');
         }
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = \PhalApi\Tool::getClientIp();
         if (strpos($platform['remote_ip'], $ip) !== false) {
             DI()->logger->info("异常 getAmount:" . $ip);
             DI()->logger->info($platform['remote_ip'] . "异常 getAmount:" . $platform['name']);
