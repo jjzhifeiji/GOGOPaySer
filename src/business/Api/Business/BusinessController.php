@@ -17,6 +17,7 @@ class BusinessController extends BaseController
             'login' => array(
                 'account' => array('name' => 'account', 'require' => true, 'min' => 1, 'max' => 50, 'desc' => '账号'),
                 'pwd' => array('name' => 'pwd', 'require' => true, 'min' => 6, 'max' => 20, 'desc' => '密码'),
+                'code' => array('name' => 'code', 'require' => false, 'desc' => 'code'),
             ),
             'getsAmountLog' => array(
                 'type' => array('name' => 'type', 'desc' => ''),
@@ -73,6 +74,8 @@ class BusinessController extends BaseController
         if (empty($user) || empty($user['id'])) {
             return $this->api_error(1001, '账户有误');
         }
+        $code = $this->code;   // 密码参数
+
         if (!empty($user['google_auth'])) {
             $google = new GoogleAuthenticator();
             if (empty($code)) {
