@@ -28,6 +28,9 @@ class AdminController extends BaseController
                 'account' => array('name' => 'account', 'require' => true, 'desc' => '账号'),
                 'pwd' => array('name' => 'pwd', 'require' => true, 'desc' => '密码'),
             ),
+            'modPwd' => array(
+                'pwd' => array('name' => 'pwd', 'require' => true, 'desc' => '密码'),
+            ),
             'delAdmin' => array(
                 'id' => array('name' => 'id', 'require' => true, 'desc' => 'id'),
             ),
@@ -159,6 +162,18 @@ class AdminController extends BaseController
         $id = $this->id;
 
         $res = $this->_getAdminDomain()->delAdmin($id);
+        return $this->api_success();
+    }
+
+    /**
+     * 修改密码
+     */
+    public function modPwd()
+    {
+        $admin = $this->member_arr;
+        $pwd = $this->pwd;
+
+        $this->_getAdminDomain()->modPwd($admin['id'], $pwd);
         return $this->api_success();
     }
 

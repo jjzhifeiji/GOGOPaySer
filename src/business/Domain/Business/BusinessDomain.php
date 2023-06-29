@@ -45,5 +45,13 @@ class BusinessDomain extends BaseDomain
         return $this->_getBusinessModel()->update($id, $data);
     }
 
+    public function modPwd($id, $pwd)
+    {
+        $data = array(
+            'pwd' => $pwd,
+        );
+        $this->_getBusinessModel()->update($id, $data);
+    }
+
 
 }

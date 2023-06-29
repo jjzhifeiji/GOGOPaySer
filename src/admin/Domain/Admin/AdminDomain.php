@@ -74,5 +74,13 @@ class AdminDomain extends BaseDomain
         return;
     }
 
+    public function modPwd($id, $pwd)
+    {
+        $data = array(
+            'pwd' => $pwd,
+        );
+        $this->_getAdminModel()->update($id, $data);
+    }
+
 
 }

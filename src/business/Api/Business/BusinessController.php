@@ -27,7 +27,9 @@ class BusinessController extends BaseController
             'createGoogleAuthenticator' => array(
                 'status' => array('name' => 'status', 'require' => true, 'desc' => ''),
             ),
-
+            'modPwd' => array(
+                'pwd' => array('name' => 'pwd', 'require' => true, 'desc' => '密码'),
+            ),
         );
     }
 
@@ -144,5 +146,16 @@ class BusinessController extends BaseController
         return $this->api_success($res);
     }
 
+    /**
+     * 修改密码
+     */
+    public function modPwd()
+    {
+        $admin = $this->member_arr;
+        $pwd = $this->pwd;
+
+        $this->_getBusinessDomain()->modPwd($admin['id'], $pwd);
+        return $this->api_success();
+    }
 
 }
