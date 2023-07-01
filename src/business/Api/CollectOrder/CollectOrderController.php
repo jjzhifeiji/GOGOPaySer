@@ -15,7 +15,9 @@ class CollectOrderController extends BaseController
             'getsCollectOrder' => array(
                 'status' => array('name' => 'status', 'desc' => ''),
                 'page' => array('name' => 'page', 'default' => '1', 'desc' => '页数'),
-                'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量')
+                'limit' => array('name' => 'limit', 'default' => '20', 'desc' => '数量'),
+                'start_time' => array('name' => 'start_time', 'desc' => ''),
+                'end_time' => array('name' => 'end_time', 'desc' => '')
             ),
         );
     }
@@ -31,7 +33,9 @@ class CollectOrderController extends BaseController
         $page = $this->page;
         $limit = $this->limit;
         $status = $this->status;
-        $res = $this->_getCollectOrderDomain()->getCollectOrderList($user, $status, $page, $limit);
+        $start_time = $this->start_time;
+        $end_time = $this->end_time;
+        $res = $this->_getCollectOrderDomain()->getCollectOrderList($user, $status, $start_time, $end_time, $page, $limit);
         return $this->api_success($res);
     }
 

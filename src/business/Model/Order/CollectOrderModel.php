@@ -7,10 +7,18 @@ use Business\Common\BaseModel;
 class CollectOrderModel extends BaseModel
 {
 
-    public function getCollectOrderList(array $file, $offset, $limit)
+    public function getCollectOrderList(array $file, $start_time, $end_time, $offset, $limit)
     {
-        $data = $this->getORM()->where($file)->limit($limit * ($offset - 1), $limit)->fetchAll();
-        $allnum = $this->getORM()->where($file)->count();
+        $order = $this->getORM();
+        if (!empty($start_time)) {
+            $order->where('start_time > ' . $start_time);
+        }
+        if (!empty($end_time)) {
+            $order->where('end_time < ' . $end_time);
+        }
+
+        $data = $order->where($file)->limit($limit * ($offset - 1), $limit)->fetchAll();
+        $allnum = $order->where($file)->count();
         $res = array(
             "data" => $data,
             "allnum" => $allnum,

@@ -12,7 +12,7 @@ class CollectOrderDomain extends BaseDomain
 {
 
 
-    public function getCollectOrderList($user, $status, $page, $limit)
+    public function getCollectOrderList($user, $status, $start_time, $end_time, $page, $limit)
     {
         $file = array(
             'business_id' => $user['id']
@@ -22,7 +22,7 @@ class CollectOrderDomain extends BaseDomain
             $file['status'] = $status;
         }
 
-        return $this->_getCollectOrderModel()->getCollectOrderList($file, $page, $limit);
+        return $this->_getCollectOrderModel()->getCollectOrderList($file, $start_time, $end_time,  $page, $limit);
     }
 
 

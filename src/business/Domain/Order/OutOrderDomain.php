@@ -88,7 +88,7 @@ class OutOrderDomain extends BaseDomain
     }
 
 
-    public function getsOutOrder($user, $status, $type, $page, $limit)
+    public function getsOutOrder($user, $status, $type, $start_time, $end_time, $page, $limit)
     {
         $file = array(
             'business_id' => $user['id']
@@ -102,7 +102,8 @@ class OutOrderDomain extends BaseDomain
             $file['status'] = $status;
         }
 
-        return $this->_getOutOrderModel()->getsOutOrder($file, $page, $limit);
+
+        return $this->_getOutOrderModel()->getsOutOrder($file,  $start_time, $end_time, $page, $limit);
     }
 
 }
