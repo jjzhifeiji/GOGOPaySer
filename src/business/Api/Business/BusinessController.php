@@ -158,4 +158,15 @@ class BusinessController extends BaseController
         return $this->api_success();
     }
 
+    /**
+     * 商户首页信息
+     */
+    public function getBusinessHome()
+    {
+        $admin = $this->member_arr;
+
+        $res = $this->_getBusinessDomain()->getBusinessHome($admin['id']);
+        return $this->api_success($res);
+    }
+
 }

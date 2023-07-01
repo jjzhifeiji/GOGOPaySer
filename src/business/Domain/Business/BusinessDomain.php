@@ -53,5 +53,15 @@ class BusinessDomain extends BaseDomain
         $this->_getBusinessModel()->update($id, $data);
     }
 
+    public function getBusinessHome($id)
+    {
+        $home = array(
+            'today_collect_amount' => 0,
+            'today_out_amount' => 0,
+        );
+
+        return $home;
+    }
+
 
 }
