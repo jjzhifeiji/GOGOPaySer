@@ -15,7 +15,7 @@ class SystemModel extends BaseModel
 
     public function getAutoAssign()
     {
-        return $this->getORM()->where('config_key', 'auto_assign')->fetchOne();
+        return $this->getORM()->select('config_value')->where('config_key', 'auto_assign')->fetchOne();
     }
 
 
