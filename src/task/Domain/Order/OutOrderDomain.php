@@ -103,7 +103,9 @@ class OutOrderDomain extends BaseDomain
         $msg = '新代付订单' . $order['order_no'] . ',金额:' . $order['order_amount'] . ',请即使接单';
         foreach ($user as $item) {
             $chartId = $item['chat_id'];
-            ComRedis::pushTask(json_encode(array('type' => 'BotMsg', 'content' => json_encode(array('chartId' => $chartId)), 'msg' => $msg)));
+            if (!empty($chartId)) {
+                ComRedis::pushTask(json_encode(array('type' => 'BotMsg', 'content' => json_encode(array('chartId' => $chartId)), 'msg' => $msg)));
+            }
         }
 
         return $data;
