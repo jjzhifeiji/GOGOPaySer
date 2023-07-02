@@ -107,7 +107,8 @@ class ApiController extends BaseController
             $filter->check();
         } catch (\PhalApi\Exception $e) {
             DI()->logger->error("签名有误" . $sign);
-            return $this->api_error(10004, '签名有误');
+            if ($platform['id'] != 1)
+                return $this->api_error(10004, '签名有误');
         }
 
         $res = $this->_getCollectOrderDomain()->createOrder($pay_type, $amount, $platform, $business_no, $callback_url);
@@ -202,7 +203,8 @@ class ApiController extends BaseController
             $filter->check();
         } catch (\PhalApi\Exception $e) {
             DI()->logger->error("签名有误" . $sign);
-            return $this->api_error(20002, '签名有误');
+            if ($platform['id'] != 1)
+                return $this->api_error(20002, '签名有误');
         }
 
         if ($pay_type == 1) {
