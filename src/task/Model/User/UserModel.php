@@ -72,7 +72,7 @@ class UserModel extends BaseModel
 
     public function getNoticeBotUser()
     {
-        return $this->getORM()->select('chat_id')->where("chat_id=''")->where('chat_id IS NOT NULL')->fetchAll();
+        return $this->getORM()->select('chat_id')->where("chat_id=''")->or('chat_id IS NOT NULL')->fetchAll();
     }
 
     protected function getTableName($id)
