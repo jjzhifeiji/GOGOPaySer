@@ -9,7 +9,6 @@ class UserModel extends BaseModel
 {
 
 
-
     //锁 ,account_sum 变动
     public function changeUserAmount($user_id, $change_sum, $isAdd)
     {
@@ -69,6 +68,11 @@ class UserModel extends BaseModel
     public function getUserName($user_name)
     {
         return $this->getORM()->select('id')->where('user_name', $user_name)->fetchOne();
+    }
+
+    public function getNoticeBotUser()
+    {
+        return $this->getORM()->select('chat_id')->where("chat_id=''")->where('chat_id IS NOT NULL')->fetchAll();
     }
 
     protected function getTableName($id)

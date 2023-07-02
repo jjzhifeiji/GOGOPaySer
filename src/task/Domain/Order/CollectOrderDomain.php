@@ -57,6 +57,14 @@ class CollectOrderDomain extends BaseDomain
         $isAutoAssign = $this->_getSystemModel()->getAutoAssign();
         if (!$isAutoAssign) {
             DI()->logger->info('自动分配关闭' . $isAutoAssign);
+
+            //推送所有用户
+            $user = $this->_getUserModel()->getNoticeBotUser();
+            foreach ($user as $item) {
+                $chartId = $item['chat_id'];
+                ComRedis::pushTask(json_encode(array('type' => 'BotMsg', 'content' => json_encode(array('chartId' => $chartId)), 'msg' => '订单')));
+            }
+
             return;
         }
         DI()->logger->info('开始自动分配');
@@ -92,6 +100,15 @@ class CollectOrderDomain extends BaseDomain
             //TODO 分配
             $collectDomain = new \App\Domain\Order\CollectOrderDomain();
             $collectDomain->takeCollectOrder($order['id'], $user);
+
+            //推送所有用户
+            $user = $this->_getUserModel()->getUserId($user['id']);
+            $chartId = $user['chat_id'];
+            if (!empty($user['chat_id'])) {
+                ComRedis::pushTask(json_encode(array('type' => 'BotMsg', 'content' => json_encode(array('chartId' => $chartId)), 'msg' => '订单')));
+            }
+
+
         } else {
             DI()->logger->info('暂无可分配用户');
         }
