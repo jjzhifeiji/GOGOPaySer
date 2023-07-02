@@ -56,9 +56,8 @@ class CollectOrderDomain extends BaseDomain
     private function autoAssign($order)
     {
         $isAutoAssign = $this->_getSystemModel()->getAutoAssign();
-        DI()->logger->info('自动分配' . $isAutoAssign['config_value']);
 
-        if (!$isAutoAssign) {
+        if ($isAutoAssign['config_value'] == 0) {
             DI()->logger->info('自动分配关闭' . $isAutoAssign);
 
             //推送所有用户
