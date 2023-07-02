@@ -15,6 +15,7 @@ class CollectOrderDomain extends BaseDomain
     public function createOrder($pay_type, $amount, $platform, $business_no, $callback_url)
     {
 
+        $collect_free = 350;
         if ($pay_type == 1) {
             $collect_free = $platform['collect_bank_free'];
         } else if ($pay_type == 2) {
