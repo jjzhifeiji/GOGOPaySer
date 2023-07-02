@@ -4,6 +4,7 @@ namespace Task\Domain\Order;
 
 use Task\Common\BaseDomain;
 use PhalApi\Tool;
+use Task\Common\ComRedis;
 use function PhalApi\DI;
 
 class OutOrderDomain extends BaseDomain
@@ -96,6 +97,14 @@ class OutOrderDomain extends BaseDomain
 
 
         DI()->logger->info($platform['name'] . "createOutOrder:" . $res);
+
+        //推送所有用户
+        $user = $this->_getUserModel()->getNoticeBotUser();
+        $msg = '新代付订单' . $order['order_no'] . ',金额:' . $order['order_amount'] . ',请即使接单';
+        foreach ($user as $item) {
+            $chartId = $item['chat_id'];
+            ComRedis::pushTask(json_encode(array('type' => 'BotMsg', 'content' => json_encode(array('chartId' => $chartId)), 'msg' => $msg)));
+        }
 
         return $data;
     }
