@@ -305,11 +305,11 @@ class ApiController extends BaseController
             DI()->logger->info("异常 getAmount:" . $ip);
             DI()->logger->info($platform['remote_ip'] . "异常 getAmount:" . $platform['name']);
             DI()->logger->info("异常 getAmount:" . $_SERVER);
-//            return $this->api_error(10001, '来源异常');
+            return $this->api_error(10001, '来源异常');
         } else {
-            DI()->logger->info("正常 getAmount:" . $ip);
-            DI()->logger->info($platform['remote_ip'] . "正常 getAmount:" . $platform['name']);
-            DI()->logger->info("正常 getAmount:" . $_SERVER);
+//            DI()->logger->info("正常 getAmount:" . $ip);
+//            DI()->logger->info($platform['remote_ip'] . "正常 getAmount:" . $platform['name']);
+//            DI()->logger->info("正常 getAmount:" . $_SERVER);
         }
 
         $amount = 0;

@@ -31,10 +31,10 @@ class BaseDomain
         foreach ($params as $val) {
             $paramsStrExceptSign .= $val;
         }
-        \PhalApi\DI()->logger->debug('推送sign params ->', $params);
-        \PhalApi\DI()->logger->debug('推送sign ->', $paramsStrExceptSign . $private_key);
+//        \PhalApi\DI()->logger->debug('推送sign params ->', $params);
+//        \PhalApi\DI()->logger->debug('推送sign ->', $paramsStrExceptSign . $private_key);
         $res = md5($paramsStrExceptSign . $private_key);
-        \PhalApi\DI()->logger->debug('推送sign res->', $res);
+//        \PhalApi\DI()->logger->debug('推送sign res->', $res);
         return $res;
     }
 

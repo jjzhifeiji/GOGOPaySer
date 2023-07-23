@@ -62,7 +62,6 @@ class SimpleMD5Filter implements Filter {
                 $paramsStrExceptSign .= $val;
             }
         }
-        \PhalApi\DI()->logger->debug('Wrong Sign', array('needSign before' => $paramsStrExceptSign));
         return md5($paramsStrExceptSign);
     }
 }

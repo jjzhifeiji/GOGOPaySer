@@ -156,17 +156,19 @@ class CollectOrderDomain extends BaseDomain
     public function checkOrder()
     {
         $res = $this->_getCollectOrderModel()->getCheckOrder();
-        DI()->logger->info("进行中订单->" . sizeof($res));
+        if (sizeof($res) > 0) {
+            DI()->logger->info("进行中订单->" . sizeof($res));
 
-        foreach ($res as $order) {
-            $ptime = strtotime($order['create_time']);
-            $etime = time() - $ptime;
-            DI()->logger->info("结束时间->" . $etime);
+            foreach ($res as $order) {
+                $ptime = strtotime($order['create_time']);
+                $etime = time() - $ptime;
+                DI()->logger->info("结束时间->" . $etime);
 
-            //订单五分钟超时
-            if ($etime > 60 * 15) {
-                $r = $this->backOrder($order);
-                DI()->logger->info(":超时订单->" . $order['id'] . ':' . $r);
+                //订单五分钟超时
+                if ($etime > 60 * 15) {
+                    $r = $this->backOrder($order);
+                    DI()->logger->info(":超时订单->" . $order['id'] . ':' . $r);
+                }
             }
         }
 
