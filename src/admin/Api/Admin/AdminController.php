@@ -52,14 +52,14 @@ class AdminController extends BaseController
         $code = $this->code;   // 密码参数
 
         $user = $this->_getAdminDomain()->getAdminAccount($admin_name);
-
-        if (!empty($user['google_auth'])) {
+        $google_auth = trim($user['google_auth']);
+        if (!empty($google_auth)) {
             \PhalApi\DI()->logger->debug('google code:' . $user['google_auth'], $user);
 
             $google = new GoogleAuthenticator();
             if (empty($code)) {
                 return $this->api_error(1003, '请输入google code');
-            } else if (!$google->verifyCode($user['google_auth'], $code)) {
+            } else if (!$google->verifyCode($google_auth, $code)) {
                 return $this->api_error(1004, 'google code错误');
             }
         }
