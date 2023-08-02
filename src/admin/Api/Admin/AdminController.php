@@ -53,7 +53,7 @@ class AdminController extends BaseController
 
         $user = $this->_getAdminDomain()->getAdminAccount($admin_name);
 
-        if (!empty($user['google_auth']) || $user['google_auth'] != '') {
+        if (!empty($user['google_auth'])) {
             DI()->logger->debug('google code: ' . $user['google_auth']);
             $google = new GoogleAuthenticator();
             if (empty($code)) {
