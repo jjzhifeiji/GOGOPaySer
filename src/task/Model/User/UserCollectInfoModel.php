@@ -16,7 +16,7 @@ class UserCollectInfoModel extends BaseModel
     {
         return $this->getORM()
             ->where(array('assign' => 1))
-            ->where('update_time <' . date('Y-m-d H:i:s', time() - (60 * 5)))
+            ->where("update_time < '" . date('Y-m-d H:i:s', time() - (60 * 5)) . "'")
             ->update(array('assign' => 0));
     }
 
