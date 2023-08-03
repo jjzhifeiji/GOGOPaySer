@@ -254,5 +254,10 @@ class CollectOrderDomain extends BaseDomain
         return $res;
     }
 
+    public function closeCode()
+    {
+        $this->_getUserCollectInfoModel()->closeCode();
+    }
+
 
 }
