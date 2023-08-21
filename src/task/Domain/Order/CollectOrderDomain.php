@@ -110,7 +110,7 @@ class CollectOrderDomain extends BaseDomain
             $user = $this->_getUserModel()->getUserId($user['id']);
             $chartId = $user['chat_id'];
             if (!empty($chartId)) {
-                $msg = '代收订单' . $order['order_no'] . '分配成功,金额:' . $order['order_amount'] . ',请注意查收';
+                $msg = $user['user_name'] . '代收订单' . $order['order_no'] . '分配成功,金额:' . $order['order_amount'] . ',请注意查收';
                 ComRedis::pushTask(json_encode(array('type' => 'BotMsg', 'content' => json_encode(array('chartId' => $chartId)), 'msg' => $msg)));
             }
 
