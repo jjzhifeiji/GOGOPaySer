@@ -144,10 +144,16 @@ class CollectOrderDomain extends BaseDomain
             DI()->logger->info("pay_info:" . $code['pay_info']);
             DI()->logger->info("pay_info:" . $pi);
 
+            $url = $pi['pay_bank_local'];
+
             $res['pay_no'] = $pi['pay_account'];
             $res['pay_name'] = $pi['pay_name'];
             $res['pay_organ'] = $pi['pay_bank'];
-            $res['pay_local'] = $pi['pay_bank_local'];
+            if (stripos($url, "http://") === 0) {
+                $url = "https://" . substr($url, 7);
+            }
+
+            $res['pay_local'] = $url;
         }
 
         return $res;
