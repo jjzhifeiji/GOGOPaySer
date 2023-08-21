@@ -1,2 +1,7 @@
 .idea
 /GOGOPaySer.iml
+.htaccess
+404.html
+index.html
+public/.well-known/
+runtime/log/
