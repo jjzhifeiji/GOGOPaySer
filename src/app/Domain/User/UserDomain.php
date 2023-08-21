@@ -141,4 +141,12 @@ class UserDomain extends BaseDomain
         return '';
     }
 
+    public function setSecret($id, string $secret)
+    {
+        $data = array(
+            'google_auth' => $secret
+        );
+        return $this->_getUserModel()->upUserInfo($id, $data);
+    }
+
 }

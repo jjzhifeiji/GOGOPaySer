@@ -4,6 +4,7 @@ namespace App\Api\User;
 
 
 use App\Common\BaseController;
+use App\Common\GoogleAuthenticator;
 
 /**
  * 用户数据5000
@@ -95,6 +96,36 @@ class UserController extends BaseController
         }
     }
 
+
+    /**
+     * 创建谷歌密钥
+     * @desc 创建谷歌密钥
+     */
+    public function createGoogleAuthenticator()
+    {
+
+        $user = $this->member_arr;
+        $status = $this->status;
+
+        if ($status == 1) {
+            $google = new GoogleAuthenticator();
+            $secret = $google->createSecret();
+            $name = $user['account'];
+            $qr = $google->getQRCodeGoogleUrl($name, $secret);
+            $this->_getUserDomain()->setSecret($user['id'], $secret);
+            $res = array(
+                'name' => $name,
+                'code' => $secret,
+                'qr' => $qr
+            );
+            $this->api_success($res);
+        } else {
+            $secret = '';
+            $this->_getAdminDomain()->setSecret($admin['id'], $secret);
+            $this->api_success();
+        }
+
+    }
 
     /**
      * 用户信息

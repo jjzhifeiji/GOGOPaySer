@@ -24,7 +24,7 @@ class CommonController extends BaseController
     public function checkOrder()
     {
         $this->_getCollectOrderDomain()->checkOrder();
-        $this->_getCollectOrderDomain()->closeCode();
+//        $this->_getCollectOrderDomain()->closeCode();
         return $this->api_success();
     }
 
