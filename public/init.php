@@ -32,7 +32,7 @@ const IMAGE_SOURCE_ALI = 'image/ali/';
 const IMAGE_SOURCE_WX = 'image/wx/';
 const CACHE_RESOURCE = 'cache/';
 const HTTP_RESOURCE = 'http://source.gogopay.top/';
-const HTTP_SHOW = 'http://show.tmpay777.com';
+const HTTP_SHOW = 'https://show.tmpay777.com';
 
 
 // 调试模式
