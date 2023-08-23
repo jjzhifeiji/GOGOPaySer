@@ -80,8 +80,8 @@ class CollectOrderDomain extends BaseDomain
         //TODO 根据人员已售金额排序选取收款信息
         if (sizeof($code) > 0) {
 
-            $autoUser = $this->_getUserModel()->getAutoUser();
-            $auto_code = array_filter($code, function($item) use ($autoUser) {
+            $autoUser = $this->_getUserModel()->getAutoUser($order['order_amount']);
+            $auto_code = array_filter($code, function ($item) use ($autoUser) {
                 foreach ($autoUser as $u) {
                     if ($u['id'] == $item['user_id']) {
                         return true;
@@ -106,7 +106,7 @@ class CollectOrderDomain extends BaseDomain
             $user = array('id' => $user_min_code['user_id'], 'user_name' => $user_min_code['user_name']);
             //TODO 分配
             $collectDomain = new \App\Domain\Order\CollectOrderDomain();
-            $collectDomain->takeCollectOrder($order['id'], $user);
+            $collectDomain->takeCollectOrder($order['id'], $user, $user_min_code);
 
             //推送所有用户
             $user = $this->_getUserModel()->getUserId($user['id']);

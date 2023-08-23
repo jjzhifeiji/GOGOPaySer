@@ -47,13 +47,14 @@ class CollectOrderDomain extends BaseDomain
         return $this->_getCollectOrderModel()->getCollectOrderList($file, $page, $limit);
     }
 
-    public function takeCollectOrder($id, $user)
+    public function takeCollectOrder($id, $user, $code = array())
     {
 
         //查订单
         $order = $this->_getCollectOrderModel()->getTakeCollectOrder($id);
-
-        $code = $this->_getUserCollectInfoModel()->getCode($user['id'], $order['pay_type']);
+        if (empty($code)) {
+            $code = $this->_getUserCollectInfoModel()->getCode($user['id'], $order['pay_type']);
+        }
         if (empty($code)) {
             return "请检查收款信息";
         }
@@ -252,7 +253,7 @@ class CollectOrderDomain extends BaseDomain
 
         if ($res > 0) {
             return $this->configCollectOrderList($user, $id, $url);
-        }else{
+        } else {
             return '补单失败';
         }
     }

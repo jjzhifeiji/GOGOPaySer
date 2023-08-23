@@ -75,10 +75,12 @@ class UserModel extends BaseModel
         return $this->getORM()->select('chat_id')->where('chat_id IS NOT NULL')->group('chat_id')->fetchAll();
     }
 
-    public function getAutoUser()
+    public function getAutoUser($order_amount)
     {
-        return $this->getORM()->select('id')->where('assign', 1)->fetchAll();
-    }
+        return $this->getORM()->select('id')
+            ->where('assign', 1)
+            ->where('account_amount > ?', $order_amount)
+            ->fetchAll();    }
 
     protected function getTableName($id)
     {
