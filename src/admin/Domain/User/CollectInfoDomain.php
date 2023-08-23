@@ -10,16 +10,13 @@ use PhalApi\Tool;
 class CollectInfoDomain extends BaseDomain
 {
 
-    public function modUserStatus($id, $status)
+    public function setCollectInfoStatus($id, $status)
     {
-        $user = $this->_getUserModel()->getUserId($id);
-        if (empty($user) || $status == $user['status'] || !is_numeric($status)) {
-            return '用户有误';
-        }
         $data = array(
             'status' => $status
         );
-        $this->_getUserModel()->modUserStatus($id, $data);
+        $this->_getCollectInfoModel()->modCollectInfoStatus($id, $data);
+
     }
 
     public function getCollectInfoList($page, $limit, $user_id, $status, $type)
@@ -40,6 +37,5 @@ class CollectInfoDomain extends BaseDomain
 
         return $this->_getCollectInfoModel()->getCollectInfoList($file, $page, $limit);
     }
-
 
 }

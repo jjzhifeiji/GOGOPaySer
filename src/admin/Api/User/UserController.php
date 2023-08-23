@@ -54,6 +54,10 @@ class UserController extends BaseController
                 'status' => array('name' => 'status', 'desc' => ''),
                 'type' => array('name' => 'type', 'desc' => ''),
             ),
+            'setCollectInfoStatus' => array(
+                'id' => array('name' => 'id', 'desc' => ''),
+                'status' => array('name' => 'status', 'type' => 'enum', 'range' => array(0, 1), 'desc' => ''),
+            ),
         );
     }
 
@@ -96,7 +100,7 @@ class UserController extends BaseController
         $wx_out_val = $this->wx_out_val;
         $ali_out_val = $this->ali_out_val;
 
-        $res = $this->_getUserDomain()->registerTop($user_name, $user_account,$bank_collect_val, $wx_collect_val, $ali_collect_val, $bank_out_val, $wx_out_val, $ali_out_val);
+        $res = $this->_getUserDomain()->registerTop($user_name, $user_account, $bank_collect_val, $wx_collect_val, $ali_collect_val, $bank_out_val, $wx_out_val, $ali_out_val);
         if ($res == '') {
             return $this->api_success();
         } else {
@@ -172,6 +176,18 @@ class UserController extends BaseController
 
         $res = $this->_getCollectInfoDomain()->getCollectInfoList($page, $limit, $user_id, $status, $type);
         return $this->api_success($res);
+    }
+
+    /**
+     * 审核用户收款信息
+     */
+    public function setCollectInfoStatus()
+    {
+        $id = $this->id;
+        $status = $this->status;
+
+        $this->_getCollectInfoDomain()->setCollectInfoStatus($id, $status);
+        return $this->api_success();
     }
 
 }

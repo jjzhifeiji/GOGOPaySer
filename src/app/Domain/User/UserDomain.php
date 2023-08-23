@@ -133,10 +133,8 @@ class UserDomain extends BaseDomain
     {
         if ($status == 1) {
             $this->_getUserModel()->setAssign($id, 1);
-            $this->_getUserCollectInfoModel()->upCollectInfo(array('user_id' => $id), array('assign' => 1, 'update_time' => date('Y-m-d H:i:s')));
         } else {
             $this->_getUserModel()->setAssign($id, 0);
-            $this->_getUserCollectInfoModel()->upCollectInfo(array('user_id' => $id), array('assign' => 0, 'update_time' => date('Y-m-d H:i:s')));
         }
         return '';
     }
