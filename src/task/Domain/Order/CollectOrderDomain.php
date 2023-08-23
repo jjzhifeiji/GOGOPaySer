@@ -80,16 +80,8 @@ class CollectOrderDomain extends BaseDomain
         //TODO 根据人员已售金额排序选取收款信息
         if (sizeof($code) > 0) {
 
-            $user_min_code = array();
-            $min = 100;
-            foreach ($code as $item) {
-                $u_amount = ComRedis::getRCache($order['pay_type'] . 'collect_amount' . $item['user_id']);
-                if ($u_amount < $min) {
-                    $min = $u_amount;
-                    $user_min_code = $item;
-                    DI()->logger->info('');
-                }
-            }
+            $user_min_code = $code[array_rand($code)];
+
             if (empty($user_min_code)) {
                 DI()->logger->info('暂无可分配用户');
                 return;
