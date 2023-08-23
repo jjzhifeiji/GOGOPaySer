@@ -194,10 +194,9 @@ class CollectInfoDomain extends BaseDomain
         $data = array();
 
         if ($status == 1) {
-            $this->_getUserCollectInfoModel()->upCollectInfo(array('user_id' => $user_id, 'type' => $collectInfo['type'], 'status' => 1), array('status' => 2));
-            $data['status'] = 1;
+            $data['assign'] = 1;
         } else if ($status == 2) {
-            $data['status'] = 2;
+            $data['assign'] = 0;
         } else {
             return "无效操作";
         }

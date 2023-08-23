@@ -80,7 +80,17 @@ class CollectOrderDomain extends BaseDomain
         //TODO 根据人员已售金额排序选取收款信息
         if (sizeof($code) > 0) {
 
-            $user_min_code = $code[array_rand($code)];
+            $autoUser = $this->_getUserModel()->getAutoUser();
+            $auto_code = array_filter($code, function($item) use ($autoUser) {
+                foreach ($autoUser as $u) {
+                    if ($u['id'] == $item['user_id']) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+
+            $user_min_code = $auto_code[array_rand($auto_code)];
 
             if (empty($user_min_code)) {
                 DI()->logger->info('暂无可分配用户');

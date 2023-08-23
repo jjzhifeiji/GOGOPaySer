@@ -75,6 +75,11 @@ class UserModel extends BaseModel
         return $this->getORM()->select('chat_id')->where('chat_id IS NOT NULL')->group('chat_id')->fetchAll();
     }
 
+    public function getAutoUser()
+    {
+        return $this->getORM()->select('id')->where('assign', 1)->fetchAll();
+    }
+
     protected function getTableName($id)
     {
         return 'user';
