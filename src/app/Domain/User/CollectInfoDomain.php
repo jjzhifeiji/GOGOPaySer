@@ -195,11 +195,10 @@ class CollectInfoDomain extends BaseDomain
 
         if ($status == 1) {
             $data['assign'] = 1;
-        } else if ($status == 2) {
-            $data['assign'] = 0;
         } else {
-            return "无效操作";
+            $data['assign'] = 0;
         }
+
 
         $this->_getUserCollectInfoModel()->upCollectInfo($file, $data);
         return "";
