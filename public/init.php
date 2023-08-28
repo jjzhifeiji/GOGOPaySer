@@ -18,12 +18,12 @@ date_default_timezone_set('Asia/Shanghai');
 // 引入DI服务
 include API_ROOT . '/config/di.php';
 
-//跨域
-header('Access-Control-Allow-Origin:*');  //支持全域名访问，不安全，部署后需要固定限制为客户端网址,允许所有来源访问
-header('Access-Control-Allow-Methods:POST'); //支持的http 动作
-header("Access-Control-Allow-Credentials: true");
-header("Access-Control-Max-Age: 1728000");
-header('Access-Control-Allow-Headers: Origin, Access-Control-Request-Headers, SERVER_NAME, Access-Control-Allow-Headers, cache-control, token, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie');
+// 允许跨域
+$response = \PhalApi\DI()->response;
+$response->addHeaders('Access-Control-Allow-Origin', '*'); // *代表允许任何网址请求
+$response->addHeaders('Access-Control-Allow-Methods', '*'); // 允许请求的类型
+$response->addHeaders('Access-Control-Allow-Headers', '*'); // 设置允许自定义请求头的字段
+$response->addHeaders('Access-Control-Allow-Credentials', 'true'); // 设置是否允许发送 cookies
 
 const RESOURCE_DIR = '/home/Resource/GOGOPAY/';
 const IMAGE_SOURCE_CONFIG = 'image/config/';

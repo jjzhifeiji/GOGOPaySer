@@ -15,8 +15,8 @@ class AdminController extends BaseController
     {
         return array(
             'login' => array(
-                'admin_name' => array('name' => 'admin_name', 'require' => true, 'min' => 1, 'max' => 50, 'desc' => '账号'),
-                'pwd' => array('name' => 'pwd', 'require' => true, 'min' => 6, 'max' => 20, 'desc' => '密码'),
+                'admin_name' => array('name' => 'admin_name', 'require' => true, 'desc' => '账号'),
+                'pwd' => array('name' => 'pwd', 'require' => true, 'desc' => '密码'),
                 'code' => array('name' => 'code', 'require' => false, 'desc' => 'google code'),
             ),
             'getAdminList' => array(
