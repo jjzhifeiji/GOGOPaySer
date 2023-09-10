@@ -2,8 +2,8 @@
 
 namespace Task\Api\Api;
 
-use http\Params;
 use Task\Common\BaseController;
+use Task\Common\SignFilter;
 use function PhalApi\DI;
 
 /**
@@ -78,15 +78,11 @@ class ApiController extends BaseController
         }
 
         $ip = \PhalApi\Tool::getClientIp();
-        if (strpos($platform['remote_ip'], $ip) !== false) {
+        if (!empty($platform['remote_ip']) && !stristr($platform['remote_ip'], $ip)) {
             DI()->logger->info("异常 createCollectionOrder:" . $ip);
             DI()->logger->info($platform['remote_ip'] . "异常 createCollectionOrder:" . $platform['name']);
-            DI()->logger->info("异常 createCollectionOrder:" . $_SERVER);
-//            return $this->api_error(10001, '来源异常');
-        } else {
-            DI()->logger->info("正常 createCollectionOrder:" . $ip);
-            DI()->logger->info($platform['remote_ip'] . "正常 createCollectionOrder:" . $platform['name']);
-            DI()->logger->info("正常 createCollectionOrder:" . $_SERVER);
+            DI()->logger->info("异常 createCollectionOrder:", $_SERVER);
+            return $this->api_error(10001, '来源异常');
         }
 
         if ($pay_type == 3 && $amount < 100 || $amount > 50000) {
@@ -102,11 +98,20 @@ class ApiController extends BaseController
         }
 
         //TODO 验证签名
-        $filter = new \PhalApi\Filter\SimpleMD5Filter();
+        $filter = new SignFilter();
         try {
-            $filter->check();
+            $p = array(
+                'pay_type' => $pay_type,
+                'amount' => $amount,
+                'currency_code' => $currency_code,
+                'platform_id' => $platform_id,
+                'business_no' => $business_no,
+                'callback_url' => $callback_url
+            );
+            $filter->check($p, $sign, $platform['private_key']);
         } catch (\PhalApi\Exception $e) {
-            DI()->logger->error("签名有误" . $sign);
+            DI()->logger->error("签名有误:", $p);
+            DI()->logger->error("签名有误:", $_POST);
             if ($platform['id'] != 1)
                 return $this->api_error(10004, '签名有误');
         }
@@ -133,32 +138,29 @@ class ApiController extends BaseController
         if (empty($order_no) && empty($business_no))
             return $this->api_error(10002, '订单号有误');
 
-        //TODO 验证签名
-        $filter = new \PhalApi\Filter\SimpleMD5Filter();
-        try {
-            $filter->check();
-        } catch (\PhalApi\Exception $e) {
-            DI()->logger->error("签名有误" . $sign);
-//            return $this->api_error(10004, '签名有误');
-        }
-
         $platform = $this->_getBusinessDomain()->getBusiness($platform_id);
         if (empty($platform)) {
             return $this->api_error(10001, '商户ID有误');
         }
 
-        $ip = \PhalApi\Tool::getClientIp();
-        if (strpos($platform['remote_ip'], $ip) !== false) {
-            DI()->logger->info("异常 getCollectionOrder:" . $ip);
-            DI()->logger->info($platform['remote_ip'] . "异常 getCollectionOrder:" . $platform['name']);
-            DI()->logger->info("异常 getCollectionOrder:" . $_SERVER);
-//            return $this->api_error(10001, '来源异常');
-        } else {
-            DI()->logger->info("正常 getCollectionOrder:" . $ip);
-            DI()->logger->info($platform['remote_ip'] . "正常 getCollectionOrder:" . $platform['name']);
-            DI()->logger->info("正常 getCollectionOrder:" . $_SERVER);
+        //TODO 验证签名
+        $filter = new SignFilter();
+        try {
+            $p = array('platform_id' => $platform_id, 'order_no' => $order_no, 'business_no' => $business_no);
+            $filter->check($p, $sign, $platform['private_key']);
+        } catch (\PhalApi\Exception $e) {
+            DI()->logger->error("签名有误" . $sign);
+            return $this->api_error(10004, '签名有误');
         }
 
+
+        $ip = \PhalApi\Tool::getClientIp();
+        if (!empty($platform['remote_ip']) && !stristr($platform['remote_ip'], $ip)) {
+            DI()->logger->info("异常 getCollectionOrder:" . $ip);
+            DI()->logger->info($platform['remote_ip'] . "异常 getCollectionOrder:" . $platform['name']);
+            DI()->logger->info("异常 getCollectionOrder:", $_SERVER);
+            return $this->api_error(10001, '来源异常');
+        }
 
         $order = $this->_getCollectOrderDomain()->getPlatformOrder($platform['id'], $order_no, $business_no);
 
@@ -186,21 +188,29 @@ class ApiController extends BaseController
             return $this->api_error(20001, '商户ID有误');
         }
         $ip = \PhalApi\Tool::getClientIp();
-        if (strpos($platform['remote_ip'], $ip) !== false) {
+        if (!empty($platform['remote_ip']) && !stristr($platform['remote_ip'], $ip)) {
             DI()->logger->info("异常 createPayOrder:" . $ip);
             DI()->logger->info($platform['remote_ip'] . "异常 createPayOrder:" . $platform['name']);
-            DI()->logger->info("异常 createOrder:" . $_SERVER);
-//            return $this->api_error(10001, '来源异常');
-        } else {
-            DI()->logger->info("正常 createPayOrder:" . $ip);
-            DI()->logger->info($platform['remote_ip'] . "正常 createPayOrder:" . $platform['name']);
-            DI()->logger->info("正常 createPayOrder:" . $_SERVER);
+            DI()->logger->info("异常 createOrder:", $_SERVER);
+            return $this->api_error(10001, '来源异常');
         }
 
         //TODO 验证签名
-        $filter = new \PhalApi\Filter\SimpleMD5Filter();
+        $filter = new SignFilter();
         try {
-            $filter->check();
+            $p = array(
+                'pay_type' => $pay_type,
+                'business_no' => $business_no,
+                'currency_code' => $currency_code,
+                'amount' => $amount,
+                'card_no' => $card_no,
+                'name' => $name,
+                'organ' => $organ,
+                'address' => $address,
+                'platform_id' => $platform_id,
+                'callback_url' => $callback_url
+            );
+            $filter->check($p, $sign, $platform['private_key']);
         } catch (\PhalApi\Exception $e) {
             DI()->logger->error("签名有误" . $sign);
             if ($platform['id'] != 1)
@@ -250,30 +260,28 @@ class ApiController extends BaseController
         if (empty($order_no) && empty($business_no))
             return $this->api_error(10002, '订单号有误');
 
-        //TODO 验证签名
-        $filter = new \PhalApi\Filter\SimpleMD5Filter();
-        try {
-            $filter->check();
-        } catch (\PhalApi\Exception $e) {
-            DI()->logger->error("签名有误" . $sign);
-//            return $this->api_error(10004, '签名有误');
-        }
-
         $platform = $this->_getBusinessDomain()->getBusiness($platform_id);
         if (empty($platform)) {
             return $this->api_error(20001, '商户ID有误');
         }
 
+        //TODO 验证签名
+        $filter = new SignFilter();
+        try {
+            $p = array('platform_id' => $platform_id, 'order_no' => $order_no, 'business_no' => $business_no);
+            $filter->check($p, $sign, $platform['private_key']);
+        } catch (\PhalApi\Exception $e) {
+            DI()->logger->error("签名有误" . $sign);
+//            return $this->api_error(10004, '签名有误');
+        }
+
+
         $ip = \PhalApi\Tool::getClientIp();
-        if (strpos($platform['remote_ip'], $ip) !== false) {
+        if (!empty($platform['remote_ip']) && !stristr($platform['remote_ip'], $ip)) {
             DI()->logger->info("异常 getPayOrder:" . $ip);
             DI()->logger->info($platform['remote_ip'] . "异常 getPayOrder:" . $platform['name']);
-            DI()->logger->info("异常 getPayOrder:" . $_SERVER);
-//            return $this->api_error(10001, '来源异常');
-        } else {
-            DI()->logger->info("正常 getPayOrder:" . $ip);
-            DI()->logger->info($platform['remote_ip'] . "正常 getPayOrder:" . $platform['name']);
-            DI()->logger->info("正常 getPayOrder:" . $_SERVER);
+            DI()->logger->info("异常 getPayOrder:", $_SERVER);
+            return $this->api_error(10001, '来源异常');
         }
 
         $order = $this->_getOutOrderDomain()->getPlatformOrder($platform['id'], $order_no, $business_no);
@@ -287,29 +295,28 @@ class ApiController extends BaseController
         $currency_code = $this->currency_code;
         $sign = $this->sign;
 
-        //TODO 验证签名
-        $filter = new \PhalApi\Filter\SimpleMD5Filter();
-        try {
-            $filter->check();
-        } catch (\PhalApi\Exception $e) {
-            DI()->logger->error("签名有误" . $sign);
-//            return $this->api_error(10004, '签名有误');
-        }
 
         $platform = $this->_getBusinessDomain()->getBusiness($platform_id);
         if (empty($platform)) {
             return $this->api_error(20001, '商户ID有误');
         }
+
+        //TODO 验证签名
+        $filter = new SignFilter();
+        try {
+            $p = array('platform_id' => $platform_id, 'currency_code' => $currency_code);
+            $filter->check($p, $sign, $platform['private_key']);
+        } catch (\PhalApi\Exception $e) {
+            DI()->logger->error("签名有误" . $sign);
+//            return $this->api_error(10004, '签名有误');
+        }
+
         $ip = \PhalApi\Tool::getClientIp();
-        if (strpos($platform['remote_ip'], $ip) !== false) {
+        if (!empty($platform['remote_ip']) && !stristr($platform['remote_ip'], $ip)) {
             DI()->logger->info("异常 getAmount:" . $ip);
             DI()->logger->info($platform['remote_ip'] . "异常 getAmount:" . $platform['name']);
-            DI()->logger->info("异常 getAmount:" . $_SERVER);
+            DI()->logger->info("异常 getAmount:", $_SERVER);
             return $this->api_error(10001, '来源异常');
-        } else {
-//            DI()->logger->info("正常 getAmount:" . $ip);
-//            DI()->logger->info($platform['remote_ip'] . "正常 getAmount:" . $platform['name']);
-//            DI()->logger->info("正常 getAmount:" . $_SERVER);
         }
 
         $amount = 0;
