@@ -173,6 +173,7 @@ class ApiController extends BaseController
         $pay_type = $this->pay_type;
         $business_no = $this->business_no;
         $currency_code = $this->currency_code;
+        $type = $this->type;
         $amount = $this->amount;
         $card_no = $this->card_no;
         $name = $this->name;
@@ -202,6 +203,7 @@ class ApiController extends BaseController
                 'pay_type' => $pay_type,
                 'business_no' => $business_no,
                 'currency_code' => $currency_code,
+                'type' => $type,
                 'amount' => $amount,
                 'card_no' => $card_no,
                 'name' => $name,
